@@ -1,0 +1,208 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/blackList/blackList", // 黑名单
+			"style": {
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/activity/activity", //活动页面
+			"style": {
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/result/prize",
+			"style": {
+				"navigationBarTitleText": "青岛啤酒辽宁"
+			}
+		},
+		{
+			"path": "pages/result/getcash",
+			"style": {
+				"navigationBarTitleText": "青岛啤酒辽宁"
+			}
+		}, 
+		{
+			"path": "pages/qd/qd",
+			"style": {
+				"navigationBarTitleText": "签到抽奖"
+			}
+		},
+		{
+			"path": "pages/home/mahjong",
+			"style": {
+				"navigationBarTitleText": "摇骰子"
+			}
+		},
+		{
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/home/proOrder",
+			"style": {
+				"navigationBarTitleText": "产品订购专区"
+			}
+		},	
+		{
+			"path": "pages/home/game",
+			"style": {
+				"navigationBarTitleText": "游戏专区"
+			}
+		},
+		{
+			"path": "pages/home/scanPrize",
+			"style": {
+				"navigationBarTitleText": "扫码有礼"
+			}
+		},
+		{
+			"path": "pages/home/brandStory",
+			"style": {
+				"navigationBarTitleText": "品牌故事"
+			}
+		},
+		{
+			"path": "pages/home/groupBuy",
+			"style": {
+				"navigationBarTitleText": "团购专区"
+			}
+		},
+		{
+			"path": "pages/scan/scan",
+			"style": {
+				"navigationBarTitleText": "青岛啤酒辽宁",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/brandActive/brandActive",
+			"style": {
+				"navigationBarTitleText": "品牌活动"
+			}
+		},
+		
+		{
+			"path": "pages/mine/strCode",
+			"style": {
+				"navigationBarTitleText": "青岛啤酒辽宁"
+			}
+		},	
+	    {
+	    	"path": "pages/mine/hbList",
+	    	"style": {
+	    		"navigationBarTitleText": "青岛啤酒辽宁"
+	    	}
+	    }, 
+		{
+			"path": "pages/mine/cardFanbei",
+			"style": {
+				"navigationBarTitleText": "翻倍卡"
+			}
+		},
+		{
+			"path": "pages/mine/cardMiandan",
+			"style": {
+				"navigationBarTitleText": "免单卡"
+			}
+		},
+		{
+			"path": "pages/mine/cardYouhui",
+			"style": {
+				"navigationBarTitleText": "优惠卡"
+			}
+		},
+		{
+			"path": "pages/result/verification",
+			"style": {
+				"navigationBarTitleText": "青岛啤酒辽宁"
+			}
+		},
+		{
+			"path": "pages/rule/rule",
+			"style": {
+				"navigationBarTitleText": "青岛啤酒辽宁"
+			}
+		},
+		{
+			"path": "pages/result/fail",
+			"style": {
+				"navigationBarTitleText": "青岛啤酒辽宁"
+			}
+		},
+		{
+			"path": "pages/getOpenid/getOpenid",
+			"style": {
+				"navigationBarTitleText": "青岛啤酒辽宁"
+			}
+		},
+		{
+			"path": "pages/openScan/openScan",
+			"style": {
+				"navigationBarTitleText": "青岛啤酒辽宁"
+			}
+		},
+		
+		{
+			"path": "pages/result/getMsg",
+			"style": {
+				"navigationBarTitleText": "青岛啤酒辽宁"
+			}
+		},
+		{
+			"path": "pages/mine/prizeList",
+			"style": {
+				"navigationBarTitleText": "青岛啤酒辽宁"
+			}
+		}
+	],
+	"tabBar": {
+		"list": [
+			{
+				"pagePath": "pages/home/home",
+				"text": "首页",
+				"iconPath": "static/home.png",
+				"selectedIconPath": "static/home-select.png"
+			},
+			{
+				"pagePath": "pages/openScan/openScan",
+				"text": "扫一扫",
+				"iconPath": "static/scan.png",
+				"selectedIconPath": "static/scan-select.png"
+			},
+			{
+				"pagePath": "pages/brandActive/brandActive",
+				"text": "品牌活动",
+				"iconPath": "static/brand.png",
+				"selectedIconPath": "static/brand-select.png"
+			},
+			{
+				"pagePath": "pages/mine/mine",
+				"text": "我的",
+				"iconPath": "static/mine.png",
+				"selectedIconPath": "static/mine-select.png"
+			}
+		],
+		"backgroundColor": "#ffffff",
+		"color": "#A8E0C3",
+		"selectedColor": "#0DA14C"
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "青岛啤酒辽宁",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"navigateToMiniProgramAppIdList":["wxb17a1a2610979ad3"]
+}
