@@ -9,7 +9,7 @@ const store = new Vuex.Store({
 		openScan:true,
 		userInfo:{},
 		isIPX:false,
-		
+		staticUrl: 'https://xcxsite.vjifen.com/v/crownCookiesImg/',
 		qr:'',
 		qrcode:'',
 		provinceCode:'',

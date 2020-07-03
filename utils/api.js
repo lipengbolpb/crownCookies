@@ -6,7 +6,7 @@ var isOnline = false ;  //  false
 var config = {};
 if (isOnline) {
 	config = {
-		staticUrl: 'https://xcxsite.vjifen.com/v/lnqp/',
+		staticUrl: 'https://xcxsite.vjifen.com/v/crownCookiesImg/',
 		goodsImgRoot: 'http://img.vjifen.com:8000/images/vma/', //积分商城图片
 		qrUrl: 'HTTP://VJ1.TV',
 		hxqrUrl: 'HTTP://VJ1.TV/LN/',
@@ -18,7 +18,7 @@ if (isOnline) {
 	}
 } else {
 	config = {
-		staticUrl: 'https://xcxsite.vjifen.com/v/lnqp/',
+		staticUrl: 'https://xcxsite.vjifen.com/v/crownCookiesImg/',
 		goodsImgRoot: 'http://img.vjifen.com:8000/images/vma/', //积分商城图片
 		qrUrl: 'http://xt.vjifen.com',
 		hxqrUrl: 'http://xt.vjifen.com/LN/',

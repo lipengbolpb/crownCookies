@@ -110,6 +110,10 @@
 
 <style>
 	/*每个页面公共css */
+	page {
+		height: 100%;
+		-webkit-overflow-scrolling: touch;
+	}
 	/* 
 	*  x 代表水平方向 y垂直方向
 	*  c 居中 （垂直居中、水平居中）
@@ -121,14 +125,21 @@
 		display: -webkit-flex; /* Safari */
 		display: flex;
 	}
-	/* 水平居中 垂直不做控制  */
+	/* 水平居中 垂直不做控制  水平排列*/
 	.flex-xc-yn{
 		display: -webkit-flex; /* Safari */
 		display: flex;
 		justify-content:center;
 		-webkit-justify-content:center;
 	}
-	/* 水平居中 垂直不做控制  */
+	/* 水平居中 垂直居中  水平排列*/
+	.flex-xn-yc{
+		display: -webkit-flex; /* Safari */
+		display: flex;
+		align-items: center;
+		-webkit-align-items: center;
+	}
+	/* 水平两端对齐，项目之间的间隔都相等  垂直居中  */
 	.flex-xsb-yc{
 		display: -webkit-flex; /* Safari */
 		display: flex;
@@ -136,5 +147,12 @@
 		-webkit-justify-content:space-between;
 		align-items:center;
 		-webkit-align-items:center;
+	}
+	/* 水平两端对齐，项目之间的间隔都相等  垂直居中  */
+	.flex-xsb-yn{
+		display: -webkit-flex; /* Safari */
+		display: flex;
+		justify-content:space-between;
+		-webkit-justify-content:space-between;
 	}
 </style>

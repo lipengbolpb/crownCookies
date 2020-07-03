@@ -1,6 +1,38 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/personalCenter/strCode", // 输入串码 
+			"style": {
+				"navigationBarTitleText": "青岛啤酒辽宁"
+			}
+		},	
+		{
+			"path": "pages/personalCenter/winningRecord", // 中奖纪录
+			"style": {
+				"navigationBarTitleText": "中奖纪录",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/personalCenter/personalCenter", // 个人中心
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/index/index", // 首页
+			"style": {
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/codeScanned/codeScanned", // 二维码已被扫
+			"style": {
+				"navigationStyle":"custom"
+			}
+		},
+		{
 			"path": "pages/blackList/blackList", // 黑名单
 			"style": {
 				"navigationStyle":"custom"
@@ -40,13 +72,6 @@
 			"path": "pages/home/mahjong",
 			"style": {
 				"navigationBarTitleText": "摇骰子"
-			}
-		},
-		{
-			"path": "pages/mine/mine",
-			"style": {
-				"navigationBarTitleText": "我的",
-				"navigationStyle":"custom"
 			}
 		},
 		{
@@ -92,33 +117,26 @@
 				"navigationBarTitleText": "品牌活动"
 			}
 		},
-		
-		{
-			"path": "pages/mine/strCode",
-			"style": {
-				"navigationBarTitleText": "青岛啤酒辽宁"
-			}
-		},	
 	    {
-	    	"path": "pages/mine/hbList",
+	    	"path": "pages/personalCenter/hbList",
 	    	"style": {
 	    		"navigationBarTitleText": "青岛啤酒辽宁"
 	    	}
 	    }, 
 		{
-			"path": "pages/mine/cardFanbei",
+			"path": "pages/personalCenter/cardFanbei",
 			"style": {
 				"navigationBarTitleText": "翻倍卡"
 			}
 		},
 		{
-			"path": "pages/mine/cardMiandan",
+			"path": "pages/personalCenter/cardMiandan",
 			"style": {
 				"navigationBarTitleText": "免单卡"
 			}
 		},
 		{
-			"path": "pages/mine/cardYouhui",
+			"path": "pages/personalCenter/cardYouhui",
 			"style": {
 				"navigationBarTitleText": "优惠卡"
 			}
@@ -161,7 +179,7 @@
 			}
 		},
 		{
-			"path": "pages/mine/prizeList",
+			"path": "pages/personalCenter/prizeList",
 			"style": {
 				"navigationBarTitleText": "青岛啤酒辽宁"
 			}
@@ -170,7 +188,7 @@
 	"tabBar": {
 		"list": [
 			{
-				"pagePath": "pages/home/home",
+				"pagePath": "pages/index/index",
 				"text": "首页",
 				"iconPath": "static/home.png",
 				"selectedIconPath": "static/home-select.png"
@@ -182,13 +200,7 @@
 				"selectedIconPath": "static/scan-select.png"
 			},
 			{
-				"pagePath": "pages/brandActive/brandActive",
-				"text": "品牌活动",
-				"iconPath": "static/brand.png",
-				"selectedIconPath": "static/brand-select.png"
-			},
-			{
-				"pagePath": "pages/mine/mine",
+				"pagePath": "pages/personalCenter/personalCenter",
 				"text": "我的",
 				"iconPath": "static/mine.png",
 				"selectedIconPath": "static/mine-select.png"

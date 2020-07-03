@@ -15,13 +15,14 @@
 			 <view class="blc-submitBox submitBox">
 			 	<input class="submitBox-input" type="text" value="" placeholder="输入手机号"/>
 				
-				<view class="flex-xsb-yc">
+				<view class="flex-xsb-yc submitBox-checkCode">
 					<input class="submitBox-input" type="text" value="" placeholder="输入验证码"/>
 					<button type="primary">获取验证码</button>
 				</view>
 				
-				<view class=""> 提交信息 </view>
+				<view class="submitBox-submit"> 提交信息 </view>
 			 </view>
+			 <view class="blc-mobile"> 客服电话：400-007-2959 </view>
 			<view class="flex-xc-yn"><image mode="widthFix" class="blc-crownCookies" src="../../static/crownCookiesImg/crownCookiesImg.png"></image></view>
 		</view>
 	</view>
@@ -43,8 +44,6 @@
 			}
 		}
 	};
-	
-	
 </script>
 
 <style lang="scss">
@@ -85,6 +84,9 @@ page {
 	margin-top: 60rpx;
 	width: 300rpx;
 }
+.blc-submitBox{
+	margin-top: 48rpx;
+}
 .submitBox input{
 	height: 100rpx;
 	line-height: 100rpx;
@@ -94,7 +96,35 @@ page {
 	padding-left: 32rpx;
 	font-size: 28rpx;
 }
+.submitBox button{
+	margin: 0;
+	color: #221596;
+	font-size: 30rpx;
+	background: #fff;
+	border: 2rpx solid #3C00A6;
+}
+.submitBox-checkCode{
+	margin-top: 28rpx;
+}
 .submitBox input::-webkit-input-placeholder { 
     color: #999999; 
+ }
+ .submitBox-submit{
+	 width: 78%;
+	 margin-left: 16%;
+	 height: 100rpx;
+	 background: #F0AD4E;
+	 text-align: center;
+	 line-height: 100rpx;
+	 font-size: 36rpx;
+	 color: #814E05;
+	 margin-top: 54rpx;
+ }
+ .blc-mobile{
+	 font-size: 26rpx;
+	 color: #333333;
+	 text-align: center;
+	 margin-top: 64rpx;
+	 margin-bottom: 144rpx;
  }
 </style>
