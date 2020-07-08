@@ -1,0 +1,236 @@
+<template>
+	<!-- 弹窗 -->
+	<view class="customDialog" v-show="customDialogIsShow">
+		<view class="customDialog-mask" @click="closeCustomDialog"></view>
+		<view class="customDialog-center" v-if="customDialogSource==2">
+			<view class="cdc-titleImg">
+				<image :src="staticUrl+'tanchuangTop.png'" mode="widthFix"></image>
+			</view>
+			<view class="cdc-center cdc-center2">
+				<p class="cdc-center-p1">我们已经收到了您提交的信息</p>
+				<p class="cdc-center-p2">15个工作日内，</p>
+				<p class="cdc-center-p3">会有工作人员与您联系</p>
+			</view>
+			<view class="cdc-confirm" @click="closeCustomDialog" >确 认</view>
+		</view>
+		
+		<view class="customDialog-center" v-if="customDialogSource==8">
+			<view class="cdc-titleImg">
+				<image :src="staticUrl+'tanchuangTop.png'" mode="widthFix"></image>
+			</view>
+			<view class="cdc-center cdc-center8">
+				<p class="cdc-center-h1">{{ customDialogFontTitle }}</p>
+				<p class="cdc-center-p2">{{ customDialogFontCenter }}</p>
+			</view>
+			<view class="cdc-confirm" @click="closeCustomDialog" >我 知 道 了</view>
+		</view>
+		
+		<!--  -->
+		<view class="customDialog-center" v-if="customDialogSource==10||customDialogSource==1">
+			<view class="cdc-titleImg">
+				<image :src="staticUrl+'tanchuangTop.png'" mode="widthFix"></image>
+			</view>
+			<view class="cdc-center cdc-center10 flex-xc-yc" v-if="customDialogSource==10">
+				<p class="cdc-center-h1">{{ customDialogFontTitle }}</p>
+			</view>
+			<view class="cdc-center cdc-center1" v-if="customDialogSource==1">
+				<p class="cdc-center-p1">{{ customDialogFontP1 }}</p>
+				<p class="cdc-center-p2">{{ customDialogFontP2 }}</p>
+				<p class="cdc-center-p3">{{ customDialogFontP3 }}</p>
+			</view>
+			<view class="cdc-close" @click="closeCustomDialog"> 
+				<image :src="staticUrl+'closeBottom.png'" mode="widthFix"></image>	
+			</view>
+		</view>
+		
+		<!-- 关注 -->
+		<view class="customDialog-center" v-if="customDialogSource==5">
+			<view class="cdc-titleImg">
+				<image :src="staticUrl+'gaunzhu.png'" mode="widthFix"></image>
+			</view>
+			<view class="cdc-close" @click="closeCustomDialog"> 
+				<image :src="staticUrl+'closeBottom.png'" mode="widthFix"></image>	
+			</view>
+		</view>
+		
+	</view>
+</template>
+
+<script>
+import { config } from '@/utils/api.js';
+export default {
+	name: 'customDialog',
+	props: {
+		// 2 确认弹窗（领取大奖填写信息）
+		customDialogSource: {
+			type: String,
+			default: '1'
+		},
+		customDialogIsShow:{
+			type: Boolean,
+			default: false
+		},
+		customDialogFontTitle:{
+			type: String,
+			default: ''
+		},
+		customDialogFontCenter:{
+			type: String,
+			default: ''
+		},
+		customDialogFontP1:{
+			type: String,
+			default: ''
+		},
+		customDialogFontP2:{
+			type: String,
+			default: ''
+		},
+		customDialogFontP3:{
+			type: String,
+			default: ''
+		},
+	},
+	data() {
+		return {
+			staticUrl: config.staticUrl,
+		};
+	},
+	methods: {
+		closeCustomDialog() {
+			const that = this;
+			 that.$emit('customDialogColse',false)
+		}
+	}
+};
+</script>
+
+<style scoped lang="scss">
+.customDialog-mask {
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 50;
+}
+
+.customDialog-center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 60;
+	width: 80%;
+	background: #fff;
+	border-radius: 30rpx;
+	transform: translate(-50%, -50%);
+}
+.cdc-titleImg{
+	image{
+		width: 100%;
+	}
+}
+
+.cdc-center {
+	padding-left: 32rpx;
+	padding-right: 32rpx;
+	background: #fff;
+	// 	background: url(../../static/crownCookiesImg/actStatusBg.png) no-repeat;
+	// 	background-size: 100% 100%;
+// 	p {
+// 		font-size: 32rpx;
+// 		line-height: 48rpx;
+// 	}
+}
+.cdc-center1{
+	border-bottom-left-radius:30rpx;
+	border-bottom-right-radius:30rpx;
+	text-align: center;
+	padding-bottom: 100rpx;
+	>p{
+		font-size: 32rpx;
+		line-height: 48rpx;
+	}
+}
+.cdc-center-p1,
+.cdc-center-p3 {
+	color: #333333;
+}
+.cdc-center-p2 {
+	color: #c60000;
+}
+
+.cdc-center2{
+	text-align: center;
+	>p{
+		color: #333333;
+		font-size: 32rpx;
+		line-height: 48rpx;
+	}
+}
+
+.cdc-center8,.cdc-center10{
+	text-align: center;
+	>p{
+		color: #333333;
+		font-size: 28rpx;
+		line-height: 48rpx;
+	}
+	.cdc-center-h1{
+		font-size: 36rpx;
+	}
+}
+.cdc-center10{
+	height: 160rpx;
+	line-height: 160rpx;
+	border-bottom-left-radius:30rpx;
+	border-bottom-right-radius:30rpx;
+	margin-bottom: 70rpx;
+}
+.cdc-footer {
+	overflow: hidden;
+	width: 100%;
+	height: 98rpx;
+	margin-top: 24rpx;
+	line-height: 98rpx;
+	image {
+		display: inline-block;
+		width: 100%;
+		height: 100%;
+	}
+}
+.cdc-footer-close {
+	width: 100%;
+	height: 98rpx;
+	margin-top: 24rpx;
+	line-height: 98rpx;
+	image {
+		width: 60rpx;
+		height: 164rpx;
+	} 
+}
+.cdc-confirm{
+	width: 78%;
+	margin-left: 11%;
+	height: 100rpx;
+	text-align: center;
+	line-height: 100rpx;
+	font-size: 36rpx;
+	color: #814E05;
+	margin-top:30rpx;
+	margin-bottom:30rpx;
+	border-radius: 20rpx;
+	background : linear-gradient(to top,rgba(255, 170, 11, 1),rgba(249, 211, 0, 1));
+}
+.cdc-close{
+	width: 60rpx;
+	position: absolute;
+	left: 50%;
+	margin-left: -30rpx;
+	bottom: -100rpx;
+	image {
+		width: 100%;
+	}
+}
+</style>

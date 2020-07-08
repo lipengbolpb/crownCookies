@@ -132,10 +132,19 @@
 		justify-content:center;
 		-webkit-justify-content:center;
 	}
-	/* 水平居中 垂直居中  水平排列*/
+	/* 水平不做控制 垂直居中  水平排列*/
 	.flex-xn-yc{
 		display: -webkit-flex; /* Safari */
 		display: flex;
+		align-items: center;
+		-webkit-align-items: center;
+	}
+	/* 水平居中 垂直居中  水平排列*/
+	.flex-xc-yc{
+		display: -webkit-flex; /* Safari */
+		display: flex;
+		justify-content: center;
+		-webkit-justify-content: center;
 		align-items: center;
 		-webkit-align-items: center;
 	}

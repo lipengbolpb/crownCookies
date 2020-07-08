@@ -1,9 +1,15 @@
 <template>
 	<view class="personalCenter">
-		<image src="../../static/lnbar0603.png"></image>
+		<view class="flex-xc-yn">
+			<image class="pc-TitleImg" :src="staticUrl+'baifenbaiLogo.png'" ></image>
+		</view>
 		<view class="pc-titleBox pct-common">
 			<view class="pct-userInfor flex-xc-yn">
-				<view class="pct-userInfor-userImg"><p>上传图片</p></view>
+				<view class="pct-userInfor-userImg">
+					<button class="user" open-type="getUserInfo" @getuserinfo="getUserInfoFn" withCredentials="true">
+						<image class="avatar" mode="widthFix" :src="userInfo.avatarUrl || staticUrl + 'avatar.png'"></image> 
+					</button>
+				</view>
 			</view>
 			<view class="pct-tab flex-xsb-yc">
 				<view class="">
@@ -18,46 +24,62 @@
 				</view>
 			</view>
 		</view>
-		
-		<view class="pct-list pct-common flex-xn-yc" v-for="item in pctList" wx-key="index">
+ 
+		<view class="pct-list pct-common flex-xn-yc" v-for="item in pctList" :key="item.id" @click="listNav(item)">
 			<image :src="item.icon"></image>
 			<view class="">{{ item.name }}</view>
-		</view>
+		</view> 
+		
+		<!-- 活动规则 -->
+		<activity-rule @activityRuleColse="updateActivityRuleColse" :activityRuleSource='activityRuleSource' :activityRuleIsShow='activityRuleIsShow'></activity-rule>
 		
 	</view>
 </template>
 
 <script>
 import { get, post, config } from '@/utils/api.js';
+import { bfGetUserInfo } from '@/utils/basicsFun.js';
+import activityRule from '@/components/activityRule.vue';
 export default {
 	name: 'personalCenter',
+	components: {
+		activityRule
+	},
 	data() {
 		return {
-			// staticUrl: config.staticUrl,
-			staticUrl: '../../static/crownCookiesImg/',
+			activityRuleSource:'2',
+			activityRuleIsShow:false,
+			staticUrl: config.staticUrl,
 			pctList: [
 				{
 					id: 1,
 					isCanClick: true,
+					status:1,// 1 跳转 路径 2 显示弹窗
 					name: '查看中奖纪录',
-					icon: '../../static/crownCookiesImg/zhongjiangjiluIcon.png',
-					url: ''
+					icon: '/static/crownCookiesImg/zhongjiangjiluIcon.png',
+					navUrl: '/pages/personalCenter/winningRecord'
 				},
-				{ 
+				{
 					id: 2,
 					isCanClick: true,
+					status:1,// 1 跳转 路径 2 显示弹窗
 					name: '输入序列号抽奖',
-					icon: '../../static/crownCookiesImg/xuliehaoIcon.png', 
-					url: '' ,
+					icon: '/static/crownCookiesImg/xuliehaoIcon.png',
+					navUrl: '/pages/personalCenter/strCode'
 				},
 				{
 					id: 3,
 					isCanClick: true,
+					status:2,// 1 跳转 路径 2 显示弹窗
 					name: '活动规则',
-					icon: '../../static/crownCookiesImg/huodongguizeIcon.png',
-					url: ''
+					icon: '/static/crownCookiesImg/huodongguizeIcon.png',
+					navUrl: ''
 				}
-			]
+			],
+			userInfo:{
+				avatarUrl: '',
+				nickName: ''
+			},
 		};
 	},
 
@@ -65,6 +87,44 @@ export default {
 
 	onShow() {
 		console.log(this.$store.state.staticUrl);
+		const that = this;
+		// 已授权的 进入回显头像
+		uni.getStorage({
+		  key: 'userInfo',
+		  success: function(res) {
+			const userInfo = res.data
+		    that.userInfo.avatarUrl = res.data.avatarUrl;
+		  },
+		  fail: function(res) {
+		    // 没有头像
+			that.userInfo.avatarUrl = '' ;
+		  }
+		})
+		
+// 		// 获取openid的值  
+// 		uni.getStorage({
+// 			key: 'userMsg',
+// 			success: function(res) {
+// 				that.openid = res.data.openid
+// 				console.log(that.openid);
+// 				that.$store.commit('getOpenid', res.data.openid);
+// 				if (!that.openid) {
+// 					uni.navigateTo({
+// 						url: '../getOpenid/getOpenid?provinceCode=' + 'LN' + '&type=openid',
+// 					})
+// 				} else {
+// 					that.initData();//数据统计     
+// 				}
+// 			},
+// 			fail: function() {
+// 				if (!that.openid) {
+// 					uni.navigateTo({
+// 						url: '../getOpenid/getOpenid?provinceCode=' + 'LN' + '&type=openid',
+// 					})
+// 				}
+// 				console.log(that.openid);
+// 			}
+// 		})
 	},
 
 	/**
@@ -82,7 +142,6 @@ export default {
 		};
 	},
 
-	mounted() {},
 	methods: {
 		// 统计数据展示
 		async initData() {
@@ -122,82 +181,85 @@ export default {
 		 * 获取用户信息
 		 */
 		getUserInfoFn() {
-			let that = this;
-			uni.getUserInfo({
-				success: function(res) {
-					console.log(res.userInfo);
-					that.userInfo.avatarUrl = res.userInfo.avatarUrl;
-					that.userInfo.nickName = res.userInfo.nickName;
-					// 存储头像
-					uni.setStorage({
-						key: 'userInfo',
-						data: res.userInfo
-					});
-				}
+			bfGetUserInfo().then((res)=>{
+				const that = this;
+				that.userInfo.avatarUrl = res.userInfo.avatarUrl;
+				that.userInfo.nickName = res.userInfo.nickName;
 			});
 		},
 		cardSwiper(e) {
 			this.cardCur = e.detail.current;
 		},
-		scanGetInfo() {
-			uni.navigateTo({
-				url: './scanPrize'
-			});
+		
+		listNav(navData){
+			const getNavData = navData;
+			const that = this;
+			console.log(navData);
+			if(getNavData.isCanClick){
+				if(getNavData.status==1){
+					// 跳转 
+					uni.navigateTo({
+						url: getNavData.navUrl
+					});
+				} else {
+					// 显示弹窗 
+					that.activityRuleIsShow = true;
+				}
+			}
 		},
-		brandStory() {
-			uni.navigateTo({
-				url: './brandStory'
-			});
-		},
-		brandActive() {
-			uni.switchTab({
-				url: '../brandActive/brandActive'
-			});
-		},
-		proBuy() {
-			uni.navigateTo({
-				url: './proOrder'
-			});
-		},
-		game() {
-			uni.navigateTo({
-				url: './game?switchTurntable=' + this.switchTurntable
-			});
-		}
+		
+		updateActivityRuleColse(data){
+			const that = this;
+			that.activityRuleIsShow = false;
+		} 
+		
 	}
 };
 </script>
 
 <style scoped lang="scss">
+button::after {
+	border: none;
+}
+button {
+	background-color: transparent;
+	height: 113rpx;
+	padding: 0;
+	line-height: 113rpx;
+	&.kefuBtn {
+		padding-right: 8rpx;
+	}
+}
 .personalCenter {
 	width: 100%;
 	height: 100%;
 	overflow-y: scroll;
-	background: #f1f1f1;
+	background: url($crownCookiesImg+'bg2.png') no-repeat center;
+	background-size:cover ;
+	// background-size:100% 100%;
+}
+.pc-TitleImg{
+	width: 80%;
+	height:234rpx;
+	margin-top: 128rpx;
 }
 .pct-common {
 	margin: 0 30rpx 30rpx 30rpx;
 	background: #fff;
 	border-radius: 20rpx;
-}
+}  
 .pct-userInfor-userImg {
-	width: 160rpx;
-	height: 160rpx;
-	border-radius: 80rpx;
-	background: #f1f1f1;
-	position: relative;
+	width: 154rpx;
+	height: 154rpx;
+	border-radius: 154rpx; 
 	margin-top: 20rpx;
 	margin-bottom: 20rpx;
-	p {
-		width: 160rpx;
-		text-align: center;
-		display: inline;
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
-		font-size: 28rpx;
-		color: #999999;
+	background: #F1F1F1;
+	padding:2rpx;
+	button,image {
+		width: 100%;
+		height: 100%;
+		border-radius: 154rpx; 
 	}
 }
 .pct-tab {
