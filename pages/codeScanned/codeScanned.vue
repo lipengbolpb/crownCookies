@@ -1,58 +1,111 @@
 <template>
 	<!-- 二维码已被扫 -->
-	<view class="codeScanned flex-xn-yn">
+	<view class="codeScanned flex-xn-ys">
+		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" left-icon="back" @click-left="back" title="皇冠曲奇"></uni-nav-bar>
 		<view class="cs-center">
-			<view class="flex-xc-yn"><image mode="widthFix" class="csc-crownCookies" src="../../static/crownCookiesImg/crownCookiesImg.png"></image></view>
+			<view class="flex-xc-yn" :style="{ 'margin-top': isOpenAdaptation ? '100rpx' : '0' }">
+				<image mode="widthFix" class="csc-cuowuerweima" :src="staticUrl + 'cuowuerweima.png'"></image>
+			</view>
 			<p class="csc-title">这个二维码已被扫过</p>
-			<p class="csc-p">每个二维码仅限扫码一次</p> 
-			<view class="flex-xc-yn"><image mode="widthFix" class="csc-crownCookies" src="../../static/crownCookiesImg/crownCookiesImg.png"></image></view>
-		</view> 
+			<p class="csc-p">{{ mesFont }}</p>
+			<view class="flex-xc-yn"><image mode="widthFix" class="csc-crownCookies" :src="staticUrl + 'crownCookiesImg.png'"></image></view>
+		</view>
 	</view>
 </template>
 
 <script>
-	export default {
-		name: 'blacklist',
-		data() {
-			return {
-				showType:false
-			};
-		},
-		methods: {
-			game() {
-				uni.navigateTo({
-					url: './game?switchTurntable=' + this.switchTurntable
-				});
+import { get, post, config } from '@/utils/api.js';
+import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
+export default {
+	components: {
+		uniNavBar
+	},
+	name: 'blacklist',
+	computed: {
+		// 当窗口 高度 大于800 是 重新 计算 盒子的上边距
+		isOpenAdaptation() {
+			if (this.windowHeight > 800) {
+				return true;
+			} else {
+				return false;
 			}
+		},
+		// 当窗口 高度 大于800 是 重新 计算 盒子的上边距
+		safeAreaTop() {
+			const userSystemInfo = uni.getStorageSync('userSystemInfo');
+			const safeAreaTop = userSystemInfo.safeArea.top;
+			return safeAreaTop;
 		}
-	};
+	},
+	onLoad(options){
+		console.log("options----------------");
+		console.log(options);
+		console.log(options.bizcode);
+		if(options.bizcode == 11){
+			// 本人重复扫码
+			console.log(uni.getStorageSync('sweepQrcodeData'));
+			const earnTime = uni.getStorageSync('sweepQrcodeData').reply.earnTime || '';
+			console.log(earnTime);
+			this.mesFont = `您已于 ${ earnTime } 扫过这个二维码`;
+		}else{
+			// 已被他人扫码
+			this.mesFont = '这个二维码已被扫过';
+		}
+	},
+	data() {
+		return {
+			mesFont:'这个二维码已被扫过',
+			staticUrl: config.staticUrl
+		};
+	},
+	methods: {
+		game() {
+			uni.navigateTo({
+				url: './game?switchTurntable=' + this.switchTurntable
+			});
+		},
+		// 返回
+		back() {
+			uni.switchTab({
+				url: '../index/index'
+			});
+		}
+	}
+};
 </script>
 
 <style scoped lang="scss">
- 
 .codeScanned {
 	height: 100%;
-	background: #f1f1f1;
+	background: url($crownCookiesImg+'bg2.png') no-repeat center;
+	background-size: cover;
 }
 .cs-center {
 	flex: 1;
-	margin: 136rpx 30rpx 30rpx 30rpx;
+	margin: 24rpx 30rpx 30rpx 30rpx;
 	background: #fff;
 	padding: 20rpx;
 	text-align: center;
+	border-radius: 20rpx;
 }
-.csc-title{
-	font-size: 30rpx;
+.csc-title {
+	font-size: 36rpx;
 	color: #333333;
+	margin-bottom: 24rpx;
 }
-.csc-p{
-	font-size: 28rpx;
-	color: #333333;
+.csc-p {
+	font-size: 26rpx;
+	color: #666666;
 	line-height: 50rpx;
+	margin-bottom: 126rpx;
 }
-.csc-crownCookies{
+.csc-crownCookies {
 	width: 348rpx;
-} 
+}
+.csc-cuowuerweima {
+	width: 552rpx;
+	margin-bottom: 60rpx;
+}
 .csc-logo {
 	width: 140rpx;
 }

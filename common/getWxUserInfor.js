@@ -1,24 +1,10 @@
 // 所有获取 微信用户 信息存放
-// 验证身份证号码
-const idcardValidate = (idds) => {
-	let weight = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2],
-		validate = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
-	let reg2 = /^[1-9][0-9xX]{17}$/;
-	let sum = 0,
-		mod = 0,
-		ymd = [];
-	if (reg2.test(idds)) {
-		for (let i = 0; i < 17; ++i) {
-			sum += parseInt(idds[i], 10) * weight[i];
-			if (i > 5 && i < 14) ymd.push(idds[i]);
-		}
-		mod = sum % 11;
-		return validate[mod] === idds[17].toUpperCase() && reg2.test(idds);
-	} else {
-		return reg2.test(idds);
-	}
-}
-
+import {
+	get,
+	requestPost,
+	request,
+	config
+} from '@/utils/api.js';
 // 获取地理位置信息
 function getCityInfo() {
 	return new Promise((resolve, reject) => {
@@ -27,7 +13,6 @@ function getCityInfo() {
 				var url = 'http://api.map.baidu.com/geocoder?location=纬度,经度&output=输出格式类型&key=用户密钥'
 				var latitude = data.latitude,
 					longitude = data.longitude;
-
 				wx.request({
 					url: 'https://api.map.baidu.com/geocoder',
 					method: 'GET',
@@ -53,28 +38,271 @@ function getCityInfo() {
 }
 
 /**
- * 获取用户信息
+ * 获取用户 基础信息
  */
-function bfGetUserInfo() {
+function getUserInfo() {
 	return new Promise((resolve, reject) => {
-		 const that = this;
-		 uni.getUserInfo({
-		 	success: function(res) {
+		const that = this;
+		uni.getUserInfo({
+			success: function(res) {
 				console.log(res)
 				resolve(res);
-		 		// 存储头像
-		 		uni.setStorage({
-		 			key: 'userInfo',
-		 			data: res.userInfo
-		 		})
-		 	},
+				// 存储 头像 昵称 等 基础信息
+				uni.setStorage({
+					key: 'userInfo',
+					data: res.userInfo
+				})
+			},
 			fail: (err) => {
 				reject(err);
 			}
-		 })
+		})
 	})
 }
 
+/**
+ * 获取用户 位置信息
+ */
+function getLocation() {
+	console.log(3333)
+	return new Promise((resolve, reject) => {
+		const that = this;
+		uni.getLocation({
+			type: 'wgs84',
+			complete: res => {
+				// 经度 longitude
+				// 维度 latitude
+				//精度 accuracy
+				console.log(res)
+				if (res.errMsg == "getLocation:ok") {
+					resolve([0, res]);
+					// 存储 用户 位置信息
+					const data = res || {};
+					uni.setStorageSync('userLocation', data);
+				} else if (res.errMsg == 'getLocation:fail auth deny' || res.errMsg ==
+					'getLocation:fail authorize no response') { //未授权
+					resolve([1]); //获取授权
+				} else if (res.errMsg == 'getLocation:fail:auth denied') { //取消授权
+					resolve([2]);
+				} else { // 未打开定位也要允许扫码
+					resolve([3]);
+				}
+			}
+		})
+	})
+}
+
+/**
+ * 解析用户手机号
+ */
+function analysisMobile(session_key, encryptionData) {
+	const that = this;
+	return new Promise((resolve, reject) => {
+		const params = {
+			'sessionKey': session_key,
+			'encryptedData': encryptionData.encryptedData,
+			'iv': encryptionData.iv,
+			'provinceCode': 'lnqp'
+		};
+		uni.request({
+			url: 'https://xcxact.vjifen.com/api/decrypt',
+			method: 'POST',
+			data: params,
+			success: res => {
+				console.log(res);
+				const backData = res.data.data.decryptData;
+				uni.setStorage({
+					key:'userMobileData',
+					data:backData
+				})
+				resolve(backData);
+			},
+			fail: err => {
+				uni.showModal({
+					title: '提示',
+					content: '解析手机号结果' + res.data
+				})
+				reject('decrypt', err)
+			}
+		})
+	})
+}
+
+/**
+ * //检测session是否过期
+ *	//0未过期 1已过期
+ */
+const checkSession = () => {
+	const promise = new Promise((resolve, reject) => {
+		uni.checkSession({
+			success() {
+				console.log('状态未过期')
+				//未过期
+				resolve(0)
+			},
+			fail() {
+				console.log('状态已过期')
+				//已过期
+				resolve(1)
+			}
+		})
+	}).catch(res => {
+		uni.showToast({
+			icon: 'none',
+			title: res.errMsg || '验证session失效',
+			duration: 2000
+		});
+	})
+
+	return promise
+}
+
+// 获取 code 
+const getCode = function() {
+	const promise = new Promise((resolve, reject) => {
+		uni.login({
+			success: function(loginRes) {
+				if (loginRes && loginRes.code) {
+					resolve(loginRes.code)
+				} else {
+					reject(loginRes)
+				}
+			}
+		});
+	}).catch(res => {
+		uni.showToast({
+			icon: 'none',
+			title: res.errMsg || '获取code失败',
+			duration: 2000
+		});
+	})
+	return promise
+}
+
+//验证授权状态 2未操作 1已经授权  0拒绝授权
+const getSetting = function() {
+	const promise = new Promise((resolve, reject) => {
+		uni.getSetting({
+			success(res) {
+				let authSetting = res.authSetting
+				//授权成功
+				if (authSetting['scope.userInfo']) {
+					resolve(1)
+					return
+				}
+				//拒绝授权
+				if (authSetting['scope.userInfo'] === false) {
+					resolve(0)
+					return
+				}
+
+				resolve(2)
+			},
+			fail(res) {
+				reject(res)
+			}
+		})
+	}).catch(res => {
+		uni.showToast({
+			icon: 'none',
+			title: res.errMsg || '获取授权状态失败',
+			duration: 2000
+		});
+	})
+	return promise
+}
+
+//验证位置 状态 2未操作 1已经授权  0拒绝授权
+const getSettingLocation = function() {
+	const promise = new Promise((resolve, reject) => {
+		uni.getSetting({
+			success(res) {
+				let authSetting = res.authSetting
+				//授权成功
+				if (authSetting['scope.userLocation']) {
+					resolve(1)
+					return
+				}
+				//拒绝授权
+				if (authSetting['scope.userLocation'] === false) {
+					resolve(0)
+					return
+				}
+				resolve(2)
+			},
+			fail(res) {
+				reject(res)
+			}
+		})
+	}).catch(res => {
+		uni.showToast({
+			icon: 'none',
+			title: res.errMsg || '获取位置状态失败',
+			duration: 2000
+		});
+	})
+	return promise
+}
+
+/**
+ * 用 code 交换 openid session_key
+ */
+const getOpenid = function(code = '', provinceCode = '') {
+	const sendUrl = 'https://xcxact.vjifen.com/api/getOpenid';
+	const sendData = {
+		code,
+		provinceCode
+	}
+	const promise = new Promise((resolve, reject) => {
+		uni.request({
+			url: sendUrl,
+			method: 'POST',
+			data: sendData,
+			success: (result) => {
+				const backData = result.data;
+				if (backData.code == 0) {
+					//储存用户信息到本地
+					let data = backData.data || {};
+					uni.setStorageSync('userData', data);
+					resolve(backData.data);
+				} else {
+					console.log(2)
+					resolve(result.msg);
+				}
+			},
+			fail: (error) => {
+				reject(error);
+			}
+		});
+	})
+	return promise
+}
+
+
+// 拨打电话
+/**
+ * 拨打电话 - 可简单封装工具集
+ */
+function callPhone(phoneNumber) {
+	uni.makePhoneCall({
+		phoneNumber: phoneNumber,
+		success: function() {
+			console.log("拨打电话成功！")
+		},
+		fail: function() {
+			console.log("拨打电话失败！")
+		}
+	})
+}
+
+
 export {
-	bfGetUserInfo
+	getLocation,
+	analysisMobile,
+	checkSession,
+	getCode,
+	getOpenid,
+	getSettingLocation,
+	getUserInfo,
+	callPhone
 }

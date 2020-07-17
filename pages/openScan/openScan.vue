@@ -15,8 +15,12 @@
 				success: function (res) {
 					console.log('条码类型：' + res.scanType);
 					console.log('条码内容：' + res.result);
+					uni.setStorage({
+						key:"codeData",
+						data:res
+					})
 					uni.redirectTo({
-					  url: '../scan/scan?q=' + encodeURIComponent(res.result),
+					  url: '../activityEntrance/activityEntrance?q=' + encodeURIComponent(res.result),
 					  complete() {
 					  	getApp().globalData.openQrcode = false
 					  }

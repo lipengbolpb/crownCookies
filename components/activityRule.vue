@@ -3,22 +3,21 @@
 	<view class="activityRule" v-if="activityRuleIsShow">
 		<view class="activityRule-mask" @click="closeActivityRule"></view>
 		<!-- 来源 活动主页 activity -->
-		<view class="activityRule-center" v-if="activityRuleSource==1">
-			{{ activityRuleSource }}
+		<view :animation="actAni" :class="[isStartAnimation ? 'activityRule-initAni' : '','activityRule-center']" v-if="activityRuleSource==1">
 			<view class="arc-title flex-xc-yn"><text class="arc-title-text">活动规则</text></view>
 			<view class="arc-center">
-				<p>在活动时间内，凡购买908g、888g、790g、750g、681g、1010g皇冠丹麦曲奇饼干特别礼盒及576g装皇冠丹麦曲奇饼干（音乐盒特别装）（下称“活动产品”）可通过微信扫描活动产品包装内，<text>邀请函上的抽奖二维码或关注微信公众号“ Danisa皇冠丹麦曲奇”</text>并在相应页面输入邀请函上的序列号，进入活动页面并参与活动，即有机会获得丹麦8日游或微信红包奖品。</p>
+				<p :style="actStyle">在活动时间内，凡购买908g、888g、790g、750g、681g、1010g皇冠丹麦曲奇饼干特别礼盒及576g装皇冠丹麦曲奇饼干（音乐盒特别装）（下称“活动产品”）可通过微信扫描活动产品包装内，<text>邀请函上的抽奖二维码或关注微信公众号“ Danisa皇冠丹麦曲奇”</text>并在相应页面输入邀请函上的序列码，进入活动页面并参与活动，即有机会获得丹麦8日游或微信红包奖品。</p>
 			</view>
-			<view class="arc-footer">
-				 <image src="../../static/crownCookiesImg/haveRead.png"></image>
+			<view class="arc-footer" @click="closeActivityRule">
+				 <image :src="staticUrl+'haveRead.png'"></image>
 			</view>
 		</view>
 		<!-- 来源 个人中心页面 personalCenter-->
-		<view class="activityRule-center" v-if="activityRuleSource==2">
+		<view :animation="actAni" :class="[isStartAnimation ? 'activityRule-initAni' : '','activityRule-center']" v-if="activityRuleSource==2">
 			<image @click="closeActivityRule" class="arc-close-image" :src="staticUrl+'closeTop.png'" mode="widthFix"></image>
 			<view class="arc-title flex-xc-yn"><text class="arc-title-text">活动规则</text></view>
 			<view class="arc-center">
-				<p>在活动时间内，凡购买908g、888g、790g、750g、681g、1010g皇冠丹麦曲奇饼干特别礼盒及576g装皇冠丹麦曲奇饼干（音乐盒特别装）（下称“活动产品”）可通过微信扫描活动产品包装内，<text>邀请函上的抽奖二维码或关注微信公众号“ Danisa皇冠丹麦曲奇”</text>并在相应页面输入邀请函上的序列号，进入活动页面并参与活动，即有机会获得丹麦8日游或微信红包奖品。</p>
+				<p>在活动时间内，凡购买908g、888g、790g、750g、681g、1010g皇冠丹麦曲奇饼干特别礼盒及576g装皇冠丹麦曲奇饼干（音乐盒特别装）（下称“活动产品”）可通过微信扫描活动产品包装内，<text>邀请函上的抽奖二维码或关注微信公众号“ Danisa皇冠丹麦曲奇”</text>并在相应页面输入邀请函上的序列码，进入活动页面并参与活动，即有机会获得丹麦8日游或微信红包奖品。</p>
 			</view>
 		</view>
 	</view>
@@ -28,75 +27,70 @@
 	import {
 		get,
 		post,
-		config
+		config    
 	} from '@/utils/api.js';
 	export default {
 		name: "activityRule",
 		props: {
+			// 页面来源  
 			activityRuleSource: {
 				type: String,
 				default: '1'
 			},
+			// 是否展示
 			activityRuleIsShow:{
 				type: Boolean,
 				default: false
-			}
+			},
+			// 是否 开启动画
+			isStartAnimation:{
+				type: Boolean,
+				default: true
+			},
 		},
 		data() {
 			return {
 				staticUrl: config.staticUrl,
-				sharePath:'pages/home/home?provinceCode=LN',
-				shareImg:'',
-				openid: '',
-				userInfo: {
-					avatarUrl: '',
-					nickName: ''
-				},
-
-				ipx: false,
-				statusBarH: this.StatusBar,
-				customBarH: this.CustomBar,
-
-				dotStyle: false,
-				cardCur: 0,
-				swiperList: [{
-					id: 0,
-					type: 'image',
-					expirationTime:'2020/06/07', //let start_time  = "2019/08/12 12:50:30";
-					url: 'https://xcxsite.vjifen.com/v/lnqp/2.0/lnbar0605.jpg?v=1.0.1'
-				},{
-					id: 1,
-					type: 'image',
-					url: 'https://xcxsite.vjifen.com/v/lnqp/2.0/banner2.png?v=1.0.1'
-				}],
-				allAccountMoney:'0', // 累计获得多少钱
-				total:'0', //总计喝了多少瓶
-				userScanMonthCount:'0',//本月喝了多少瓶
-				totalMoney:'0',//账户余额
-				
-				switchTurntable:'',
+				actAni:'', // 动画所需配置
+				actAniClose:'', // 动画所需配置
+				actStyle:{
+					color:"red"
+				}
 			}
 		},
-		computed:{ 
-		},
-		onLoad() {
-			var windowW = wx.getSystemInfoSync().windowWidth;
-			var windowH = wx.getSystemInfoSync().windowHeight;
-			console.log(windowW);
-			console.log(windowHeight);
-		},
-
-		onShow() { 
-			var windowW = wx.getSystemInfoSync().windowWidth;
-			var windowH = wx.getSystemInfoSync().windowHeight;
-			console.log(windowW);
-			console.log(2);
-		},
 		methods: {
+			
 			// 关闭弹窗
 			closeActivityRule(){
 				const that = this;
-				that.$emit('activityRuleColse',false)
+				that.actAni = ''; // 动画所需配置
+				that.actAniClose = ''; // 动画所需配置
+				that.startAnimation('130%');
+				setTimeout(function(){
+				   that.$emit('activityRuleColse',false);
+				},1200)
+			},
+			// 开始动画
+			startAnimation(position=0) {
+				const that = this;
+				// 活动规则 从下向上滑出 
+				const actAnimation = wx.createAnimation({
+					duration: 500,
+					timingFunction: 'ease',
+					delay: 500
+				});
+				actAnimation
+					.translateY(position)
+					.step();
+				that.actAni = actAnimation.export();
+			},
+ 			  
+			isStartAnimationFun(e) {
+				const that = this;
+				this.startAnimation();
+				if(this.isStartAnimation){
+					this.startAnimation();
+				}
 			}
 			
 		}
@@ -104,6 +98,10 @@
 </script>
 
 <style scoped lang="scss">
+	// 动画 初始位置
+	.activityRule-initAni{
+		transform: translateY(130%);
+	}
 	 .activityRule-mask{
 		 width: 100%;
 		 height: 100%;
@@ -116,7 +114,7 @@
 	 .activityRule-center{
 		 width: 100%;
 		 max-height: 50%;
-		 position: absolute;
+		 position: fixed;
 		 bottom: 0;
 		 z-index: 60;
 		 background: #FFF;

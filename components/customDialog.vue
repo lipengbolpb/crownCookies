@@ -2,7 +2,8 @@
 	<!-- 弹窗 -->
 	<view class="customDialog" v-show="customDialogIsShow">
 		<view class="customDialog-mask" @click="closeCustomDialog"></view>
-		<view class="customDialog-center" v-if="customDialogSource==2">
+		<!-- 中大奖后 填写信息成功后 提示弹窗 -->
+		<view class="customDialog-center" v-if="customDialogType==2">
 			<view class="cdc-titleImg">
 				<image :src="staticUrl+'tanchuangTop.png'" mode="widthFix"></image>
 			</view>
@@ -14,7 +15,8 @@
 			<view class="cdc-confirm" @click="closeCustomDialog" >确 认</view>
 		</view>
 		
-		<view class="customDialog-center" v-if="customDialogSource==8">
+		<!-- 底部 按钮 我知道了 弹窗 -->
+		<view class="customDialog-center" v-if="customDialogType==8">
 			<view class="cdc-titleImg">
 				<image :src="staticUrl+'tanchuangTop.png'" mode="widthFix"></image>
 			</view>
@@ -25,15 +27,15 @@
 			<view class="cdc-confirm" @click="closeCustomDialog" >我 知 道 了</view>
 		</view>
 		
-		<!--  -->
-		<view class="customDialog-center" v-if="customDialogSource==10||customDialogSource==1">
+		<!-- 图片 关闭按钮 类型弹窗 -->
+		<view class="customDialog-center" v-if="customDialogType==10||customDialogType==1">
 			<view class="cdc-titleImg">
 				<image :src="staticUrl+'tanchuangTop.png'" mode="widthFix"></image>
 			</view>
-			<view class="cdc-center cdc-center10 flex-xc-yc" v-if="customDialogSource==10">
+			<view class="cdc-center cdc-center10 flex-xc-yc" v-if="customDialogType==10">
 				<p class="cdc-center-h1">{{ customDialogFontTitle }}</p>
 			</view>
-			<view class="cdc-center cdc-center1" v-if="customDialogSource==1">
+			<view class="cdc-center cdc-center1" v-if="customDialogType==1">
 				<p class="cdc-center-p1">{{ customDialogFontP1 }}</p>
 				<p class="cdc-center-p2">{{ customDialogFontP2 }}</p>
 				<p class="cdc-center-p3">{{ customDialogFontP3 }}</p>
@@ -44,7 +46,7 @@
 		</view>
 		
 		<!-- 关注 -->
-		<view class="customDialog-center" v-if="customDialogSource==5">
+		<view class="customDialog-center" v-if="customDialogType==5">
 			<view class="cdc-titleImg">
 				<image :src="staticUrl+'gaunzhu.png'" mode="widthFix"></image>
 			</view>
@@ -62,7 +64,7 @@ export default {
 	name: 'customDialog',
 	props: {
 		// 2 确认弹窗（领取大奖填写信息）
-		customDialogSource: {
+		customDialogType: {
 			type: String,
 			default: '1'
 		},

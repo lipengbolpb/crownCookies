@@ -55,6 +55,12 @@
 			
 			uni.getSystemInfo({
 				success: function(e) {
+					
+					uni.setStorage({
+						key:"userSystemInfo",
+						data:e
+					})
+					
 					// #ifndef MP
 					Vue.prototype.StatusBar = e.statusBarHeight;
 					if (e.platform == 'android') {
@@ -93,6 +99,8 @@
 				const self = this;
 				uni.getSystemInfo({
 					success: function(res) {
+						console.log("getSystemInfo")
+						console.log(res)
 						// 根据 model 进行判断
 						if (res.model.search('iPhone X') != -1) {
 							self.$store.commit('isIPX', true)
@@ -163,5 +171,30 @@
 		display: flex;
 		justify-content:space-between;
 		-webkit-justify-content:space-between;
+	}
+	/* 水平 从右到左  */
+	.flex-xR-yn{
+		display: -webkit-flex; /* Safari */
+		display: flex;
+		-webkit-flex-direction:space-between;
+		flex-direction:row-reverse;
+	}
+	/* 垂直 从上到下  */
+	.flex-xn-ys{
+		display: -webkit-flex; /* Safari */
+		display: flex;
+		-webkit-flex-direction:column;
+		flex-direction:column;
+	}
+	/*   多个 盒子上下排列 水平居中 */
+	.flex-xc-yc-dirY{
+		display: -webkit-flex; /* Safari */
+		display: flex;
+		-webkit-flex-direction:column;
+		flex-direction:column;
+		justify-content: center;
+		-webkit-justify-content: center;
+		align-items: center;
+		-webkit-align-items: center;
 	}
 </style>
