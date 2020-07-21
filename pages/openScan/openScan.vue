@@ -20,7 +20,7 @@
 						data:res
 					})
 					uni.redirectTo({
-					  url: '../activityEntrance/activityEntrance?q=' + encodeURIComponent(res.result),
+					  url: '../activityEntrance/activityEntrance?sweepstr=' + encodeURIComponent(res.result),
 					  complete() {
 					  	getApp().globalData.openQrcode = false
 					  }
@@ -28,7 +28,7 @@
 				},
 				fail:function (res){
 					uni.switchTab({
-					  url: '../home/home',
+					  url: '../index/index',
 					  complete() {
 					  	getApp().globalData.openQrcode = false
 					  }

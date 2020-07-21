@@ -1,20 +1,20 @@
 <template>
 	<!-- 中奖纪录 -->
 	<view class="winningRecord flex-xn-ys">
-			<uni-nav-bar :style="{ 'margin-top': safeAreaTop+'px' }" left-icon="back" @click-left="back" title="我的中奖纪录"></uni-nav-bar>
-			<view class="wr-center flex-xn-ys">
-				<view class="flex-xc-yn"><image class="wrc-titleImg" :src="staticUrl + 'wodezhongjiangjilu.png'" mode="widthFix"></image></view>
-				<scroll-view scroll-y="true" class="wrc-listBox" @scrolltolower="lower">
-					<view class="wrc-listBox-list flex-xsb-yn" v-for="item in objList" :key="item.id">
-						<view class="">
-							<view class="wrc-listBox-list-mes">{{ item.giftsName ? item.giftsName : '扫码中奖' }}</view>
-							<view class="wrc-listBox-list-time">{{ item.earnTime }}</view>
-						</view>
-						<view class="wrc-listBox-list-price">+{{ item.earnMoney }}</view>
+		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" left-icon="back" @click-left="back" title="我的中奖纪录"></uni-nav-bar>
+		<view class="wr-center flex-xn-ys" id="wr-center">
+			<view class="flex-xc-yn" id="wr-center-title"><image class="wrc-titleImg" :src="staticUrl + 'wodezhongjiangjilu.png'" mode="widthFix"></image></view>
+			<scroll-view :style="{ height: scrollViewHeight + 'px' }" scroll-y="true" class="wrc-listBox" @scrolltolower="lower">
+				<view class="wrc-listBox-list flex-xsb-yn" v-for="item in objList" :key="item.id">
+					<view class="">
+						<view class="wrc-listBox-list-mes">{{ item.giftsName ? item.giftsName : '扫码中奖' }}</view>
+						<view class="wrc-listBox-list-time">{{ item.earnTime }}</view>
 					</view>
-				</scroll-view>
-			</view>
-		</view> 
+					<view class="wrc-listBox-list-price">+{{ item.earnMoney }}</view>
+				</view>
+			</scroll-view>
+		</view>
+	</view>
 </template>
 
 <script>
@@ -32,7 +32,7 @@ export default {
 			const userSystemInfo = uni.getStorageSync('userSystemInfo');
 			const safeAreaTop = userSystemInfo.safeArea.top;
 			return safeAreaTop;
-		},
+		}
 	},
 	data() {
 		return {
@@ -41,11 +41,24 @@ export default {
 			objList: [], //红包列表
 			moneyNext: true,
 			count: 10,
-			currentPage: 1
+			currentPage: 1,
+			scrollViewHeight: '' //滚动区域的高度
 		};
 	},
-	onLoad() {
+	async onLoad() {
 		this.initData();
+		const that = this;
+		wx.createSelectorQuery()
+			.select('#wr-center')
+			.boundingClientRect()
+			.select('#wr-center-title')
+			.boundingClientRect()
+			.exec(function(res) {
+				const scrollViewHeight = parseFloat(res[0].height - res[1].height).toFixed(2);
+				console.log(res);
+				console.log(scrollViewHeight);
+				that.scrollViewHeight = scrollViewHeight;
+			});
 	},
 	methods: {
 		lower() {
@@ -79,11 +92,12 @@ export default {
 						that.moneyList = that.moneyList.concat(res.objList);
 					}
 				}
+				
 			});
 		},
-		// 返回 
-		back(){
-			uni.navigateBack(1)
+		// 返回
+		back() {
+			uni.navigateBack(1);
 		}
 	}
 };

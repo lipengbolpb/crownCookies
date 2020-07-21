@@ -102,7 +102,7 @@ function analysisMobile(session_key, encryptionData) {
 			'sessionKey': session_key,
 			'encryptedData': encryptionData.encryptedData,
 			'iv': encryptionData.iv,
-			'provinceCode': 'lnqp'
+			'provinceCode': 'hgqq'
 		};
 		uni.request({
 			url: 'https://xcxact.vjifen.com/api/decrypt',

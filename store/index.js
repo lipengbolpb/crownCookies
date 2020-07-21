@@ -118,7 +118,7 @@ const store = new Vuex.Store({
 					 success: res => {
 					   var params = {
 						   'code':res.code,
-						   'provinceCode':'lnqp'
+						   'provinceCode':'hgqq'
 					   }
 					   uni.request({
 						 url: 'https://xcxact.vjifen.com/api/getOpenid',
@@ -147,7 +147,7 @@ const store = new Vuex.Store({
 						 success: res => {
 						   var params = {
 							   'code':res.code,
-							   'provinceCode':'lnqp'
+							   'provinceCode':'hgqq'
 						   }
 						   uni.request({
 							 url: 'https://xcxact.vjifen.com/api/getOpenid',

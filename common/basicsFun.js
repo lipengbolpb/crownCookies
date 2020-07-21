@@ -62,8 +62,8 @@ function judgeBusinessCode(data) {
 		console.log(data); 
 		const result = data.result;
 		const reply = data.reply;
-		// const businessCode = data.result.businessCode;
-		const businessCode = 0;
+		const businessCode = data.result.businessCode;
+		// const businessCode = 0;
 		if (businessCode == 0 ) { // 扫码成功 红包
 			resolve(businessCode);
 		} else if (businessCode == 11 || businessCode == 2 || businessCode == 15) { // 11：本人重复扫码  2||15：这个二维码已被扫
@@ -106,11 +106,11 @@ function judgeBusinessStrCode(data) {
 		const result = data.result;
 		const reply = data.reply;
 		const businessCode = data.result.businessCode;
-		// const businessCode = 4;
+		// const businessCode = 0;
 		console.log('businessCodebusinessCodebusinessCodebusinessCode');
 		console.log(businessCode);
 		if (businessCode == 0 ) { // 扫码成功 红包
-			const redirectToUrl = `../activityEntrance/activityEntrance?bizcode=${businessCode}`
+			const redirectToUrl = `../activityEntrance/activityEntrance?bizcode=${businessCode}&codeType=2`
 			resolve(redirectToUrl);
 		} else if (businessCode == 11) { // 重复扫 码
 			const redirectToUrl = `../codeScanned/codeScanned?bizcode=${businessCode}`
@@ -132,7 +132,6 @@ function judgeBusinessStrCode(data) {
 			// businessCode 19 : 漏码
 			// businessCode 23 : 扫码次数已达上限
 			// businessCode -1 : 系统升级中
-			const redirectToUrl = `../index/index?bizcode=${businessCode}`;
 			uni.setStorage({
 				key:'businessCode',
 				data:businessCode
@@ -189,7 +188,7 @@ async function userCodeExchangeOpenid() {
 	let backData = '';
 	// 获取 小程序 code 请求接口换取 openid
 	const xcxCode = await getCode();
-	const backOpenidData = await getOpenid(xcxCode, 'lnqp');
+	const backOpenidData = await getOpenid(xcxCode, 'hgqq');
 	console.log('backOpenidData--------' + backOpenidData);
 	console.log(backOpenidData);
 	if (backOpenidData.uinfo) {

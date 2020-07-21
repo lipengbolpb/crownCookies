@@ -15,6 +15,7 @@
 			:customDialogIsShow="customDialogIsShow"
 			:customDialogType="customDialogType"
 		></custom-dialog>
+		
 	</view>
 </template>
 
@@ -66,6 +67,13 @@ export default {
 					customDialogIsShow: true,
 					customDialogFontTitle: '系统升级',
 					customDialogFontCenter: '系统升级，我们正在努力搭建中~'
+				},
+				{
+					bizcode: '1',
+					customDialogType: '8',
+					customDialogIsShow: true,
+					customDialogFontTitle: '',
+					customDialogFontCenter: '这个二维码不存在'
 				},
 				{
 					bizcode: 'isShowGguidance',

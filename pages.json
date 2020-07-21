@@ -1,5 +1,24 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index", // 首页
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/activityEntrance/activityEntrance", //活动页面
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/personalCenter/personalCenter", // 个人中心
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle": "custom"
+			}
+		},
 		{  
 			"path": "pages/strCode/strCode", // 输入串码 
 			"style": {
@@ -7,9 +26,10 @@
 				"navigationStyle": "custom"
 			}
 		},
-		{
-			"path": "pages/activityEntrance/activityEntrance", //活动页面
+		{  
+			"path": "pages/getOpenid/getOpenid", // 输入串码 
 			"style": {
+				"navigationBarTitleText": " ",
 				"navigationStyle": "custom"
 			}
 		},
@@ -29,19 +49,6 @@
 			"path": "pages/submitUserInformation/submitUserInformation", // 领取大奖
 			"style": {
 				"navigationBarTitleText": "填写信息",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/index", // 首页
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/personalCenter/personalCenter", // 个人中心
-			"style": {
-				"navigationBarTitleText": "我的",
 				"navigationStyle": "custom"
 			}
 		},

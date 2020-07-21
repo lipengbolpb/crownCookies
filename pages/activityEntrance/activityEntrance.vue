@@ -56,7 +56,7 @@
 <script>
 import { get, post, config } from '@/utils/api.js';
 import { getLocation, analysisMobile, checkSession, getCode, getOpenid, getSettingLocation } from '@/common/getWxUserInfor.js';
-import { sweepQrcode } from '@/common/getData.js';
+import { sweepQrcode,giveSpackTx } from '@/common/getData.js';
 import { judgeBusinessCode } from '@/common/basicsFun.js';
 import { activityRule } from '@/components/activityRule.vue'; // 活动规则
 import { wxOpenSetting } from '@/components/wx-open-setting/wx-open-setting.vue'; // 开启 位置 引导
@@ -81,7 +81,7 @@ export default {
 			isShowGguidance: false, //是否展示 引导关注 公众号 logo
 			isStartAnimation: true, // 本页面 是否开启动画
 			isShowluckDrawBtn: false, //是否 显示 抽奖按钮
-			isHasPhoneNumber: false, //是否 已获取手机号
+			// isHasPhoneNumber: false, //是否 已获取手机号
 			crownCookiesAni: '', //饼干 动画
 			baifenbaiAni: '', //百分比 动画
 			fontMesAni: '', //饼干动画
@@ -91,7 +91,7 @@ export default {
 			isShowCustomLocation: false, // 是否展示 自定义 定位引导
 			wxOpenSettingIsShow: false, //是否展示 位置授权
 			wxOpenSettingIsStartAnimation: false, // 位置授权 是否展示动画
-			sweepstr: 'JYJ3YART4JDN',
+			sweepstr: 'JYJ9WM6PX9FU',
 			cusFooterBarIsShow: false //是否展示 页面tab （显示条件：出现 获得红包动效 ）
 		};
 	},
@@ -110,28 +110,69 @@ export default {
 			const that = this;
 			const backUserData = await that.getUserDataFun();
 			return backUserData.openid || '';
+		},
+		// 串码类型 扫码串码1 输入串码2
+		codeType(){
+				const backStorage = uni.getStorageSync("codeType") || 1;
+			    return backStorage;
+		},
+		
+		// 当 显示抽奖按钮时 判断缓存中 是否存在 手机号 
+		isHasPhoneNumber (){
+			const backStorage = uni.getStorageSync("userMobileData").phoneNumber;
+			if(backStorage){
+				return true;
+			}else{
+				return false;
+			}
 		}
+		
 	},
-	async onLoad() {
+	async onLoad( options ) {
+		console.log("options");
+		console.log(options);
+		
+		this.sweepstr = options.sweepstr;
+		
+// 		giveSpackTx().then(res=>{
+// 			console.log();
+// 		});
+		
 		/**
 		 * 判断 缓存中 是否 存在 isAgreeRule
 		 * 存在并且为true   表示已同意活动规则直接检查缓存中用户位置信息
 		 * 不存在        显示 活动规则 （关闭活动规则或者点击同意活动规则检查缓存中用户位置信息）
 		 */
 		const that = this;
+		
 		uni.getStorage({
 			key: 'isAgreeRule',
 			success(sto) {
-				console.log('sto');
-				console.log(sto);
 				if (sto.data) {
 					// 如果等于 true 已经同意活动不在弹出 不弹出检测位置信息
-					console.log('如果等于 true 已经同意活动不在弹出 不弹出检测位置信息');
-					that.checkUserLocation();
+					
+					if(options.codeType && options.codeType==2){
+						
+						// 从 输入串码 过来 中区红包 显示 抽奖按钮
+						that.isShowluckDrawBtn = true;
+						// 获取红包 展示中奖 金额
+						
+						uni.getStorage({
+							key:'serialCodeData',
+							success(stoData){
+								const currentMoney = stoData.data.reply.currentMoney || '0.00';
+								that.currentMoney = currentMoney;
+							}
+						})
+						
+					}else{
+						// 走扫码的逻辑 检测位置微信 调用接口
+						that.checkUserLocation();
+					}
+					
 				}
 			},
 			fail(err) {
-				console.log(err);
 				setTimeout(()=>{
 						that.activityRuleSource = '1';
 						that.activityRuleIsShow = true;
@@ -149,8 +190,8 @@ export default {
 	},
 	async onShow() {
 		this.openid = await this.computedGetOpenid;
-		console.log('openid---------------' + this.openid);
-		// this.checkUserLocation();
+		console.log('openid---------------' + this.openid); 
+		// 是否 从输入串码页面中出红包 是：显示动效 和 抽奖按钮
 	},
 	/**
 	 * 用户点击右上角分享
@@ -168,11 +209,13 @@ export default {
 	},
 	onHide() {
 		// 弹出自定义 位置引导弹窗
-		that.wxOpenSettingIsShow = false;
+		this.wxOpenSettingIsShow = false;
 	},
 	methods: { 
 		// 显示 中出红包动效
 		showGetCash() {
+			// 调用提现接口
+			giveSpackTx();
 			this.isShowluckDrawBtn = false; //隐藏抽奖按钮
 			this.getCashIsShow = true;
 			this.getCashIsStartAnimation = true;
@@ -198,8 +241,6 @@ export default {
 			 */
 			const that = this;
 			const LocationStatus = await getSettingLocation();
-			console.log('LocationStatus');
-			console.log(LocationStatus);
 			uni.getStorage({
 				key: 'userLocation',
 				success(res) {
@@ -215,8 +256,6 @@ export default {
 						// 弹出 获取位置
 						getLocation().then((...res) => {
 							const [status, locationData] = Array.from(res[0]);
-							console.log(status);
-							console.log(locationData);
 							// 调用接口
 							that.getSweepQrcode(locationData.longitude, locationData.latitude, that.sweepstr);
 						});
@@ -245,26 +284,21 @@ export default {
 				// 如果用户信息存在 判断 session 是否过期 0未过期 1已过期
 				const checkSessionStatus = await checkSession();
 				if (checkSessionStatus == 0) {
-					console.log('checkSessionStatus---');
 					returnUserData = userData.uinfo;
 				} else {
 					// 获取 小程序 code 请求接口换取 openid session_key
 					const xcxCode = await getCode();
 					// 拿小程序 code 换取 openid
-					const backOpenidData = await getOpenid(xcxCode, 'lnqp');
+					const backOpenidData = await getOpenid(xcxCode, 'hgqq');
 					if (backOpenidData.uinfo) {
-						console.log('checkSessionStatus1---');
 						returnUserData = backOpenidData.uinfo;
 					}
 				}
 			} else { 
 				// 获取 小程序 code 请求接口换取 openid
 				const xcxCode = await getCode();
-				const backOpenidData = await getOpenid(xcxCode, 'lnqp');
-				console.log('backOpenidData--------' + backOpenidData);
-				console.log(backOpenidData);
+				const backOpenidData = await getOpenid(xcxCode, 'hgqq');
 				if (backOpenidData.uinfo) {
-					console.log('checkSessionStatus2---');
 					returnUserData = backOpenidData.uinfo;
 				}
 			}
@@ -283,7 +317,6 @@ export default {
 		},
 		// 开始动画
 		startInitAnimation() {
-			console.log(33333);
 			const that = this;
 			// 饼干动画 从无到有
 			const crownCookiesAnimation = wx.createAnimation({
@@ -365,7 +398,6 @@ export default {
 					// this.parsePhone(e) //解析手机号码
 					const session_key = userData.uinfo.session_key;
 					analysisMobile(session_key, backDetail).then(backData => {
-						console.log(backData);
 					});
 				} else {
 					const backUserData = await that.getUserDataFun();
@@ -376,7 +408,6 @@ export default {
 				//取消
 				// this.mobileToast = true;
 			}
-			console.log(34343434);
 			// 无论是否同意 获取手机号 都调用 展示 红包方法
 			this.showGetCash();
 		},
@@ -394,36 +425,19 @@ export default {
 			// 调用扫码接口
 			sweepQrcode(sendParams)
 				.then(res => {
-					console.log('currentMoney');
-					console.log(res);
 					const currentMoney = res.reply.currentMoney || '0.00';
 					that.currentMoney = currentMoney;
+					console.log('获取 扫码接口 返回信息 并处理'); 
 					return judgeBusinessCode(res);
 				})
 				.then(
 					res => {
-						console.log('res 调用扫码接口');
-						console.log(res);
+					
 						if (res == 0) {
 							// 显示 抽奖按钮
 							that.isShowluckDrawBtn = true;
 							that.startChoujiangAnimation();
-							// 当 显示抽奖按钮时 判断缓存中 是否存在 手机号 
-							uni.getStorage({
-								key:'userMobileData',
-								success(storageData) {
-									console.log("storageData")
-									console.log(storageData)
-									if(storageData.data.phoneNumber){
-										that.isHasPhoneNumber = true;
-									}
-								},
-								fail() {
-									that.isHasPhoneNumber = false;
-								}
-							})
-						} else {
-							console.log(res);
+						} else { 
 							uni.redirectTo({
 								url: res
 							});

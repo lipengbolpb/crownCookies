@@ -122,6 +122,10 @@ export default {
 	},   
 	async onLoad() {
 		this.openid = await this.computedGetOpenid;
+		console.log('await this.computedGetOpenid');
+		console.log(this.openid);
+		
+		
 		this.checkUserLocation();
 		const userData = uni.getStorageSync('userData');
 		const openid = userData.uinfo.openid; 
@@ -141,7 +145,10 @@ export default {
 				this.isNeedPhone = isNeedPhone;
 			} );
 		}
-		
+	},
+	onHide() {
+		// 关闭页面时 关闭位置弹窗 否则开启授权后 还会展示
+		this.wxOpenSettingIsShow = false;
 	},
 	computed: {
 		// 当窗口 高度 大于800 是 重新 计算 盒子的上边距
@@ -272,18 +279,10 @@ export default {
 				.then(res => {
 					console.log('res 调用扫码接口');
 					console.log(res);
-					if (res==0) {
-						// 显示 抽奖按钮
-						// that.isShowluckDrawBtn = true;
-						uni.redirectTo({
-							url: '../getPrize/getPrize'
-						});
-					} else {
-						console.log(res)
-						uni.redirectTo({
-							url: res
-						});
-					}
+					console.log(res)
+					uni.navigateTo({
+						url: res
+					});
 				},errBizeCode=>{
 					console.log('switchTaberr');
 					console.log(errBizeCode);
