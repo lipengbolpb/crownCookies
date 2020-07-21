@@ -125,19 +125,16 @@ export default {
 		console.log('await this.computedGetOpenid');
 		console.log(this.openid);
 		
-		
 		this.checkUserLocation();
 		const userData = uni.getStorageSync('userData');
 		const openid = userData.uinfo.openid; 
 		if(openid){
-			console.log(12121212)
 			getFailCount().then( isNeedPhone =>{
 				// 是否 需要填写手机号
 				console.log(isNeedPhone);
 				this.isNeedPhone = isNeedPhone;
 			} );
 		} else {
-			console.log(2323232323)
 			const backUserData = await getUserDataFun();
 			getFailCount().then( isNeedPhone =>{
 				// 是否 需要填写手机号

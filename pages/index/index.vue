@@ -9,6 +9,7 @@
 		<image class="focusGguidance" :src="staticUrl + 'focusGguidance.png'" @click="focusGguidanceShow"></image>
 
 		<custom-dialog
+			ref="customDialogChild"
 			@customDialogColse="updateCustomDialog"
 			:customDialogFontCenter="customDialogFontCenter"
 			:customDialogFontTitle="customDialogFontTitle"
@@ -88,7 +89,6 @@ export default {
 	},
 	async onLoad(options) {
 	  const backGetUserDataFun = await getUserDataFun();
-		
 	  // businessCode 1 : 这个二维码不存在
 	  // businessCode 3 : 这个二维码已过期
 	  // businessCode 4 : 活动未开始
@@ -115,8 +115,13 @@ export default {
 						that.customDialogIsShow = filterData.customDialogIsShow; //  是否展示弹窗
 						that.customDialogFontTitle = filterData.customDialogFontTitle;//  是否展示弹窗
 						that.customDialogFontCenter = filterData.customDialogFontCenter; //  是否展示弹窗						
+						
+						// 活动规则 启动动画
+						that.$refs.customDialogChild.isStartAnimationFun(true);
 					}
-				},500)
+				},500);
+				// 	// 活动规则 启动动画
+				that.$refs.customDialogChild.isStartAnimationFun(true);
 			}
 		})
 	},
@@ -164,6 +169,8 @@ export default {
 			this.customDialogIsShow = filterData.customDialogType; //  是否展示弹窗
 			this.customDialogFontTitle = filterData.customDialogFontTitle; //  是否展示弹窗
 			this.customDialogFontCenter = filterData.customDialogFontCenter; //  是否展示弹窗
+			// 引导关注二维码 启动动画
+			this.$refs.customDialogChild.isStartAnimationFun(true);
 		}
 	}
 };
@@ -205,4 +212,5 @@ export default {
 	font-size: 24rpx;
 	color: #b2bce3;
 }
+
 </style>

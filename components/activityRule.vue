@@ -1,7 +1,7 @@
 <template>
 	<!-- 活动主页 -->
 	<view class="activityRule" v-if="activityRuleIsShow">
-		<view class="activityRule-mask" @click="closeActivityRule"></view>
+		<view class="activityRule-mask" :animation='opacityAni' @click="closeActivityRule"></view>
 		<!-- 来源 活动主页 activity -->
 		<view :animation="actAni" :class="[isStartAnimation ? 'activityRule-initAni' : '','activityRule-center']" v-if="activityRuleSource==1">
 			<view class="arc-title flex-xc-yn"><text class="arc-title-text">活动规则</text></view>
@@ -52,23 +52,23 @@
 			return {
 				staticUrl: config.staticUrl,
 				actAni:'', // 动画所需配置
-				actAniClose:'', // 动画所需配置
+				opacityAni:'', // 动画所需配置
 				actStyle:{
 					color:"red"
 				}
 			}
 		},
 		methods: {
-			
 			// 关闭弹窗
 			closeActivityRule(){
 				const that = this;
 				that.actAni = ''; // 动画所需配置
 				that.actAniClose = ''; // 动画所需配置
 				that.startAnimation('130%');
+				that.opacityAnimation(0);
 				setTimeout(function(){
 				   that.$emit('activityRuleColse',false);
-				},1200)
+				},900)
 			},
 			// 开始动画
 			startAnimation(position=0) {
@@ -77,19 +77,34 @@
 				const actAnimation = wx.createAnimation({
 					duration: 500,
 					timingFunction: 'ease',
-					delay: 500
+					delay: 0
 				});
 				actAnimation
 					.translateY(position)
 					.step();
 				that.actAni = actAnimation.export();
 			},
+			// 蒙层 渐入 渐出
+			opacityAnimation(opacityVal=0) {
+				const that = this;
+				// 活动规则 从下向上滑出 
+				const opaAnimation = wx.createAnimation({
+					duration: 500,
+					timingFunction: 'ease',
+					delay: 0
+				});
+				opaAnimation
+					.opacity(opacityVal)
+					.step();
+				that.opacityAni = opaAnimation.export();
+			},
  			  
 			isStartAnimationFun(e) {
 				const that = this;
-				this.startAnimation();
-				if(this.isStartAnimation){
-					this.startAnimation();
+				that.startAnimation();
+				if(that.isStartAnimation){
+					that.startAnimation();
+					that.opacityAnimation(.6);
 				}
 			}
 			
@@ -105,11 +120,12 @@
 	 .activityRule-mask{
 		 width: 100%;
 		 height: 100%;
-		 background: rgba(0,0,0,.5);
+		 background: #000;
 		 position: fixed;
 		 top: 0;
 		 left: 0;
 		 z-index: 50;
+		 opacity: 0;
 	 }
 	 .activityRule-center{
 		 width: 100%;

@@ -7,7 +7,7 @@ import {
 // 扫码接口
 function sweepQrcode(sendParams) {
 	return new Promise((resolve, reject) => {
-		if(sendParams.openid==''){
+		if (sendParams.openid == '') {
 			sendParams.openid = uni.getStorageSync("userData").uinfo.openid;
 		}
 		console.log("backParams");
@@ -198,9 +198,6 @@ function queryAllGiftsList(currentPage, count) {
 
 // 输入串码 是 验证 用户 状态
 function getFailCount() {
-	uni.showLoading({
-		title: '加载中...',
-	})
 	const userData = uni.getStorageSync('userData');
 	const openid = userData.uinfo.openid;
 	const sendParams = {
@@ -208,7 +205,6 @@ function getFailCount() {
 	};
 	return new Promise((reslove, reject) => {
 		requestPost('/sweep/getFailCount', sendParams).then((res) => {
-			uni.hideLoading();
 			const backRes = res.result;
 			if (backRes.code === '0') {
 				switch (backRes.businessCode) {
@@ -299,45 +295,41 @@ function giveSpackTx() { //提现
 
 		const userMobileData = uni.getStorageSync('userMobileData') || '';
 		const phoneNumber = userMobileData.phoneNumber || '';
-// 
-// 		const userMsg = uni.getStorageSync('userMsg');
-// 		console.log("userMsguserMsg");
-// 		console.log(userMsg);
-// 		if (userMsg) {
-			const sendParams = {
-				"openid": openid,
-				"phoneNumber": phoneNumber,
-			}
+
+		const sendParams = {
+			"openid": openid,
+			"hbopenid": openid,
+			"phoneNumber": phoneNumber,
+		}
+		console.log("giveSpackTx giveSpackTxgiveSpackTxgiveSpackTx");
+		console.log(sendParams);
+		requestPost('/gifts/getGiftspack', sendParams).then((backParams) => {
+			uni.hideLoading();
+			// const [e, r] = backParams;
 			console.log("giveSpackTx giveSpackTxgiveSpackTxgiveSpackTx");
-			console.log(sendParams);
-			requestPost('/gifts/getGiftspack', sendParams).then((backParams) => {
-				uni.hideLoading();
-				// const [e, r] = backParams;
-				console.log("giveSpackTx giveSpackTxgiveSpackTxgiveSpackTx");
-				console.log(backParams);
-				const backResult = backParams.result;
-				if (backResult.code == '0') {
-					resolve(backResult.businessCode);
-				} else if (backResult.code == '-1') {
-					uni.showModal({
-						title: '尊敬的用户',
-						content: '系统升级中...',
-					})
-				} else { // code!='0' 服务失败
+			console.log(backParams);
+			const backResult = backParams.result;
+			if (backResult.code == '0') {
+				if(backResult.businessCode==5){
 					uni.showModal({
 						title: '提示',
-						content: '呜呜，服务开了个小差，请稍后重试！',
+						content: backResult.msg,
 					})
+				} else {
+					resolve(backResult.businessCode);
 				}
-			});
-// 		} else {
-// 			uni.navigateTo({
-// 				url: '../getOpenid/getOpenid?provinceCode=hgqq&type=hbopenid',
-// 			})
-// 			
-// 			giveSpackTx();
-// 			return false;
-// 		}
+			} else if (backResult.code == '-1') {
+				uni.showModal({
+					title: '尊敬的用户',
+					content: '系统升级中...',
+				})
+			} else { // code!='0' 服务失败
+				uni.showModal({
+					title: '提示',
+					content: '呜呜，服务开了个小差，请稍后重试！',
+				})
+			}
+		});
 	})
 }
 

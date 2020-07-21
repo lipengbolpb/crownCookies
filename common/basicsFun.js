@@ -136,7 +136,20 @@ function judgeBusinessStrCode(data) {
 				key:'businessCode',
 				data:businessCode
 			})
-			reject(businessCode);
+			
+			if(businessCode==2){
+				uni.showModal({
+					title: '这个串码已被扫',
+					content: `扫码时间: ${ reply.earnTime } 再扫一瓶试试看~~`,
+				})
+			}else if(businessCode==4){
+				uni.showModal({
+					title: '活动未开始',
+					content: "亲再等等哦",
+				})
+			}else{
+				reject(businessCode);
+			}
 		}
 	})
 } 
