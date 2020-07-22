@@ -8,7 +8,7 @@
 			</view>
 			<view class="submitBox">
 				<input type="text" placeholder="请输入12位字母数字瓶盖码" maxlength="12" class="input submitBox-strcode" value="strcode"
-				 v-model="serialcode" auto-focus></input>
+				 v-model="serialcode"></input>
 				<input v-show="isNeedPhone" class="submitBox-input" type="text" value=""  maxlength="11" placeholder="输入手机号" v-model="phone"/>
 				<view v-show="isNeedPhone" class="flex-xsb-yc submitBox-checkCode">
 					<input class="submitBox-input yamInput" type="text" value="" placeholder="输入验证码"  maxlength="4"v-model="verifycode"/>

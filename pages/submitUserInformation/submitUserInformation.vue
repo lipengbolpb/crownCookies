@@ -84,8 +84,8 @@ export default {
 	methods: {
 		submitFun(){
 			const that = this;
-			that.submitForm();
-			return false;
+// 			that.submitForm();
+// 			return false;
 			if (that.userName == '' || that.userName == undefined) {
 			  uni.showModal({
 				title: '提示',

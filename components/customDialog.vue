@@ -102,12 +102,12 @@ export default {
 			that.opacityAnimation('opacityAniCen', 0, 500);
 			setTimeout(() => {
 				that.$emit('customDialogColse', false);
-			}, 1500);
+			}, 500);
 		},
 		// 蒙层 渐入 渐出
 		opacityAnimation(name, opacityVal = 0, duration) {
 			const that = this;
-			// 活动规则 从下向上滑出
+			// 活动规则 从下向上滑出 
 			const opaAnimation = wx.createAnimation({
 				duration: duration,
 				timingFunction: 'ease',

@@ -19,6 +19,7 @@
 			<view :class="[isStartAnimation ? 'lijilingqu-initAni' : '', 'gpc-lijilingqu-box','flex-xc-yn']"  :animation="lijilingquAni">
 				<image @click="toGetPrize" class="gpc-lijilingqu" :src="staticUrl + 'lijilingqu.png'"></image>
 			</view>
+			
 		</view>
 	</view>
 </template>

@@ -1,5 +1,8 @@
 <template>
-	<view class="personalCenter">
+	<view class="personalCenter flex-xn-ys">
+		
+		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" title="我的账户"></uni-nav-bar>
+		
 		<view class="flex-xc-yn"><image class="pc-TitleImg" :src="staticUrl + 'baifenbaiLogo.png'"></image></view>
 		<view class="pc-titleBox pct-common">
 			<!-- 头部 展示 头像和昵称 -->
@@ -13,15 +16,16 @@
 			</view>
 			<!-- 累计红包金额 获取丹麦旅游 -->
 			<view class="pct-tab flex-xsb-yc">
-				<view class="">
+				<view class="shuxianBox">
 					<image mode="widthFix" src="../../static/crownCookiesImg/hongbaoIcon.png"></image>
 					<p class="pct-tab-mes1">累计红包金额</p>
-					<p class="pct-tab-mes2">￥{{ allAccountMoney }}元</p>
+					<p class="pct-tab-mes2">￥ <text>{{ allAccountMoney }}</text> 元</p>
+					<view class="shuxian"></view>
 				</view>
 				<view class="">
 					<image mode="widthFix" src="../../static/crownCookiesImg/danmaiIcon.png"></image>
 					<p class="pct-tab-mes1">获取丹麦旅游</p>
-					<p class="pct-tab-mes2">{{ totalPrizeNum }}次</p>
+					<p class="pct-tab-mes2"><text>{{ totalPrizeNum }}</text> 次</p>
 				</view>
 			</view>
 		</view>
@@ -49,10 +53,20 @@ import { getUserInfo } from '@/common/getWxUserInfor.js';
 import { queryUserHomePage } from '@/common/getData.js';
 import activityRule from '@/components/activityRule.vue';
 import { getUserDataFun } from '@/common/basicsFun.js';
+import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
 export default {
 	name: 'personalCenter',
 	components: {
-		activityRule
+		activityRule,
+		uniNavBar
+	},
+	computed: {
+		// 当窗口 高度 大于800 是 重新 计算 盒子的上边距
+		safeAreaTop() {
+			const userSystemInfo = uni.getStorageSync('userSystemInfo');
+			const safeAreaTop = userSystemInfo.safeArea.top;
+			return safeAreaTop;
+		}
 	},
 	data() {
 		return {
@@ -213,7 +227,7 @@ button {
 .pc-TitleImg {
 	width: 80%;
 	height: 234rpx;
-	margin-top: 128rpx;
+	// margin-top: 128rpx;
 }
 .pct-common {
 	margin: 0 30rpx 30rpx 30rpx;
@@ -237,6 +251,8 @@ button {
 }
 .pct-userInfor-nickName {
 	text-align: center;
+	font-size: 26rpx;
+	color: #656565;
 }
 .pct-tab {
 	image {
@@ -249,10 +265,16 @@ button {
 		.pct-tab-mes1 {
 			font-size: 30rpx;
 			color: #333333;
+			text{
+				font-size: 36rpx;
+			}
 		}
 		.pct-tab-mes2 {
-			font-size: 30rpx;
+			font-size: 24rpx;
 			color: #f20101;
+			text{
+				font-size: 36rpx;
+			}
 		}
 	}
 }
@@ -270,5 +292,16 @@ button {
 		font-size: 32rpx;
 		margin-left: 34rpx;
 	}
+}
+.shuxianBox{
+	position: relative;
+}
+.shuxian{
+	width: 2rpx;
+	height: 76rpx;
+	background: #D0D0D0;
+	position: absolute;
+	right: 0;
+	bottom: 0;
 }
 </style>

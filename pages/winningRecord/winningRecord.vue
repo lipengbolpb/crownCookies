@@ -4,7 +4,9 @@
 		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" left-icon="back" @click-left="back" title="我的中奖纪录"></uni-nav-bar>
 		<view class="wr-center flex-xn-ys" id="wr-center">
 			<view class="flex-xc-yn" id="wr-center-title"><image class="wrc-titleImg" :src="staticUrl + 'wodezhongjiangjilu.png'" mode="widthFix"></image></view>
-			<scroll-view :style="{ height: scrollViewHeight + 'px' }" scroll-y="true" class="wrc-listBox" @scrolltolower="lower">
+			
+			<!-- <scroll-view v-if="isHasData" :style="{ height: scrollViewHeight + 'px' }" scroll-y="true" class="wrc-listBox" @scrolltolower="lower"> -->
+			<scroll-view v-if="isHasData" :style="{ height: scrollViewHeight + 'px' }" scroll-y="true" class="wrc-listBox">
 				<view class="wrc-listBox-list flex-xsb-yn" v-for="item in objList" :key="item.id">
 					<view class="">
 						<view class="wrc-listBox-list-mes">{{ item.giftsName ? item.giftsName : '扫码中奖' }}</view>
@@ -12,7 +14,15 @@
 					</view>
 					<view class="wrc-listBox-list-price">+{{ item.earnMoney }}</view>
 				</view>
-			</scroll-view>
+			</scroll-view> 
+			
+			<block v-else>
+				<view class="wrc-nodata flex-xc-yc-dirY">
+					<image src="../../static/crownCookiesImg/wuzhongjiangjulu.png" mode="widthFix"></image>
+					<view class="">暂无中奖纪录，再接再厉哦～</view>
+				</view>
+			</block>
+			
 		</view>
 	</view>
 </template>
@@ -32,6 +42,14 @@ export default {
 			const userSystemInfo = uni.getStorageSync('userSystemInfo');
 			const safeAreaTop = userSystemInfo.safeArea.top;
 			return safeAreaTop;
+		},
+		isHasData(){ 
+			if(this.objList.length>0){
+				return true;
+			}else{
+				return false;
+			}
+			
 		}
 	},
 	data() {
@@ -42,7 +60,7 @@ export default {
 			moneyNext: true,
 			count: 10,
 			currentPage: 1,
-			scrollViewHeight: '' //滚动区域的高度
+			scrollViewHeight: '' ,//滚动区域的高度
 		};
 	},
 	async onLoad() {
@@ -54,7 +72,8 @@ export default {
 			.select('#wr-center-title')
 			.boundingClientRect()
 			.exec(function(res) {
-				const scrollViewHeight = parseFloat(res[0].height - res[1].height).toFixed(2);
+				// const scrollViewHeight = parseFloat(res[0].height - res[1].height).toFixed(2);
+				const scrollViewHeight = 480;
 				console.log(res);
 				console.log(scrollViewHeight);
 				that.scrollViewHeight = scrollViewHeight;
@@ -79,7 +98,6 @@ export default {
 			const that = this;
 			queryAllGiftsList(that.currentPage, that.count).then(res => {
 				that.objList = res.objList;
-
 				if (res && (!res.objList || res.objList.length < that.count)) {
 					that.moneyNext = false;
 				} else {
@@ -143,5 +161,17 @@ page {
 .wrc-titleImg {
 	width: 70%;
 	margin-bottom: 20rpx;
+}
+.wrc-nodata{
+	margin-top: 70%;
+	transform: translateY(-50%);
+	image{
+		width: 320rpx;
+	}
+	view{
+		font-size: 30rpx;
+		color: #656565;
+		margin-top: 40rpx;
+	}
 }
 </style>

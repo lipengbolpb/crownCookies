@@ -239,22 +239,24 @@ export default {
 		// 显示 中出红包动效
 		showGetCash() {
 			// 调用提现接口
-			giveSpackTx().then(businessCode => {
-				console.log('giveSpackTx');
-				console.log(businessCode);
-				if (businessCode == 0) {
-					// 获取红包成功后 动效开启
-					this.getCashSuccessAni();
-				} else {
-					const filterData = filterArr('businessCode', businessCode, this.giveSpackTxStatusArr)[0];
-					console.log('filterArr____________');
-					console.log(filterData);
-					uni.showModal({
-						title: filterData.title,
-						content: filterData.content
-					});
-				}
-			});
+			// 获取红包成功后 动效开启
+			this.getCashSuccessAni();
+// 			giveSpackTx().then(businessCode => {
+// 				console.log('giveSpackTx');
+// 				console.log(businessCode);
+// 				if (businessCode == 0) {
+// 					// 获取红包成功后 动效开启
+// 					this.getCashSuccessAni();
+// 				} else {
+// 					const filterData = filterArr('businessCode', businessCode, this.giveSpackTxStatusArr)[0];
+// 					console.log('filterArr____________');
+// 					console.log(filterData);
+// 					uni.showModal({
+// 						title: filterData.title,
+// 						content: filterData.content
+// 					});
+// 				}
+// 			});
 		},
 		// 获取红包成功后 动效开启
 		getCashSuccessAni() {
