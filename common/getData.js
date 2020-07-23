@@ -185,8 +185,12 @@ function queryAllGiftsList(currentPage, count) {
 		currentPage: currentPage,
 		count: count
 	};
+	uni.showLoading({
+		title: '加载中',
+	})
 	const promise = new Promise((reslove, reject) => {
 		requestPost('/gifts/queryAllGiftsList', params).then((jo) => {
+			setTimeout(function(){uni.hideLoading();},300)
 			if (jo.result.code == 0) {
 				if (jo.result.businessCode == 0) {
 					reslove(jo.reply)

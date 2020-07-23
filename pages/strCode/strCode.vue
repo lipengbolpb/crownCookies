@@ -74,7 +74,7 @@ export default {
 				},{
 					bizcode: '1', // 该积分码不存在
 					title: '序列码错误，请重新输入',
-					content: '仔细核对盖码哦~',
+					content: '请仔细核对~',
 				},
 				{
 					bizcode: '2', // 该积分码已经被使用过

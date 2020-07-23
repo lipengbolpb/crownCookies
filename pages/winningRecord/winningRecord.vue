@@ -1,3 +1,4 @@
+
 <template>
 	<!-- 中奖纪录 -->
 	<view class="winningRecord flex-xn-ys">
@@ -5,14 +6,17 @@
 		<view class="wr-center flex-xn-ys" id="wr-center">
 			<view class="flex-xc-yn" id="wr-center-title"><image class="wrc-titleImg" :src="staticUrl + 'wodezhongjiangjilu.png'" mode="widthFix"></image></view>
 			
-			<!-- <scroll-view v-if="isHasData" :style="{ height: scrollViewHeight + 'px' }" scroll-y="true" class="wrc-listBox" @scrolltolower="lower"> -->
-			<scroll-view v-if="isHasData" :style="{ height: scrollViewHeight + 'px' }" scroll-y="true" class="wrc-listBox">
+			<scroll-view v-if="isHasData" :style="{ height: scrollViewHeight + 'px' }" scroll-y="true" class="wrc-listBox" @scrolltolower="lower">
+			<!-- <scroll-view v-if="isHasData" :style="{ height: scrollViewHeight + 'px' }" scroll-y="true" class="wrc-listBox"> -->
 				<view class="wrc-listBox-list flex-xsb-yn" v-for="item in objList" :key="item.id">
 					<view class="">
 						<view class="wrc-listBox-list-mes">{{ item.giftsName ? item.giftsName : '扫码中奖' }}</view>
 						<view class="wrc-listBox-list-time">{{ item.earnTime }}</view>
 					</view>
 					<view class="wrc-listBox-list-price">+{{ item.earnMoney }}</view>
+				</view>
+				<view class="clickMore" @click="clickMore" v-show="moneyNext">
+					点击加载更多
 				</view>
 			</scroll-view> 
 			
@@ -82,17 +86,20 @@ export default {
 	methods: {
 		lower() {
 			//上拉加载
-			const that = this;
-			console.log(that.moneyNext);
-			if (that.moneyNext) {
-				that.currentPage++;
-				that.initData();
-			} else {
-				uni.showToast({
-					title: '没有更多了记录了',
-					icon: 'none'
-				});
-			}
+			// const that = this;
+			// console.log(that.moneyNext);
+			// if (that.moneyNext) {
+				this.currentPage++;
+			// 	that.initData();
+			// } else {
+			// 	uni.showToast({
+			// 		title: '没有更多了记录了',
+			// 		icon: 'none'
+			// 	});
+			// }
+			console.log(222);
+			console.log(this.moneyNext);
+			console.log(this.currentPage);
 		},
 		initData() {
 			const that = this;
@@ -112,6 +119,18 @@ export default {
 				}
 				
 			});
+		},
+		clickMore(){
+			const that = this;
+			if (that.moneyNext) {
+				that.currentPage++;
+				that.initData();
+			} else {
+				uni.showToast({
+					title: '没有更多了记录了',
+					icon: 'none'
+				});
+			}
 		},
 		// 返回
 		back() {
@@ -173,5 +192,9 @@ page {
 		color: #656565;
 		margin-top: 40rpx;
 	}
+}
+.clickMore{
+	text-align: center;
+	margin-top: 20rpx;
 }
 </style>

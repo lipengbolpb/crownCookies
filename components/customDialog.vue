@@ -11,7 +11,7 @@
 					<p class="cdc-center-p2">15个工作日内，</p>
 					<p class="cdc-center-p3">会有工作人员与您联系</p>
 				</view>
-				<view class="cdc-confirm" @click="closeCustomDialog">确 认</view>
+				<view class="cdc-confirm" @click="closeCustomDialog">确 定</view>
 			</view>
 		</view>
 
