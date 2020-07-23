@@ -14,7 +14,8 @@ function sweepQrcode(sendParams) {
 		if(uni.getStorageSync('userInfo')){
 			sendParams.nickname = uni.getStorageSync('userInfo').nickName;
 			sendParams.headimgurl = uni.getStorageSync('userInfo').avatarUrl;
-		}else{
+		}else{   
+			
 			sendParams.nickname = '';
 			sendParams.headimgurl = '';
 		} 
