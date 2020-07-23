@@ -1,8 +1,6 @@
 <template>
 	<view class="personalCenter flex-xn-ys">
-		
 		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" title="我的账户"></uni-nav-bar>
-		
 		<view class="flex-xc-yn"><image class="pc-TitleImg" :src="staticUrl + 'baifenbaiLogo.png'"></image></view>
 		<view class="pc-titleBox pct-common">
 			<!-- 头部 展示 头像和昵称 -->
@@ -17,13 +15,13 @@
 			<!-- 累计红包金额 获取丹麦旅游 -->
 			<view class="pct-tab flex-xsb-yc">
 				<view class="shuxianBox">
-					<image mode="widthFix" src="../../static/crownCookiesImg/hongbaoIcon.png"></image>
+					<image mode="widthFix" :src="staticUrl+'hongbaoIcon.png'"></image>
 					<p class="pct-tab-mes1">累计红包金额</p>
 					<p class="pct-tab-mes2">￥ <text>{{ allAccountMoney }}</text> 元</p>
 					<view class="shuxian"></view>
 				</view>
 				<view class="">
-					<image mode="widthFix" src="../../static/crownCookiesImg/danmaiIcon.png"></image>
+					<image mode="widthFix" :src="staticUrl+'danmaiIcon.png'"></image>
 					<p class="pct-tab-mes1">获取丹麦旅游</p>
 					<p class="pct-tab-mes2"><text>{{ totalPrizeNum }}</text> 次</p>
 				</view>
@@ -52,7 +50,7 @@ import { get, post, config } from '@/utils/api.js';
 import { getUserInfo } from '@/common/getWxUserInfor.js';
 import { queryUserHomePage } from '@/common/getData.js';
 import activityRule from '@/components/activityRule.vue';
-import { getUserDataFun } from '@/common/basicsFun.js';
+import { getUserDataFun,strSub } from '@/common/basicsFun.js';
 import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
 export default {
 	name: 'personalCenter',
@@ -79,7 +77,7 @@ export default {
 					id: 1,
 					isCanClick: true,
 					status: 1, // 1 跳转 路径 2 显示弹窗
-					name: '查看中奖纪录',
+					name: '查看中奖记录',
 					icon: '/static/crownCookiesImg/zhongjiangjiluIcon.png',
 					navUrl: '/pages/winningRecord/winningRecord'
 				},
@@ -112,6 +110,9 @@ export default {
 	async onLoad() {
 		// 获取用户信息 openid seesion_key
 		const backGetUserDataFun = await getUserDataFun();
+		console.log('033333333');
+		const strlen1 = strSub('哈哈哈哈哈哈哈哈哈哈哈哈哈哈',14,7,'...');
+		console.log(strlen1);
 	},
 
 	onShow() {
@@ -155,9 +156,9 @@ export default {
 			console.log(res.target);
 		}
 		return {
-			title: '青岛啤酒',
-			path: '/pages/home/home',
-			imageUrl: this.imgUrl + 'share.png'
+			title: '皇冠曲奇',
+			path: '/pages/personalCenter/personalCenter',
+			imageUrl: this.staticUrl+'fenxiangImg.png'
 		};
 	},
 

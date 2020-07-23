@@ -7,7 +7,7 @@
 				<image mode="widthFix" class="csc-cuowuerweima" :src="staticUrl + 'cuowuerweima.png'"></image>
 			</view>
 			<p class="csc-title">这个二维码已被扫过</p>
-			<p class="csc-p">{{ mesFont }}</p>
+			<p class="csc-p">{{ mesFont }}<br> <view class="csc-currentMoney">  {{ mesFontCurrentMoney }} </view></p> 
 			<view class="flex-xc-yn"><image mode="widthFix" class="csc-crownCookies" :src="staticUrl + 'crownCookiesImg.png'"></image></view>
 		</view>
 	</view>
@@ -45,16 +45,23 @@ export default {
 			// 本人重复扫码
 			console.log(uni.getStorageSync('sweepQrcodeData'));
 			const earnTime = uni.getStorageSync('sweepQrcodeData').reply.earnTime || '';
+			const currentMoney = uni.getStorageSync('sweepQrcodeData').reply.currentMoney || '';
 			console.log(earnTime);
+			console.log(currentMoney);
+			
 			this.mesFont = `您已于 ${ earnTime } 扫过这个二维码`;
+			this.mesFontCurrentMoney=`并获得 ${ currentMoney }元`;
+			
 		}else{
 			// 已被他人扫码
-			this.mesFont = '这个二维码已被扫过';
+			this.mesFont = '每个二维码仅限扫码一次';
+			this.mesFontCurrentMoney=` `;
 		}
 	},
 	data() {
 		return {
-			mesFont:'这个二维码已被扫过',
+			mesFont:'每个二维码仅限扫码一次',
+			mesFontCurrentMoney:'',
 			staticUrl: config.staticUrl
 		};
 	},
@@ -98,6 +105,14 @@ export default {
 	color: #666666;
 	line-height: 50rpx;
 	margin-bottom: 126rpx;
+	position: relative;
+}
+.csc-currentMoney{
+	width: 100%;
+	position: absolute;
+	left: 0;
+	bottom: -60rpx;
+	text-align: center;
 }
 .csc-crownCookies {
 	width: 348rpx;

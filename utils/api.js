@@ -24,7 +24,7 @@ if (isOnline) {
 		hxqrUrl: 'http://xt.vjifen.com/LN/',
 		wxUrl: 'https://xt.vjifen.com',
 		// requestUrl_ln: 'http://192.168.1.230:8090/vjifenInterface',
-		requestUrl_ln: 'http://218.107.155.103:38010/vjifenInterface',
+		requestUrl_ln: 'https://vtt.vjifen.com:447/vjifenInterface',
 		appid_ln: 'wx1ce2ca65ccc5aa5e',
 		payAppid_ln: 'wx459ee9aa61f38da3'
 	}

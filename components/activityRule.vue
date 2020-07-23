@@ -3,17 +3,27 @@
 	<view class="activityRule" v-if="activityRuleIsShow">
 		<view class="activityRule-mask" :animation='opacityAni' @click="closeActivityRule"></view>
 		<!-- 来源 活动主页 activity -->
-		<view :animation="actAni" :class="[isStartAnimation ? 'activityRule-initAni' : '','activityRule-center']" v-if="activityRuleSource==1">
-			<view class="arc-title flex-xc-yn"><text class="arc-title-text">活动规则</text></view>
-			<view class="arc-center">
-				<p :style="actStyle">在活动时间内，凡购买908g、888g、790g、750g、681g、1010g皇冠丹麦曲奇饼干特别礼盒及576g装皇冠丹麦曲奇饼干（音乐盒特别装）（下称“活动产品”）可通过微信扫描活动产品包装内，<text>邀请函上的抽奖二维码或关注微信公众号“ Danisa皇冠丹麦曲奇”</text>并在相应页面输入邀请函上的序列码，进入活动页面并参与活动，即有机会获得丹麦8日游或微信红包奖品。</p>
+		<view id="wr-center" :animation="actAni" :class="[isStartAnimation ? 'activityRule-initAni' : '','activityRule-center flex-xn-ys']" v-if="activityRuleSource==1">
+			<view class="arc-scrollView1">
+				<scroll-view scroll-y="true" class="scrollView">
+				<view class="arc-title flex-xc-yn"><text class="arc-title-text">活动规则</text></view>
+				<view class="arc-center">
+					<p :style="actStyle">在活动时间内，凡购买908g、888g、790g、750g、681g、1010g皇冠丹麦曲奇饼干特别礼盒及576g装皇冠丹麦曲奇饼干（音乐盒特别装）（下称“活动产品”）可通过微信扫描活动产品包装内，<text>邀请函上的抽奖二维码或关注微信公众号“ Danisa皇冠丹麦曲奇”</text>并在相应页面输入邀请函上的序列码，进入活动页面并参与活动，即有机会获得丹麦8日游或微信红包奖品。</p>
+					<p :style="actStyle">在活动时间内，凡购买908g、888g、790g、750g、681g、1010g皇冠丹麦曲奇饼干特别礼盒及576g装皇冠丹麦曲奇饼干（音乐盒特别装）（下称“活动产品”）可通过微信扫描活动产品包装内，<text>邀请函上的抽奖二维码或关注微信公众号“ Danisa皇冠丹麦曲奇”</text>并在相应页面输入邀请函上的序列码，进入活动页面并参与活动，即有机会获得丹麦8日游或微信红包奖品。</p>
+					<p :style="actStyle">在活动时间内，凡购买908g、888g、790g、750g、681g、1010g皇冠丹麦曲奇饼干特别礼盒及576g装皇冠丹麦曲奇饼干（音乐盒特别装）（下称“活动产品”）可通过微信扫描活动产品包装内，<text>邀请函上的抽奖二维码或关注微信公众号“ Danisa皇冠丹麦曲奇”</text>并在相应页面输入邀请函上的序列码，进入活动页面并参与活动，即有机会获得丹麦8日游或微信红包奖品。</p>
+					<p :style="actStyle">在活动时间内，凡购买908g、888g、790g、750g、681g、1010g皇冠丹麦曲奇饼干特别礼盒及576g装皇冠丹麦曲奇饼干（音乐盒特别装）（下称“活动产品”）可通过微信扫描活动产品包装内，<text>邀请函上的抽奖二维码或关注微信公众号“ Danisa皇冠丹麦曲奇”</text>并在相应页面输入邀请函上的序列码，进入活动页面并参与活动，即有机会获得丹麦8日游或微信红包奖品。</p>
+					<p :style="actStyle">在活动时间内，凡购买908g、888g、790g、750g、681g、1010g皇冠丹麦曲奇饼干特别礼盒及576g装皇冠丹麦曲奇饼干（音乐盒特别装）（下称“活动产品”）可通过微信扫描活动产品包装内，<text>邀请函上的抽奖二维码或关注微信公众号“ Danisa皇冠丹麦曲奇”</text>并在相应页面输入邀请函上的序列码，进入活动页面并参与活动，即有机会获得丹麦8日游或微信红包奖品。</p>
+					<p :style="actStyle">在活动时间内，凡购买908g、888g、790g、750g、681g、1010g皇冠丹麦曲奇饼干特别礼盒及576g装皇冠丹麦曲奇饼干（音乐盒特别装）（下称“活动产品”）可通过微信扫描活动产品包装内，<text>邀请函上的抽奖二维码或关注微信公众号“ Danisa皇冠丹麦曲奇”</text>并在相应页面输入邀请函上的序列码，进入活动页面并参与活动，即有机会获得丹麦8日游或微信红包奖品。</p>
+					<p :style="actStyle">在活动时间内，凡购买908g、888g、790g、750g、681g、1010g皇冠丹麦曲奇饼干特别礼盒及576g装皇冠丹麦曲奇饼干（音乐盒特别装）（下称“活动产品”）可通过微信扫描活动产品包装内，<text>邀请函上的抽奖二维码或关注微信公众号“ Danisa皇冠丹麦曲奇”</text>并在相应页面输入邀请函上的序列码，进入活动页面并参与活动，即有机会获得丹麦8日游或微信红包奖品。</p>
+				</view>
+				</scroll-view>
 			</view>
-			<view class="arc-footer" @click="closeActivityRule">
+			<view id="wr-center-title" class="arc-footer" @click="consentRule">
 				 <image :src="staticUrl+'haveRead.png'"></image>
 			</view>
 		</view>
 		<!-- 来源 个人中心页面 personalCenter-->
-		<view :animation="actAni" :class="[isStartAnimation ? 'activityRule-initAni' : '','activityRule-center']" v-if="activityRuleSource==2">
+		<view :animation="actAni" :class="[isStartAnimation ? 'activityRule-initAni' : '','activityRule-center1']" v-if="activityRuleSource==2">
 			<image @click="closeActivityRule" class="arc-close-image" :src="staticUrl+'closeTop.png'" mode="widthFix"></image>
 			<scroll-view scroll-y="true" class="arc-scrollView">
 				<view class="arc-title flex-xc-yn"><text class="arc-title-text">活动规则</text></view>
@@ -75,8 +85,28 @@
 				that.opacityAnimation(0);
 				setTimeout(function(){
 				   that.$emit('activityRuleColse',false);
-				},900)
+				},900);
+				//是否同意 活动规则 如果 同意一下 存入 缓存 不在弹出
+				uni.setStorage({
+					key: 'isAgreeRule',
+					data: false
+				});
 			},
+			consentRule(){
+				const that = this;
+				that.actAni = ''; // 动画所需配置
+				that.actAniClose = ''; // 动画所需配置
+				that.startAnimation('130%');
+				that.opacityAnimation(0);
+				setTimeout(function(){
+				   that.$emit('activityRuleColse',false);
+				},900);
+				//是否同意 活动规则 如果 同意一下 存入 缓存 不在弹出
+				uni.setStorage({
+					key: 'isAgreeRule',
+					data: true
+				});
+			},  
 			// 开始动画
 			startAnimation(position=0) {
 				const that = this;
@@ -142,6 +172,14 @@
 		 z-index: 60;
 		 background: #FFF;
 		 padding-top:40rpx ;
+	 }.activityRule-center1{
+		 width: 100%;
+		 height: 50%;
+		 position: fixed;
+		 bottom: 0;
+		 z-index: 60;
+		 background: #FFF;
+		 padding-top:40rpx ;
 		 padding-bottom: 40rpx;
 	 }
 	 .arc-title{
@@ -161,6 +199,7 @@
 	 .arc-center{
 		 padding-left: 32rpx;
 		 padding-right: 32rpx;
+		 position: relative;
 		 p {
 			font-size: 28rpx;
 			color: #333;
@@ -176,6 +215,9 @@
 		 height: 98rpx;
 		 margin-top: 24rpx;
 		 line-height: 98rpx;
+		 position: absolute;
+		 left: 0;
+		 bottom: 0;
 		 image{
 			 display: inline-block;
 			 width: 100%;
@@ -191,6 +233,12 @@
 		 top: -130rpx; 
 	 }
 	 .arc-scrollView{
+		 height: 100%;
+	 }
+	 .arc-scrollView1{
+		 height: 82%;
+	 }
+	 .scrollView{
 		 height: 100%;
 	 }
 </style>

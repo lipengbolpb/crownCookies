@@ -45,8 +45,9 @@
 
 		<!-- 关注 -->
 		<view v-if="customDialogType == 5">
-			<view style="opacity: 0;" :animation="opacityAniCen" class="customDialog-center">
-				<view class="cdc-titleImg"><image :src="staticUrl + 'gaunzhu.png'" mode="widthFix"></image></view>
+			<view style="opacity: 0;" :animation="opacityAniCen" class="customDialog-center-nobg">
+				<!-- <view class="cdc-titleImg"><image :src="staticUrl + 'gaunzhu.png'" mode="widthFix"></image></view> -->
+				<view class="cdc-titleImg"><image src="../static/crownCookiesImg/gaunzhu.png" mode="widthFix"></image></view>
 				<view class="cdc-close" @click="closeCustomDialog"><image :src="staticUrl + 'closeBottom.png'" mode="widthFix"></image></view>
 			</view>
 		</view>
@@ -145,6 +146,15 @@ export default {
 	z-index: 60;
 	width: 80%;
 	background: #fff;
+	border-radius: 30rpx;
+	transform: translate(-50%, -50%);
+}
+.customDialog-center-nobg{
+		position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 60;
+	width: 80%;
 	border-radius: 30rpx;
 	transform: translate(-50%, -50%);
 }

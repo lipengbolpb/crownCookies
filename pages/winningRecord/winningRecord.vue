@@ -1,7 +1,7 @@
 <template>
 	<!-- 中奖纪录 -->
 	<view class="winningRecord flex-xn-ys">
-		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" left-icon="back" @click-left="back" title="我的中奖纪录"></uni-nav-bar>
+		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" left-icon="back" @click-left="back" title="我的中奖记录"></uni-nav-bar>
 		<view class="wr-center flex-xn-ys" id="wr-center">
 			<view class="flex-xc-yn" id="wr-center-title"><image class="wrc-titleImg" :src="staticUrl + 'wodezhongjiangjilu.png'" mode="widthFix"></image></view>
 			
@@ -19,7 +19,7 @@
 			<block v-else>
 				<view class="wrc-nodata flex-xc-yc-dirY">
 					<image src="../../static/crownCookiesImg/wuzhongjiangjulu.png" mode="widthFix"></image>
-					<view class="">暂无中奖纪录，再接再厉哦～</view>
+					<view class="">暂无中奖记录，再接再厉哦～</view>
 				</view>
 			</block>
 			
@@ -146,7 +146,7 @@ page {
 	border-bottom: 2rpx solid #dedede;
 }
 .wrc-listBox-list-mes {
-	margin-bottom: 10rpx;
+	margin-bottom: 16rpx;
 	font-size: 32rpx;
 	color: #333;
 }

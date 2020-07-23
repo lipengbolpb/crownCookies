@@ -1,7 +1,8 @@
 // 所有接口请求存放
 import {
 	requestGet,
-	requestPost
+	requestPost,
+	config
 } from '@/utils/api.js';
 
 // 扫码接口
@@ -36,9 +37,9 @@ function sweepQrcode(sendParams) {
 						showCancel: false,
 						complete: res => {
 							if (res.confirm) {
-								// 								uni.switchTab({
-								// 									url: '../index/index'
-								// 								})
+								uni.switchTab({
+									url: '../index/index'
+								})
 							}
 						}
 					})
@@ -59,7 +60,7 @@ function sweepQrcode(sendParams) {
 			}
 		});
 	})
-}
+} 
 
 // 获取验证码
 function getCaptcha(phonenum) {

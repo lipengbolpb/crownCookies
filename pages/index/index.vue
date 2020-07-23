@@ -1,13 +1,12 @@
 <template>
 	<view class="index">
-		<image mode="widthFix" class="crownCookies-logo" src="../../static/crownCookiesImg/crownCookiesImgLogo.png"></image>
-		<view class="index-center" :style="{ 'margin-top': isOpenAdaptation ? '254rpx' : '156rpx' }">
-			<image mode="widthFix" src="../../static/crownCookiesImg/chuanquqi.png"></image>
-			<image mode="widthFix" src="../../static/crownCookiesImg/baifenbai.png"></image>
+		<image mode="widthFix" class="crownCookies-logo" :src="staticUrl+'crownCookiesImgLogo.png'"></image>
+		<view class="index-center" :style="{ 'margin-top': isOpenAdaptation ? '290rpx' : '196rpx' }">
+			<image mode="widthFix" :src="staticUrl+'chuanquqi.png'"></image>
+			<image mode="widthFix" :src="staticUrl+'baifenbai.png'"></image>
 		</view>
 		<view class="idnex-imgMes">图片仅供参考，产品以实物为准</view>
 		<image class="focusGguidance" :src="staticUrl + 'focusGguidance.png'" @click="focusGguidanceShow"></image>
-
 		<custom-dialog
 			ref="customDialogChild"
 			@customDialogColse="updateCustomDialog"
@@ -16,7 +15,6 @@
 			:customDialogIsShow="customDialogIsShow"
 			:customDialogType="customDialogType"
 		></custom-dialog>
-		
 	</view>
 </template>
 
@@ -35,7 +33,7 @@ export default {
 		return {
 			staticUrl: config.staticUrl,
 
-			customDialogType: '10', // 弹窗 类型 5 关注弹窗
+			customDialogType: '', // 弹窗 类型 5 关注弹窗
 			customDialogIsShow: false, //  是否展示弹窗
 			customDialogFontTitle: '', //  是否展示弹窗
 			customDialogFontCenter: '', //  是否展示弹窗
@@ -99,6 +97,10 @@ export default {
 	  // businessCode -1 : 系统升级中
 	  // businessCode isShowGguidance : 展示 关注公众号 引导 图片
 		const that = this;  
+		
+		// 活动规则 启动动画
+		that.$refs.customDialogChild.isStartAnimationFun(true);
+		
 		uni.getStorage({
 			key:'businessCode',
 			success(businessCode) {
@@ -116,7 +118,7 @@ export default {
 						that.customDialogFontTitle = filterData.customDialogFontTitle;//  是否展示弹窗
 						that.customDialogFontCenter = filterData.customDialogFontCenter; //  是否展示弹窗						
 						
-						// 活动规则 启动动画
+						// 弹窗 启动动画
 						that.$refs.customDialogChild.isStartAnimationFun(true);
 					}
 				},500);
@@ -149,9 +151,9 @@ export default {
 			console.log(res.target);
 		}
 		return {
-			title: '青岛啤酒',
-			path: '/pages/home/home',
-			imageUrl: this.imgUrl + 'share.png'
+			title: '皇冠曲奇',
+			path: '/pages/index/index',
+			imageUrl: this.staticUrl+'fenxiangImg.png'
 		};
 	},
 
@@ -181,7 +183,8 @@ export default {
 	width: 100%;
 	height: 100%;
 	background: url($crownCookiesImg+'crownCookiesImgBg.jpg') no-repeat center;
-	background-size: cover;
+	// background-size: cover;
+	background-size: 100% 100%;
 }
 .crownCookies-logo {
 	width: 180rpx;

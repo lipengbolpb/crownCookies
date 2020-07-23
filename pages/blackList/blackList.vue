@@ -6,13 +6,11 @@
 			<view class="flex-xc-yn"><image mode="widthFix" class="blc-logo" :src="staticUrl + 'crownCookiesImgLogo.png'"></image></view>
 			<p class="blc-title blc-title-ta-center">为确保您的账号安全，请填写验证信息</p>
 			<view class="blc-submitBox submitBox">
-				<input v-model="phonenum" class="submitBox-input" type="text" value="" placeholder="输入手机号" />
-
+				<input v-model="phonenum" class="submitBox-input" type="text" value="" placeholder="输入手机号" maxlength="11"/>
 				<view class="flex-xsb-yc submitBox-checkCode">
-					<input v-model="captcha" class="submitBox-input yamInput" type="text" value="" placeholder="输入验证码" />
+					<input v-model="captcha" class="submitBox-input yamInput" type="text" value="" placeholder="输入验证码" maxlength="4"/>
 					<button class="yamButton" @click="getyzm">{{ sec == 0 ? '获取验证码' : sec + '秒后再次获取' }}</button>
 				</view>
-
 				<view class="submitBox-submit" @click="submitForm">提交信息</view>
 			</view>
 			<view class="blc-mobile" @click='callGetPhoneFun'>客服电话：{{ callGetPhone }}</view>
@@ -23,7 +21,7 @@
 			<p class="blc-title">您的账号存在可疑风险，为确保您的账号安全，</p>
 			<p class="blc-p">
 				<text class="blc-text">1、关注【Danisa皇冠丹麦曲奇公众号】，</text>
-				获得更 多活动信息，请截图保存该图片，并在手机相册中 进行识别二维码。
+				获得更多活动信息，请截图保存该图片，并在手机相册中进行识别二维码。
 			</p>
 			<p class="blc-p" @click='callGetPhoneFun'>2、客服电话：{{ callGetPhone }}</p>
 			<view class="flex-xc-yn"><image mode="widthFix" class="blc-officialAccount" :src="staticUrl + 'officialAccountBack.png'"></image></view>
@@ -144,20 +142,19 @@ export default {
 			} else {
 				//调提交接口
 				const userData = uni.getStorageSync('userData');
-				console.log('调提交接口');
-				console.log(userData);
 				const openid = userData.uinfo.openid;
 				updateUserInfoMobile(openid, this.phonenum, this.captcha)
 					.then(res => {
-						console.log('updateUserInfoMobile')
-						console.log(res)
-						console.log(res.result.businessCode)
 						if (res.result.businessCode == 0) {
+							uni.setStorage({
+								key:"sweepstr",
+								data:'res.result'
+							})
+							const sweepstr = uni.getStorageSync("sweepstr");
 							uni.redirectTo({
-								url: '../activityEntrance/activityEntrance?q=' + getApp().globalData.qrcode
+								url: '../activityEntrance/activityEntrance?sweepstr=' + sweepstr
 							});
 						} else {
-							console.log(2222222222)
 							uni.showModal({
 								title: '提示',
 								content: res.result.msg

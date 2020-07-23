@@ -12,10 +12,10 @@
 							<text class="gcc-Price-company">元</text>
 						</view>
 					</view>
-				</view>
+				</view> 
 				<image mode="widthFix" class="gcc-center-topImg" :src="staticUrl + 'hongbao03.png'"></image>
 			</view>
-			<image mode="widthFix" :animation='hongbaoMesAni' class="gcc-hongbaoMes" :src="staticUrl + 'hongbaoMes.png'"></image>
+			<image  v-if="getCashIsShowMes"  mode="widthFix" :animation='hongbaoMesAni' class="gcc-hongbaoMes" :src="staticUrl + 'hongbaoMes.png'"></image>
 		</view>
 	</view>
 </template>
@@ -36,6 +36,11 @@ export default {
 		},
 		// 是否展示
 		getCashIsShow: {
+			type: Boolean,
+			default: false
+		},
+		// 是否展示 红包已存入微信钱包中
+		getCashIsShowMes: {
 			type: Boolean,
 			default: false
 		},

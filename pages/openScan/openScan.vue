@@ -19,6 +19,10 @@
 						key:"codeData",
 						data:res
 					})
+					uni.setStorage({
+						key:"sweepstr",
+						data:res.result
+					})
 					uni.redirectTo({
 					  url: '../activityEntrance/activityEntrance?sweepstr=' + encodeURIComponent(res.result),
 					  complete() {

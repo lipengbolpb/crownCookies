@@ -1,4 +1,8 @@
-import { checkSession, getCode, getOpenid } from '@/common/getWxUserInfor.js';
+import {
+	checkSession,
+	getCode,
+	getOpenid
+} from '@/common/getWxUserInfor.js';
 
 // 验证身份证号码
 const idcardValidate = (idds) => {
@@ -28,7 +32,6 @@ function getCityInfo() {
 				var url = 'http://api.map.baidu.com/geocoder?location=纬度,经度&output=输出格式类型&key=用户密钥'
 				var latitude = data.latitude,
 					longitude = data.longitude;
-
 				wx.request({
 					url: 'https://api.map.baidu.com/geocoder',
 					method: 'GET',
@@ -58,20 +61,20 @@ function getCityInfo() {
  */
 function judgeBusinessCode(data) {
 	return new Promise((resolve, reject) => {
-		console.log('judgeBusinessCode'); 
-		console.log(data); 
+		console.log('judgeBusinessCode');
+		console.log(data);
 		const result = data.result;
 		const reply = data.reply;
 		const businessCode = data.result.businessCode;
 		// const businessCode = 0;
-		if (businessCode == 0 ) { // 扫码成功 红包
+		if (businessCode == 0) { // 扫码成功 红包
 			resolve(businessCode);
 		} else if (businessCode == 11 || businessCode == 2 || businessCode == 15) { // 11：本人重复扫码  2||15：这个二维码已被扫
 			const redirectToUrl = `../codeScanned/codeScanned?bizcode=${businessCode}`
 			resolve(redirectToUrl);
 		} else if (businessCode == 7 || businessCode == 21) { //大奖 
-		    const redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}`
-		    resolve(redirectToUrl);
+			const redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}`
+			resolve(redirectToUrl);
 		} else if (businessCode == 12 || businessCode == 13) { //可疑 黑名单
 			// 12 展示出入手机号 13 静态页面 提示
 			const redirectToUrl = `../blackList/blackList?bizcode=${businessCode}`
@@ -88,36 +91,36 @@ function judgeBusinessCode(data) {
 			// businessCode -1 : 系统升级中
 			const redirectToUrl = `../index/index?bizcode=${businessCode}`;
 			uni.setStorage({
-				key:'businessCode',
-				data:businessCode
+				key: 'businessCode',
+				data: businessCode
 			})
 			reject(redirectToUrl);
 		}
 	})
-} 
+}
 
 /**
  * 输入串码  businessCode  区分跳转不同的 页面
  */
 function judgeBusinessStrCode(data) {
 	return new Promise((resolve, reject) => {
-		console.log('judgeBusinessCode'); 
-		console.log(data); 
+		console.log('judgeBusinessCode');
+		console.log(data);
 		const result = data.result;
 		const reply = data.reply;
 		const businessCode = data.result.businessCode;
 		// const businessCode = 0;
 		console.log('businessCodebusinessCodebusinessCodebusinessCode');
 		console.log(businessCode);
-		if (businessCode == 0 ) { // 扫码成功 红包
+		if (businessCode == 0) { // 扫码成功 红包
 			const redirectToUrl = `../activityEntrance/activityEntrance?bizcode=${businessCode}&codeType=2`
 			resolve(redirectToUrl);
 		} else if (businessCode == 11) { // 重复扫 码
 			const redirectToUrl = `../codeScanned/codeScanned?bizcode=${businessCode}`
 			resolve(redirectToUrl);
 		} else if (businessCode == 7 || businessCode == 21) { //大奖 
-		    const redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}`
-		    resolve(redirectToUrl);
+			const redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}`
+			resolve(redirectToUrl);
 		} else if (businessCode == 12 || businessCode == 13) { //可疑 黑名单
 			// 12 展示出入手机号 13 静态页面 提示
 			const redirectToUrl = `../blackList/blackList?bizcode=${businessCode}`
@@ -133,36 +136,60 @@ function judgeBusinessStrCode(data) {
 			// businessCode 23 : 扫码次数已达上限
 			// businessCode -1 : 系统升级中
 			uni.setStorage({
-				key:'businessCode',
-				data:businessCode
+				key: 'businessCode',
+				data: businessCode
 			})
-			
-			if(businessCode==2){
+
+			if (businessCode == 2) {
 				uni.showModal({
 					title: '这个串码已被扫',
 					content: `扫码时间: ${ reply.earnTime } 再扫一瓶试试看~~`,
 				})
-			}else if(businessCode==4){
+			} else if (businessCode == 4) {
 				uni.showModal({
 					title: '活动未开始',
 					content: "亲再等等哦",
 				})
-			}else{
+			} else {
 				reject(businessCode);
 			}
 		}
 	})
-} 
+}
 
 /**
  * 筛选数组对象
  * 单个条件筛选：
  */
-function filterArr (keyName,val,arr){
+function filterArr(keyName, val, arr) {
 	return arr.filter(item => item[keyName] === val);
 }
 
-
+function strlen (str){
+	var len = 0;
+	for (var i = 0; i < str.length; i++) {
+		var c = str.charCodeAt(i);
+		//单字节加1 
+		if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+			len++;
+		} else {
+			len += 2;
+		}
+	}
+	return len;
+}
+function strSub (str,charCodeAtNum,showLength,replaceCharacter){
+	const curLen = strlen(str);
+	console.log("strSub");
+	console.log(curLen);
+	let returnStr = '';
+	if(curLen>charCodeAtNum){
+		returnStr = str.substring(0,showLength) + replaceCharacter;
+	}else{
+		returnStr = str;
+	}
+	return returnStr;
+}
 // 验证缓存中 是否 存在用户信息（openid、sessiong_key）
 // *
 //  * 获从缓存中  获取 用户信息（openid，session_key） 信息
@@ -207,7 +234,7 @@ async function userCodeExchangeOpenid() {
 	if (backOpenidData.uinfo) {
 		console.log('checkSessionStatus2---');
 		backData = backOpenidData.uinfo;
-	}else{
+	} else {
 		backData = '';
 	}
 	return backData;
@@ -219,4 +246,6 @@ export {
 	getUserDataFun,
 	judgeBusinessStrCode,
 	idcardValidate,
+	strlen,
+	strSub
 }

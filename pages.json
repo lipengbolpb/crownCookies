@@ -7,6 +7,13 @@
 			}
 		},
 		{
+			"path": "pages/submitUserInformation/submitUserInformation", // 领取大奖
+			"style": {
+				"navigationBarTitleText": "填写信息",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/activityEntrance/activityEntrance", //活动页面
 			"style": {
 				"navigationStyle": "custom"
@@ -19,21 +26,21 @@
 				"navigationStyle": "custom"
 			}
 		},
-		{  
+		{
 			"path": "pages/strCode/strCode", // 输入串码 
 			"style": {
 				"navigationBarTitleText": "序列码抽奖",
 				"navigationStyle": "custom"
 			}
 		},
-		{  
+		{
 			"path": "pages/getOpenid/getOpenid", // 输入串码 
 			"style": {
 				"navigationBarTitleText": " ",
 				"navigationStyle": "custom"
 			}
 		},
-		{  
+		{
 			"path": "pages/codeScanned/codeScanned", // 二维码已被扫
 			"style": {
 				"navigationStyle": "custom"
@@ -46,13 +53,6 @@
 			}
 		},
 		{
-			"path": "pages/submitUserInformation/submitUserInformation", // 领取大奖
-			"style": {
-				"navigationBarTitleText": "填写信息",
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path": "pages/getPrize/getPrize", //活动页面
 			"style": {
 				"navigationStyle": "custom"
@@ -61,7 +61,7 @@
 		{
 			"path": "pages/winningRecord/winningRecord", // 中奖纪录
 			"style": {
-				"navigationBarTitleText": "中奖纪录",
+				"navigationBarTitleText": "中奖记录",
 				"navigationStyle": "custom"
 			}
 		},
@@ -75,10 +75,10 @@
 		{
 			"path": "pages/openScan/openScan",
 			"style": {
-				"navigationBarTitleText": "青岛啤酒辽宁"
+				"navigationBarTitleText": "皇冠曲奇"
 			}
 		}
-		
+
 	],
 	"tabBar": {
 		"list": [{
@@ -90,10 +90,10 @@
 			{
 				"pagePath": "pages/openScan/openScan",
 				"text": "扫一扫",
-				"iconPath": "static/crownCookiesImg/scanTab.png",
-				"selectedIconPath": "static/crownCookiesImg/scanTab.png"
+				"iconPath": "static/crownCookiesImg/scanTabOn.png",
+				"selectedIconPath": "static/crownCookiesImg/scanTabOff.png"
 			},
-			{
+			{ 
 				"pagePath": "pages/personalCenter/personalCenter",
 				"text": "我的账户",
 				"iconPath": "static/crownCookiesImg/personalCenterTabOff.png",
@@ -103,9 +103,9 @@
 		"backgroundColor": "#ffffff",
 		"color": "#656565",
 		"selectedColor": "#FF0600",
-		"border":"none",
+		"border": "none",
 		"borderStyle": "black",
-		"paddingTop":"16rpx"
+		"paddingTop": "16rpx"
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

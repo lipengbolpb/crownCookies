@@ -1,6 +1,6 @@
 <template>
 	<view class="strCode flex-xn-ys">
-		<uni-nav-bar :style="{ 'padding-top': safeAreaTop+'px' }" left-icon="back" @click-left="back" title="输入序列码抽奖"></uni-nav-bar>		
+		<uni-nav-bar :style="{ 'padding-top': safeAreaTop+'px' }" left-icon="back" @click-left="back" title="序列码抽奖"></uni-nav-bar>		
 		<view class="strCode-center">
 			<view class="scc-titleImg">
 				<image src="../../static/crownCookiesImg/shuruToplogo.png"></image>
@@ -315,7 +315,7 @@ export default {
 				if (!this.reg1.test(serialcode.trim())) {
 					uni.showModal({
 						title: '提 示',
-						content: '请填写正确的瓶盖串码哦！~',
+						content: '请输入正确的序列码哦！~',
 					})
 				} else if (!this.reg2.test(phone.trim())) {
 					uni.showModal({
@@ -334,7 +334,7 @@ export default {
 				if (!this.reg1.test(serialcode.trim())) {
 					uni.showModal({
 						title: '提 示',
-						content: '请填写正确的瓶盖串码哦！~',
+						content: '请输入正确的序列码哦！~',
 					})
 				}else{
 					this.getSerialCode(openid,serialcode,'','',longitude, latitude);

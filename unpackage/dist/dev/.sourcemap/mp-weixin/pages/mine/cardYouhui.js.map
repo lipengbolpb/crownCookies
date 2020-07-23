@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///D:/v工作/git/xcx/crownCookies/main.js"],"names":["createPage","Page"],"mappings":";;;;;;;;;;kDAAA;AACA;AACA,qN;AACAA,UAAU,CAACC,mBAAD,CAAV,C","file":"pages/mine/cardYouhui.js","sourcesContent":["import 'uni-pages';\nimport Vue from 'vue'\nimport Page from './pages/mine/cardYouhui.vue'\ncreatePage(Page)"],"sourceRoot":""}

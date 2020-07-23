@@ -33,7 +33,13 @@
 		></activity-rule>
 
 		<!-- 获取红包动效页面 -->
-		<get-cash ref="getCashChild" :getCashIsShow="getCashIsShow" :isStartAnimation="getCashIsStartAnimation" :currentMoney="currentMoney"></get-cash>
+		<get-cash 
+			ref="getCashChild" 
+			:getCashIsShow="getCashIsShow" 
+			:getCashIsShowMes="getCashIsShowMes" 
+			:isStartAnimation="getCashIsStartAnimation" 
+			:currentMoney="currentMoney"
+		></get-cash>
 
 		<!-- 引导开启 位置授权 -->
 		<wx-open-setting
@@ -70,6 +76,7 @@ export default {
 			activityRuleSource: '1', // 活动规则 页面来源
 			activityRuleIsShow: false, // 活动规则  是否展示
 			getCashIsShow: false, // 中出红包 是否显示
+			getCashIsShowMes: false, // 中出红包 是否显示 红包已存入微信红包中 
 			getCashIsStartAnimation: false, //中出红包  是否 开启动画
 			currentMoney: '0.00', //中出红包 中出金额
 			isShowGguidance: false, //是否展示 引导关注 公众号 logo
@@ -85,7 +92,7 @@ export default {
 			isShowCustomLocation: false, // 是否展示 自定义 定位引导
 			wxOpenSettingIsShow: false, //是否展示 位置授权
 			wxOpenSettingIsStartAnimation: false, // 位置授权 是否展示动画
-			sweepstr: 'JYJ9WM6PX9FU',
+			sweepstr: 'JYJ2W665UENK',
 			cusFooterBarIsShow: false, //是否展示 页面tab （显示条件：出现 获得红包动效 ）
 			giveSpackTxStatusArr: [
 				{
@@ -157,9 +164,35 @@ export default {
 	},
 	async onLoad(options) {
 		console.log('options');
+		const sweepstrUrl = decodeURIComponent(options.sweepstr);
 		console.log(options);
-
-		this.sweepstr = options.sweepstr;
+		const that = this;		
+		if (sweepstrUrl.indexOf('xt.vjifen.com') != -1) {  //测试二维码
+			if(sweepstrUrl.indexOf('/LN/') != -1){ //测试的微信直接打开小程序
+				that.sweepstr = sweepstrUrl.split('LN/')[1];
+			} else {
+				that.sweepstr = sweepstrUrl.split('v=')[1];
+			}
+		} else if (sweepstrUrl.indexOf('VJ1.TV/LN/') != -1) {
+			that.sweepstr = sweepstrUrl.split('LN/')[1];
+		} else if (sweepstrUrl.indexOf('vj1.tv/LN/') != -1) {
+			that.sweepstr = sweepstrUrl.split('LN/')[1];
+		} else {
+			that.sweepstr = '';
+			return uni.showModal({
+				title: '温馨提示',
+				content: '请扫描正确的活动二维码~',
+				showCancel: false,
+				success(res) {
+					if (res.confirm) {
+						uni.reLaunch({
+							url: '../home/home',
+						})
+					}
+				}
+			})
+		}
+		
 		// 串码类型 扫码串码1 输入串码2
 		this.codeType = options.codeType || '1';
 		/**
@@ -167,7 +200,6 @@ export default {
 		 * 存在并且为true   表示已同意活动规则直接检查缓存中用户位置信息
 		 * 不存在        显示 活动规则 （关闭活动规则或者点击同意活动规则检查缓存中用户位置信息）
 		 */
-		const that = this;
 
 		uni.getStorage({
 			key: 'isAgreeRule',
@@ -194,8 +226,16 @@ export default {
 						// 走扫码的逻辑 检测位置微信 调用接口
 						that.checkUserLocation();
 					}
-				}
-			},
+				}else{
+					// 继续弹出 活动规则
+					setTimeout(() => {
+						that.activityRuleSource = '1';
+						that.activityRuleIsShow = true;
+						// 活动规则 启动动画
+						that.$refs.activityRuleChild.isStartAnimationFun(true);
+					}, 2000)
+				}  
+			},   
 			fail(err) {
 				setTimeout(() => {
 					that.activityRuleSource = '1';
@@ -240,23 +280,29 @@ export default {
 		showGetCash() {
 			// 调用提现接口
 			// 获取红包成功后 动效开启
-			this.getCashSuccessAni();
-// 			giveSpackTx().then(businessCode => {
-// 				console.log('giveSpackTx');
-// 				console.log(businessCode);
-// 				if (businessCode == 0) {
-// 					// 获取红包成功后 动效开启
-// 					this.getCashSuccessAni();
-// 				} else {
-// 					const filterData = filterArr('businessCode', businessCode, this.giveSpackTxStatusArr)[0];
-// 					console.log('filterArr____________');
-// 					console.log(filterData);
-// 					uni.showModal({
-// 						title: filterData.title,
-// 						content: filterData.content
-// 					});
-// 				}
-// 			});
+			// this.getCashSuccessAni();
+			const that = this;
+			giveSpackTx().then(businessCode => {
+				console.log('giveSpackTx');
+				console.log(businessCode);
+				// 获取红包成功后 动效开启
+				that.getCashSuccessAni();
+				if (businessCode == 0) {
+					// 显示 红包收入 图片
+					that.getCashIsShowMes = true;
+				} else {
+					// 提现失败 提示
+					// 隐藏 红包收入 图片
+					that.getCashIsShowMes = false;
+					const filterData = filterArr('businessCode', businessCode, this.giveSpackTxStatusArr)[0];
+					console.log('filterArr____________');
+					console.log(filterData);
+					uni.showModal({
+						title: filterData.title,
+						content: filterData.content
+					});
+				}
+			});
 		},
 		// 获取红包成功后 动效开启
 		getCashSuccessAni() {
@@ -290,7 +336,11 @@ export default {
 				success(res) {
 					const userLocation = res.data;
 					// 调用接口
-					that.getSweepQrcode(userLocation.longitude, userLocation.latitude, that.sweepstr);
+					if(userLocation.longitude){
+						that.getSweepQrcode(userLocation.longitude, userLocation.latitude, that.sweepstr);
+					}else{
+						that.getSweepQrcode('','', that.sweepstr);
+					}
 				},
 				fail(err) {
 					if (LocationStatus == 0) {
@@ -301,7 +351,12 @@ export default {
 						getLocation().then((...res) => {
 							const [status, locationData] = Array.from(res[0]);
 							// 调用接口
-							that.getSweepQrcode(locationData.longitude, locationData.latitude, that.sweepstr);
+							if(status == 0){ 
+								that.getSweepQrcode(locationData.longitude, locationData.latitude, that.sweepstr);
+							}else{
+								that.getSweepQrcode('','', that.sweepstr);
+							}
+							
 						});
 					}
 				}
@@ -421,18 +476,11 @@ export default {
 		updateActivityRuleColse(data) {
 			const that = this;
 			that.activityRuleIsShow = false;
-			//是否同意 活动规则 如果 同意一下 存入 缓存 不在弹出
-			uni.setStorage({
-				key: 'isAgreeRule',
-				data: true
-			});
-			
 			if (that.codeType && that.codeType == 2) {
 				console.log('串码类型 扫码串码1 输入串码222 ');
 				// 从 输入串码 过来 中区红包 显示 抽奖按钮
 				that.isShowluckDrawBtn = true;
 				// 获取红包 展示中奖 金额
-			
 				uni.getStorage({
 					// key:'serialCodeData',
 					key: 'sweepQrcodeData',
@@ -451,6 +499,11 @@ export default {
 		WxOpenSettingColse(data) {
 			const that = this;
 			that.wxOpenSettingIsShow = false;
+			// 关闭了 也要继续往下走
+			console.log('关闭了 也要继续往下走');
+			// 显示 抽奖按钮
+			that.isShowluckDrawBtn = true;
+			that.startChoujiangAnimation();
 		},
 		// 获取手机号
 		async getPhoneNumber(e) {

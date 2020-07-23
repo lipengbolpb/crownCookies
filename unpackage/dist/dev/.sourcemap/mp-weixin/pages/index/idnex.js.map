@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///D:/v工作/git/xcx/crownCookies/main.js"],"names":["createPage","Page"],"mappings":";;;;;;;;;;kDAAA;AACA;AACA,6F;AACAA,UAAU,CAACC,cAAD,CAAV,C","file":"pages/index/idnex.js","sourcesContent":["import 'uni-pages';\nimport Vue from 'vue'\nimport Page from './pages/index/idnex.vue'\ncreatePage(Page)"],"sourceRoot":""}

@@ -38,6 +38,7 @@
 			<view class="flex-xc-yn"><image mode="widthFix" class="stc-crownCookies" src="../../static/crownCookiesImg/crownCookiesImg.png"></image></view>
 		</view>
 		<custom-dialog
+			ref="customDialogChild"
 			:customDialogIsShow="customDialogIsShow"
 			:customDialogType="customDialogType"
 			@customDialogColse="updateCustomDialogColse"
@@ -79,13 +80,11 @@ export default {
 			isDisabled:false, //提交按钮 是否 可点击
 		};
 	},
-	async onLoad() { 
+	async onLoad() {  
 	},
 	methods: {
 		submitFun(){
 			const that = this;
-// 			that.submitForm();
-// 			return false;
 			if (that.userName == '' || that.userName == undefined) {
 			  uni.showModal({
 				title: '提示',
@@ -127,8 +126,10 @@ export default {
 				console.log(res);
 				if(res){
 					//  显示成功 提示
-					this.customDialogType = 2;
-					this.customDialogIsShow = true;
+					that.customDialogType = 2;
+					that.customDialogIsShow = true;
+					// 弹窗 启动动画
+					that.$refs.customDialogChild.isStartAnimationFun(true);
 				}
 			}); 
 		},
