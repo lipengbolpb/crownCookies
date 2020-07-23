@@ -68,7 +68,8 @@ function sweepQrcode(sendParams) {
 		});
 	})
 } 
-
+  
+  
 // 获取验证码
 function getCaptcha(phonenum) {
 	uni.showLoading({
