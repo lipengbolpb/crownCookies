@@ -13,7 +13,7 @@
 						<text>姓</text>
 						<text>名</text>
 					</view>
-					<input v-model="userName" class="submitBox-input" type="text" value="" placeholder="请输入姓名" />
+					<input maxlength="20" v-model="userName" :disabled="!isGetPrize" class="submitBox-input" type="text" value="" placeholder="请输入姓名" />
 				</view>
 				<view class="flex-xsb-yc">
 					<view class="submitBox-label flex-xsb-yc">
@@ -21,7 +21,7 @@
 						<text>机</text>
 						<text>号</text>
 					</view>
-					<input v-model="phonenum" class="submitBox-input" type="text" value="" placeholder="请输入手机号" />
+					<input maxlength="11" v-model="phonenum" :disabled="!isGetPrize" class="submitBox-input" type="text" value="" placeholder="请输入手机号" />
 				</view>
 				<view class="flex-xsb-yc">
 					<view class="submitBox-label flex-xsb-yc">
@@ -30,10 +30,10 @@
 						<text>证</text>
 						<text>号</text>
 					</view>
-					<input v-model="idcard" class="submitBox-input" type="text" value="" placeholder="请输入身份证号" />
+					<input maxlength="18" v-model="idcard" :disabled="!isGetPrize" class="submitBox-input" type="text" value="" placeholder="请输入身份证号" />
 				</view>
 				<!-- <view class="submitBox-submit" @click="submitFun">{{ submitFont }}</view> -->
-				<button :disabled='isDisabled' class="submitBox-submit" @click="submitFun">{{ submitFont }}</button>
+				<button :disabled="isDisabled" class="submitBox-submit" @click="submitFun">{{ submitFont }}</button>
 			</view>
 			<view class="flex-xc-yn"><image mode="widthFix" class="stc-crownCookies" src="../../static/crownCookiesImg/crownCookiesImg.png"></image></view>
 		</view>
@@ -71,40 +71,61 @@ export default {
 			openid: '',
 			staticUrl: config.staticUrl,
 			customDialogType: 2, // 提交成功后 提示
-			customDialogIsShow: false,// 提交成功后 提示
+			customDialogIsShow: false, // 提交成功后 提示
 			userName: '',
 			phonenum: '',
 			idcard: '',
-			phonenumReg : /^1[0-9]{10}$/,
-			submitFont:'提交信息',
-			isDisabled:false, //提交按钮 是否 可点击
+			phonenumReg: /^1[0-9]{10}$/,
+			submitFont: '提交',
+			isDisabled: false, //提交按钮 是否 可点击
+			isGetPrize: false // 是否已拥有大奖 有（重复扫码） 直接显示信息 没有 显示填写信息
 		};
 	},
-	async onLoad() {  
+	async onLoad(options) {
+		const that = this;
+		console.log(options);
+		this.isGetPrize = options.isGetPrize || false;
+		console.log(this.isGetPrize);
+		// 如果已领取大奖 回显信息
+		if (this.isGetPrize == 'true') {
+			console.log(3333333333);
+			const sweepQrcodeData = uni.getStorageSync('sweepQrcodeData');
+			if (sweepQrcodeData.reply) {
+				that.userName = sweepQrcodeData.reply.username;
+				that.phonenum = sweepQrcodeData.reply.phonenum;
+				that.idcard = sweepQrcodeData.reply.idcard;
+			} else {
+				that.userName = '';
+				that.phonenum = '';
+				that.idcard = '';
+			}
+			that.submitFont = '您已提交';
+			that.isDisabled = true;
+		}
 	},
 	methods: {
-		submitFun(){
+		submitFun() {
 			const that = this;
 			if (that.userName == '' || that.userName == undefined) {
-			  uni.showModal({
-				title: '提示',
-				content: '请填写正确的姓名哦！~',
-			  })    
-			} else if (!(that.phonenumReg.test(that.phonenum))) {
-			  uni.showModal({
-				title: '提示',
-				content: '请填写正确的手机号！~',
-			  }) 
+				uni.showModal({
+					title: '提示',
+					content: '请填写正确的姓名哦！~'
+				});
+			} else if (!that.phonenumReg.test(that.phonenum)) {
+				uni.showModal({
+					title: '提示',
+					content: '请填写正确的手机号！~'
+				});
 			} else if (!idcardValidate(that.idcard)) {
-			  uni.showModal({
-				title: '提示',
-				content: '请填写正确的身份证号哦！~',
-			  }) 
+				uni.showModal({
+					title: '提示',
+					content: '请填写正确的身份证号哦！~'
+				});
 			} else {
 				that.submitForm();
 			}
 		},
-		
+
 		submitForm() {
 			const that = this;
 			const sweepQrcodeData = uni.getStorageSync('sweepQrcodeData');
@@ -124,14 +145,14 @@ export default {
 			savePrize(sendParams).then(res => {
 				console.log('');
 				console.log(res);
-				if(res){
+				if (res) {
 					//  显示成功 提示
 					that.customDialogType = 2;
 					that.customDialogIsShow = true;
 					// 弹窗 启动动画
 					that.$refs.customDialogChild.isStartAnimationFun(true);
 				}
-			}); 
+			});
 		},
 		updateCustomDialogColse(data) {
 			const that = this;
@@ -142,23 +163,25 @@ export default {
 		// 返回
 		back() {
 			uni.switchTab({
-				url:'../index/index'
-			})
+				url: '../index/index'
+			});
 		}
-		
 	}
 };
 </script>
 
 <style scoped lang="scss">
-// 	button::after{
-// 	  border:none;
-// 	}
-// 	input{
-// 	  outline:none;
-// 	  border:none;
-// 	  list-style: none;
-// 	}
+button::after {
+	border: none;
+}
+input {
+	outline: none;
+	border: none;
+	list-style: none;
+}
+button[disabled] {
+	color: #814e05 !important;
+}
 .strCode {
 	height: 100%;
 	background: url($crownCookiesImg+'bg2.png') no-repeat center;
@@ -185,6 +208,9 @@ export default {
 	padding-left: 32rpx;
 	font-size: 28rpx;
 	flex: 1;
+}
+.submitBox-input {
+	color: #333;
 }
 // .submitBox button {
 // 	margin: 0;

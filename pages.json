@@ -7,15 +7,15 @@
 			}
 		},
 		{
-			"path": "pages/submitUserInformation/submitUserInformation", // 领取大奖
+			"path": "pages/activityEntrance/activityEntrance", //活动页面
 			"style": {
-				"navigationBarTitleText": "填写信息",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/activityEntrance/activityEntrance", //活动页面
+			"path": "pages/submitUserInformation/submitUserInformation", // 领取大奖
 			"style": {
+				"navigationBarTitleText": "填写信息",
 				"navigationStyle": "custom"
 			}
 		},
@@ -93,7 +93,7 @@
 				"iconPath": "static/crownCookiesImg/scanTabOn.png",
 				"selectedIconPath": "static/crownCookiesImg/scanTabOff.png"
 			},
-			{ 
+			{
 				"pagePath": "pages/personalCenter/personalCenter",
 				"text": "我的账户",
 				"iconPath": "static/crownCookiesImg/personalCenterTabOff.png",

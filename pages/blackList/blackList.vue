@@ -267,7 +267,9 @@ page {
 	width: 78%;
 	margin-left: 11%;
 	height: 100rpx;
-	background: #f0ad4e;
+	// background: #f0ad4e;
+	background : url($crownCookiesImg+'btnBgR.png') no-repeat;
+	background-size:100% 100%;
 	text-align: center;
 	line-height: 100rpx;
 	font-size: 36rpx;

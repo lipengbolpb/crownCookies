@@ -11,6 +11,13 @@ function sweepQrcode(sendParams) {
 		if (sendParams.openid == '') {
 			sendParams.openid = uni.getStorageSync("userData").uinfo.openid;
 		}
+		if(uni.getStorageSync('userInfo')){
+			sendParams.nickname = uni.getStorageSync('userInfo').nickName;
+			sendParams.headimgurl = uni.getStorageSync('userInfo').avatarUrl;
+		}else{
+			sendParams.nickname = '';
+			sendParams.headimgurl = '';
+		} 
 		console.log("backParams");
 		console.log(sendParams);
 		requestPost('/sweep/sweepQrcode', sendParams).then((backParams) => {
@@ -245,6 +252,16 @@ function getFailCount() {
 // 输入串码 领取串码
 function serialCode(sendParams) {
 	return new Promise((resolve, reject) => {
+		if (sendParams.openid == '') {
+			sendParams.openid = uni.getStorageSync("userData").uinfo.openid;
+		}
+		if(uni.getStorageSync('userInfo')){
+			sendParams.nickname = uni.getStorageSync('userInfo').nickName;
+			sendParams.headimgurl = uni.getStorageSync('userInfo').avatarUrl;
+		}else{
+			sendParams.nickname = '';
+			sendParams.headimgurl = '';
+		} 
 		requestPost('/sweep/serialCode', sendParams).then((backParams) => {
 			// const [e, r] = backParams;
 			console.log("backParams");
@@ -311,24 +328,19 @@ function giveSpackTx() { //提现
 			console.log(backParams);
 			const backResult = backParams.result;
 			if (backResult.code == '0') {
-				if(backResult.businessCode==5){
-					uni.showModal({
-						title: '提示',
-						content: backResult.msg,
-					})
-				} else {
-					resolve(backResult.businessCode);
-				}
+// 				if(backResult.businessCode==5){
+// 					uni.showModal({
+// 						title: '提示',
+// 						content: backResult.msg,
+// 					})
+// 				} else {
+// 					resolve(backResult.businessCode);
+// 				}
+				resolve(backResult);
 			} else if (backResult.code == '-1') {
-				uni.showModal({
-					title: '尊敬的用户',
-					content: '系统升级中...',
-				})
+				reject(backResult.code);
 			} else { // code!='0' 服务失败
-				uni.showModal({
-					title: '提示',
-					content: '呜呜，服务开了个小差，请稍后重试！',
-				})
+				reject(backResult.code);
 			}
 		});
 	})

@@ -186,7 +186,7 @@
 		-webkit-flex-direction:column;
 		flex-direction:column;
 	}
-	/*   多个 盒子上下排列 水平居中 */
+	/*   多个 盒子上下排列 水平居中 垂直居中*/
 	.flex-xc-yc-dirY{
 		display: -webkit-flex; /* Safari */
 		display: flex;
@@ -194,6 +194,15 @@
 		flex-direction:column;
 		justify-content: center;
 		-webkit-justify-content: center;
+		align-items: center;
+		-webkit-align-items: center;
+	}
+	/*   多个 盒子上下排列 水平居中 垂直从上到下*/
+	.flex-xc-ys-dirY{
+		display: -webkit-flex; /* Safari */
+		display: flex;
+		-webkit-flex-direction:column;
+		flex-direction:column;
 		align-items: center;
 		-webkit-align-items: center;
 	}

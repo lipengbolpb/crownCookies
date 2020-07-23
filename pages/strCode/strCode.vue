@@ -7,14 +7,14 @@
 				<view class="">输入序列码抽奖</view>
 			</view>
 			<view class="submitBox">
-				<input type="text" placeholder="请输入12位字母数字瓶盖码" maxlength="12" class="input submitBox-strcode" value="strcode"
+				<input type="text" placeholder="输入12位数字字母序列码" maxlength="12" class="input submitBox-strcode" value="strcode"
 				 v-model="serialcode"></input>
-				<input v-show="isNeedPhone" class="submitBox-input" type="text" value=""  maxlength="11" placeholder="输入手机号" v-model="phone"/>
-				<view v-show="isNeedPhone" class="flex-xsb-yc submitBox-checkCode">
+				<input class="submitBox-input" type="text" value=""  maxlength="11" placeholder="输入手机号" v-model="phone"/>
+				<view class="flex-xsb-yc submitBox-checkCode">
 					<input class="submitBox-input yamInput" type="text" value="" placeholder="输入验证码"  maxlength="4"v-model="verifycode"/>
 					<button class="yamButton" @click="getyzm">{{ sec == 0 ? '获取验证码' : sec + '秒后再次获取' }}</button>
 				</view>
-				<view class="submitBox-submit" @click="submitForm">提交信息</view>
+				<view class="submitBox-submit" @click="submitForm">提交</view>
 			</view>
 			<view class="scc-mobile" @click='callGetPhoneFun'>客服电话：{{ callGetPhone }}</view>
 			<view class="flex-xc-yn"><image mode="widthFix" class="stc-crownCookies" src="../../static/crownCookiesImg/crownCookiesImg.png"></image></view>
@@ -73,7 +73,7 @@ export default {
 					content: '酒香不怕巷子深，稍后再试吧!',
 				},{
 					bizcode: '1', // 该积分码不存在
-					title: '这个串码不存在',
+					title: '序列码错误，请重新输入',
 					content: '仔细核对盖码哦~',
 				},
 				{
@@ -310,36 +310,44 @@ export default {
 			
 			console.log(phone.trim());
 			console.log(verifycode.trim());
-			
-			if(this.isNeedPhone){
-				if (!this.reg1.test(serialcode.trim())) {
-					uni.showModal({
-						title: '提 示',
-						content: '请输入正确的序列码哦！~',
-					})
-				} else if (!this.reg2.test(phone.trim())) {
-					uni.showModal({
-						title: '提 示',
-						content: '请填写正确的手机号！~',
-					})
-				} else if (!this.reg3.test(verifycode.trim())) {
-					uni.showModal({
-						title: '提 示',
-						content: '请输入正确的验证码~',
-					})
-				} else {
-					this.getSerialCode(openid,serialcode,phone,verifycode,longitude, latitude);
-				}
+			if (!this.reg1.test(serialcode.trim())) {
+				uni.showModal({
+					title: '提 示',
+					content: '请输入正确的序列码哦！~',
+				})
 			}else{
-				if (!this.reg1.test(serialcode.trim())) {
-					uni.showModal({
-						title: '提 示',
-						content: '请输入正确的序列码哦！~',
-					})
-				}else{
-					this.getSerialCode(openid,serialcode,'','',longitude, latitude);
-				}
+				this.getSerialCode(openid,serialcode,'','',longitude, latitude);
 			}
+			
+// 			if(this.isNeedPhone){
+// 				if (!this.reg1.test(serialcode.trim())) {
+// 					uni.showModal({
+// 						title: '提 示',
+// 						content: '请输入正确的序列码哦！~',
+// 					})
+// 				} else if (!this.reg2.test(phone.trim())) {
+// 					uni.showModal({
+// 						title: '提 示',
+// 						content: '请填写正确的手机号！~',
+// 					})
+// 				} else if (!this.reg3.test(verifycode.trim())) {
+// 					uni.showModal({
+// 						title: '提 示',
+// 						content: '请输入正确的验证码~',
+// 					})
+// 				} else {
+// 					this.getSerialCode(openid,serialcode,phone,verifycode,longitude, latitude);
+// 				}
+// 			}else{
+// 				if (!this.reg1.test(serialcode.trim())) {
+// 					uni.showModal({
+// 						title: '提 示',
+// 						content: '请输入正确的序列码哦！~',
+// 					})
+// 				}else{
+// 					this.getSerialCode(openid,serialcode,'','',longitude, latitude);
+// 				}
+// 			}
 			
 		},
 		
@@ -421,7 +429,9 @@ export default {
 	color: #814E05;
 	margin-top: 54rpx;
 	border-radius: 20rpx;
-	background : linear-gradient(to top,rgba(255, 170, 11, 1),rgba(249, 211, 0, 1));
+	// background : linear-gradient(to top,rgba(255, 170, 11, 1),rgba(249, 211, 0, 1));
+	background : url($crownCookiesImg+'btnBgR.png') no-repeat;
+	background-size:100% 100%;
 }
 .stc-crownCookies {
 	width: 348rpx;

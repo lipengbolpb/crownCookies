@@ -9,7 +9,7 @@
 					<button class="user" open-type="getUserInfo" @getuserinfo="getUserInfoFn" withCredentials="true">
 						<image class="avatar" mode="widthFix" :src="userInfo.avatarUrl || staticUrl + 'shangchuantouxiang.png'"></image>
 					</button>
-					<view class="pct-userInfor-nickName">{{ userInfo.nickName }}</view>
+					<view class="pct-userInfor-nickName">{{ nickNameSub }}</view>
 				</view>
 			</view>
 			<!-- 累计红包金额 获取丹麦旅游 -->
@@ -64,6 +64,11 @@ export default {
 			const userSystemInfo = uni.getStorageSync('userSystemInfo');
 			const safeAreaTop = userSystemInfo.safeArea.top;
 			return safeAreaTop;
+		},
+		nickNameSub(){
+			const initName = this.userInfo.nickName;
+			const returnStr = strSub(initName,14,7,'...')
+			return returnStr;
 		}
 	},
 	data() {
@@ -110,9 +115,7 @@ export default {
 	async onLoad() {
 		// 获取用户信息 openid seesion_key
 		const backGetUserDataFun = await getUserDataFun();
-		console.log('033333333');
-		const strlen1 = strSub('哈哈哈哈哈哈哈哈哈哈哈哈哈哈',14,7,'...');
-		console.log(strlen1);
+		
 	},
 
 	onShow() {
@@ -171,6 +174,7 @@ export default {
 				const that = this;
 				that.userInfo.avatarUrl = res.userInfo.avatarUrl;
 				that.userInfo.nickName = res.userInfo.nickName;
+				
 			});
 		},
 
@@ -235,6 +239,10 @@ button {
 	background: #fff;
 	border-radius: 20rpx;
 }
+.pct-userInfor{
+	position: relative;
+}
+
 .pct-userInfor-userImg {
 	width: 154rpx;
 	height: 154rpx;
@@ -251,9 +259,13 @@ button {
 	}
 }
 .pct-userInfor-nickName {
+	position: absolute;
+	left: 50%;
+	bottom: -20rpx;
 	text-align: center;
 	font-size: 26rpx;
 	color: #656565;
+	transform: translateX(-50%);
 }
 .pct-tab {
 	image {

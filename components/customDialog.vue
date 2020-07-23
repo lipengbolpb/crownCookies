@@ -148,9 +148,10 @@ export default {
 	background: #fff;
 	border-radius: 30rpx;
 	transform: translate(-50%, -50%);
+	// overflow: hidden;
 }
 .customDialog-center-nobg{
-		position: absolute;
+	position: absolute;
 	top: 50%;
 	left: 50%;
 	z-index: 60;
@@ -159,8 +160,17 @@ export default {
 	transform: translate(-50%, -50%);
 }
 .cdc-titleImg {
+	position: relative;
+	height: 300rpx;
+	overflow: hidden;
+	border-top-left-radius: 30rpx;
+	border-top-right-radius: 30rpx;
 	image {
-		width: 100%;
+		position: absolute;
+		left: -1%;
+		top: -2%;
+		display: block;
+		width: 102%;
 	}
 }
 

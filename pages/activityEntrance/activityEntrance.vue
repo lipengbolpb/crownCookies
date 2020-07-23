@@ -13,7 +13,11 @@
 		</view>
 
 		<view :animation="fontMesAni" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view>
-		<view class="focusGguidance" v-if="isShowGguidance" @click="showGguidanceFun"><image :animation="focusGguidanceAni" :src="staticUrl + 'focusGguidance.png'"></image></view>
+
+		<view class="focusGguidance" v-if="isShowGguidance" @click="showGguidanceFun" :style="{ bottom: isOpenAdaptation ? '170rpx' : '120rpx' }">
+			<image :animation="focusGguidanceAni" :src="staticUrl + 'focusGguidance.png'"></image>
+		</view>
+
 		<!-- 抽奖按钮 获取手机号-->
 		<view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn">
 			<view @click="showGetCash" class="choujiangBtn" v-if="isHasPhoneNumber"><image :src="staticUrl + 'dianjichoujiang.png'" mode="widthFix"></image></view>
@@ -33,11 +37,11 @@
 		></activity-rule>
 
 		<!-- 获取红包动效页面 -->
-		<get-cash 
-			ref="getCashChild" 
-			:getCashIsShow="getCashIsShow" 
-			:getCashIsShowMes="getCashIsShowMes" 
-			:isStartAnimation="getCashIsStartAnimation" 
+		<get-cash
+			ref="getCashChild"
+			:getCashIsShow="getCashIsShow"
+			:getCashIsShowMes="getCashIsShowMes"
+			:isStartAnimation="getCashIsStartAnimation"
 			:currentMoney="currentMoney"
 		></get-cash>
 
@@ -49,7 +53,7 @@
 			@openSetting="wosOpenSetting"
 		></wx-open-setting>
 
-		<custom-footer-bar ref="customFooterBarChild" :cusFooterBarIsShow="cusFooterBarIsShow"></custom-footer-bar>
+		<custom-footer-bar ref="customFooterBarChild" :cusFooterBarIsShow="cusFooterBarIsShow" :isOpenAdaptation="isOpenAdaptation"></custom-footer-bar>
 	</view>
 </template>
 
@@ -76,7 +80,7 @@ export default {
 			activityRuleSource: '1', // 活动规则 页面来源
 			activityRuleIsShow: false, // 活动规则  是否展示
 			getCashIsShow: false, // 中出红包 是否显示
-			getCashIsShowMes: false, // 中出红包 是否显示 红包已存入微信红包中 
+			getCashIsShowMes: false, // 中出红包 是否显示 红包已存入微信红包中
 			getCashIsStartAnimation: false, //中出红包  是否 开启动画
 			currentMoney: '0.00', //中出红包 中出金额
 			isShowGguidance: false, //是否展示 引导关注 公众号 logo
@@ -92,7 +96,7 @@ export default {
 			isShowCustomLocation: false, // 是否展示 自定义 定位引导
 			wxOpenSettingIsShow: false, //是否展示 位置授权
 			wxOpenSettingIsStartAnimation: false, // 位置授权 是否展示动画
-			sweepstr: 'JYJ2W665UENK',
+			sweepstr: 'JYJVZJ9ZSSMC',
 			cusFooterBarIsShow: false, //是否展示 页面tab （显示条件：出现 获得红包动效 ）
 			giveSpackTxStatusArr: [
 				{
@@ -132,7 +136,7 @@ export default {
 					content: '提现操作过于频繁'
 				}
 			],
-			codeType:"1",
+			codeType: '1'
 		};
 	},
 
@@ -166,9 +170,11 @@ export default {
 		console.log('options');
 		const sweepstrUrl = decodeURIComponent(options.sweepstr);
 		console.log(options);
-		const that = this;		
-		if (sweepstrUrl.indexOf('xt.vjifen.com') != -1) {  //测试二维码
-			if(sweepstrUrl.indexOf('/LN/') != -1){ //测试的微信直接打开小程序
+		const that = this;
+		if (sweepstrUrl.indexOf('xt.vjifen.com') != -1) {
+			//测试二维码
+			if (sweepstrUrl.indexOf('/LN/') != -1) {
+				//测试的微信直接打开小程序
 				that.sweepstr = sweepstrUrl.split('LN/')[1];
 			} else {
 				that.sweepstr = sweepstrUrl.split('v=')[1];
@@ -186,13 +192,13 @@ export default {
 				success(res) {
 					if (res.confirm) {
 						uni.reLaunch({
-							url: '../home/home',
-						})
+							url: '../index/index'
+						});
 					}
 				}
-			})
+			});
 		}
-		
+
 		// 串码类型 扫码串码1 输入串码2
 		this.codeType = options.codeType || '1';
 		/**
@@ -226,16 +232,16 @@ export default {
 						// 走扫码的逻辑 检测位置微信 调用接口
 						that.checkUserLocation();
 					}
-				}else{
+				} else {
 					// 继续弹出 活动规则
 					setTimeout(() => {
 						that.activityRuleSource = '1';
 						that.activityRuleIsShow = true;
 						// 活动规则 启动动画
 						that.$refs.activityRuleChild.isStartAnimationFun(true);
-					}, 2000)
-				}  
-			},   
+					}, 2000);
+				}
+			},
 			fail(err) {
 				setTimeout(() => {
 					that.activityRuleSource = '1';
@@ -282,27 +288,51 @@ export default {
 			// 获取红包成功后 动效开启
 			// this.getCashSuccessAni();
 			const that = this;
-			giveSpackTx().then(businessCode => {
-				console.log('giveSpackTx');
-				console.log(businessCode);
-				// 获取红包成功后 动效开启
-				that.getCashSuccessAni();
-				if (businessCode == 0) {
-					// 显示 红包收入 图片
-					that.getCashIsShowMes = true;
-				} else {
-					// 提现失败 提示
-					// 隐藏 红包收入 图片
-					that.getCashIsShowMes = false;
-					const filterData = filterArr('businessCode', businessCode, this.giveSpackTxStatusArr)[0];
-					console.log('filterArr____________');
-					console.log(filterData);
-					uni.showModal({
-						title: filterData.title,
-						content: filterData.content
-					});
+			giveSpackTx().then(
+				res => {
+					// 获取红包成功后 动效开启
+					that.getCashSuccessAni();
+					const businessCode = res.businessCode;
+					if (businessCode == 0) {
+						// 显示 红包收入 图片
+						that.getCashIsShowMes = true;
+					} else if (businessCode == 5) {
+						setTimeout(function() {
+							uni.showModal({
+								title: '提示',
+								content: res.msg
+							});
+						}, 2000);
+					} else {
+						// 提现失败 提示
+						// 隐藏 红包收入 图片
+						setTimeout(function() {
+							that.getCashIsShowMes = false;
+							const filterData = filterArr('businessCode', businessCode, that.giveSpackTxStatusArr)[0];
+							console.log('filterArr____________');
+							console.log(filterData);
+							uni.showModal({
+								title: filterData.title,
+								content: filterData.content
+							});
+						}, 2000);
+					}
+				},
+				errCode => {
+					if (errCode == '-1') {
+						uni.showModal({
+							title: '尊敬的用户',
+							content: '系统升级中...'
+						});
+					} else {
+						// code!='0' 服务失败
+						uni.showModal({
+							title: '提示',
+							content: '呜呜，服务开了个小差，请稍后重试！'
+						});
+					}
 				}
-			});
+			);
 		},
 		// 获取红包成功后 动效开启
 		getCashSuccessAni() {
@@ -336,10 +366,10 @@ export default {
 				success(res) {
 					const userLocation = res.data;
 					// 调用接口
-					if(userLocation.longitude){
+					if (userLocation.longitude) {
 						that.getSweepQrcode(userLocation.longitude, userLocation.latitude, that.sweepstr);
-					}else{
-						that.getSweepQrcode('','', that.sweepstr);
+					} else {
+						that.getSweepQrcode('', '', that.sweepstr);
 					}
 				},
 				fail(err) {
@@ -351,12 +381,11 @@ export default {
 						getLocation().then((...res) => {
 							const [status, locationData] = Array.from(res[0]);
 							// 调用接口
-							if(status == 0){ 
+							if (status == 0) {
 								that.getSweepQrcode(locationData.longitude, locationData.latitude, that.sweepstr);
-							}else{
-								that.getSweepQrcode('','', that.sweepstr);
+							} else {
+								that.getSweepQrcode('', '', that.sweepstr);
 							}
-							
 						});
 					}
 				}
@@ -493,7 +522,6 @@ export default {
 				// 走扫码的逻辑 检测位置微信 调用接口
 				that.checkUserLocation();
 			}
-			
 		},
 		// 关闭 授权位置
 		WxOpenSettingColse(data) {
@@ -633,7 +661,6 @@ export default {
 }
 .focusGguidance {
 	position: fixed;
-	bottom: 120rpx;
 	width: 96%;
 	left: 2%;
 	height: 170rpx;

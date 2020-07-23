@@ -39,13 +39,16 @@ export default {
 			qianAni: '', // 钱 动画
 			fontMesAni: '', // 提示文字 动画
 			gaiAni: '', // 盖 动画
+			isGetPrize: false, // 是否已拥有大奖 有（重复扫码） 直接显示信息 没有 显示填写信息
 		};
 	},
 	onShow(){
 		this.startAnimation();	
 	},
-	onLoad(){
-		// console.log(44)
+	onLoad(options){
+		console.log(options)
+		console.log(options.isGetPrize)
+		this.isGetPrize = options.isGetPrize || false;
 	},
 	methods: {
 		// 开始动画
@@ -104,7 +107,7 @@ export default {
 		},
 		toGetPrize(){
 			uni.redirectTo({
-				url: '../submitUserInformation/submitUserInformation'
+				url: '../submitUserInformation/submitUserInformation?isGetPrize='+this.isGetPrize
 			});
 		},
 	}

@@ -66,14 +66,20 @@ function judgeBusinessCode(data) {
 		const result = data.result;
 		const reply = data.reply;
 		const businessCode = data.result.businessCode;
-		// const businessCode = 0;
+		// const businessCode = 12; 
 		if (businessCode == 0) { // 扫码成功 红包
 			resolve(businessCode);
 		} else if (businessCode == 11 || businessCode == 2 || businessCode == 15) { // 11：本人重复扫码  2||15：这个二维码已被扫
 			const redirectToUrl = `../codeScanned/codeScanned?bizcode=${businessCode}`
 			resolve(redirectToUrl);
-		} else if (businessCode == 7 || businessCode == 21) { //大奖 
-			const redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}`
+		// } else if (businessCode == 7 || businessCode == 21) { //大奖 
+		} else if (businessCode == 7) { //大奖 
+			let redirectToUrl = '';
+			if (reply.username || result.msg == '重复扫码') { //已填写 或者重复扫码 直接显示 已领取 信息
+				redirectToUrl = `../submitUserInformation/submitUserInformation?bizcode=${businessCode}&isGetPrize=true`;
+			} else {
+				redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+			}
 			resolve(redirectToUrl);
 		} else if (businessCode == 12 || businessCode == 13) { //可疑 黑名单
 			// 12 展示出入手机号 13 静态页面 提示
@@ -119,8 +125,13 @@ function judgeBusinessStrCode(data) {
 			const redirectToUrl = `../codeScanned/codeScanned?bizcode=${businessCode}`
 			resolve(redirectToUrl);
 		} else if (businessCode == 7 || businessCode == 21) { //大奖 
-			const redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}`
-			resolve(redirectToUrl);
+			let redirectToUrl = '';
+			if (reply.username || result.msg == '重复扫码') { //已填写 或者重复扫码 直接显示 已领取 信息
+				redirectToUrl = `../submitUserInformation/submitUserInformation?bizcode=${businessCode}&isGetPrize=true`;
+			} else {
+				redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+			}
+			resolve(redirectToUrl); 
 		} else if (businessCode == 12 || businessCode == 13) { //可疑 黑名单
 			// 12 展示出入手机号 13 静态页面 提示
 			const redirectToUrl = `../blackList/blackList?bizcode=${businessCode}`

@@ -1,15 +1,16 @@
 <template>
-	<view class="cus-footerbar" v-if="cusFooterBarIsShow">
-		<view class="cfb-center flex-xc-yc" :animation="footerbarAni">
-			<view class="flex-xc-yc-dirY" @click="jumpFun(1)">
+	<view class="cus-footerbar" v-if="cusFooterBarIsShow" :style="{ 'height': isOpenAdaptation ? '160rpx' : '100rpx' }">
+		<!-- <view class="cfb-center flex-xc-yn" :style="{ 'height': isOpenAdaptation ? '160rpx' : '100rpx' }" :animation="footerbarAni"> -->
+		<view :class="['cfb-center',isOpenAdaptation?'flex-xc-yn':'flex-xc-yc']" :style="{ 'height': isOpenAdaptation ? '150rpx' : '100rpx'}" :animation="footerbarAni">
+			<view :class="[isOpenAdaptation?'flex-xc-ys-dirY':'flex-xc-yc-dirY']" @click="jumpFun(1)" :style="{'margin-top':isOpenAdaptation ? '10rpx' : '0' }">
 				<image src="../../static/crownCookiesImg/indexTabOff.png"></image>
 				<view class="">首页</view>
 			</view>
-			<view class="flex-xc-yc-dirY" @click="jumpFun(2)">
-				<image src="../../static/crownCookiesImg/scanTab.png"></image>
+			<view :class="[isOpenAdaptation?'flex-xc-ys-dirY':'flex-xc-yc-dirY']" @click="jumpFun(2)" :style="{'margin-top':isOpenAdaptation ? '10rpx' : '0' }">
+				<image src="../../static/crownCookiesImg/scanTabOn.png"></image>
 				<view class="">扫一扫</view>
 			</view>
-			<view class="flex-xc-yc-dirY" @click="jumpFun(3)">
+			<view :class="[isOpenAdaptation?'flex-xc-ys-dirY':'flex-xc-yc-dirY']" @click="jumpFun(3)" :style="{'margin-top':isOpenAdaptation ? '10rpx' : '0' }">
 				<image src="../../static/crownCookiesImg/personalCenterTabOff.png"></image>
 				<view class="">我的账户</view>
 			</view>
@@ -23,6 +24,10 @@ export default {
 	name: 'cus-footer-bar',
 	props: {
 		cusFooterBarIsShow: {
+			type: Boolean,
+			default: false
+		},
+		isOpenAdaptation: {
 			type: Boolean,
 			default: false
 		}
@@ -88,11 +93,10 @@ export default {
 	}
 }
 .cfb-center {
-	background: #fff;
 	opacity: 0;
+	background: #fff;
 	> view {
 		flex: 1;
-		height: 100rpx;
 	}
 }
 </style>
