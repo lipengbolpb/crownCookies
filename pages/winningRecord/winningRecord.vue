@@ -18,6 +18,9 @@
 				<view class="clickMore" @click="clickMore" v-show="moneyNext">
 					点击加载更多
 				</view>
+				<view class="clickMore" v-show="!moneyNext">
+					加载完毕
+				</view>
 			</scroll-view> 
 			
 			<block v-else>
@@ -89,7 +92,7 @@ export default {
 			// const that = this;
 			// console.log(that.moneyNext);
 			// if (that.moneyNext) {
-				this.currentPage++;
+				// this.currentPage++;
 			// 	that.initData();
 			// } else {
 			// 	uni.showToast({
@@ -97,27 +100,29 @@ export default {
 			// 		icon: 'none'
 			// 	});
 			// }
-			console.log(222);
-			console.log(this.moneyNext);
-			console.log(this.currentPage);
+			// console.log(222);
+			// console.log(this.moneyNext);
+			// console.log(this.currentPage);
 		},
 		initData() {
 			const that = this;
 			queryAllGiftsList(that.currentPage, that.count).then(res => {
-				that.objList = res.objList;
 				if (res && (!res.objList || res.objList.length < that.count)) {
 					that.moneyNext = false;
 				} else {
 					that.moneyNext = true;
 				}
 				if (that.currentPage == 1) {
-					that.moneyList = res.objList;
+					that.objList = res.objList;
 				} else {
 					if (res.objList && res.objList.length > 0) {
-						that.moneyList = that.moneyList.concat(res.objList);
+						console.log(2222);
+						that.objList = that.objList.concat(res.objList);
 					}
-				}
-				
+				} 
+				console.log(that.currentPage);
+				console.log(that.count);
+				console.log(that.objList);
 			});
 		},
 		clickMore(){
@@ -155,7 +160,7 @@ page {
 	flex: 1;
 	margin: 52rpx 30rpx 30rpx 30rpx;
 	background: #fff;
-	padding: 20rpx;
+	padding: 32rpx;
 }
 .wrc-listBox {
 	flex: 1;

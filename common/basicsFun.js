@@ -66,7 +66,7 @@ function judgeBusinessCode(data) {
 		const result = data.result;
 		const reply = data.reply;
 		const businessCode = data.result.businessCode;
-		// const businessCode = 12; 
+		// const businessCode = 0; 
 		if (businessCode == 0) { // 扫码成功 红包
 			resolve(businessCode);
 		} else if (businessCode == 11 || businessCode == 2 || businessCode == 15) { // 11：本人重复扫码  2||15：这个二维码已被扫
@@ -75,7 +75,8 @@ function judgeBusinessCode(data) {
 		// } else if (businessCode == 7 || businessCode == 21) { //大奖 
 		} else if (businessCode == 7) { //大奖 
 			let redirectToUrl = '';
-			if (reply.username || result.msg == '重复扫码') { //已填写 或者重复扫码 直接显示 已领取 信息
+			// if (reply.username || result.msg == '重复扫码') { //已填写 或者重复扫码 直接显示 已领取 信息
+			if (reply.username) { //已填写 或者重复扫码 直接显示 已领取 信息
 				redirectToUrl = `../submitUserInformation/submitUserInformation?bizcode=${businessCode}&isGetPrize=true`;
 			} else {
 				redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
@@ -126,7 +127,8 @@ function judgeBusinessStrCode(data) {
 			resolve(redirectToUrl);
 		} else if (businessCode == 7 || businessCode == 21) { //大奖 
 			let redirectToUrl = '';
-			if (reply.username || result.msg == '重复扫码') { //已填写 或者重复扫码 直接显示 已领取 信息
+			// if (reply.username || result.msg == '重复扫码') { //已填写 或者重复扫码 直接显示 已领取 信息
+			if (reply.username) { //已填写 或者重复扫码 直接显示 已领取 信息
 				redirectToUrl = `../submitUserInformation/submitUserInformation?bizcode=${businessCode}&isGetPrize=true`;
 			} else {
 				redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;

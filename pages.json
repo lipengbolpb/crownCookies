@@ -1,7 +1,20 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
+		{   
 			"path": "pages/index/index", // 首页
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/submitUserInformation/submitUserInformation", // 领取大奖
+			"style": {
+				"navigationBarTitleText": "填写信息",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/blackList/blackList", // 黑名单
 			"style": {
 				"navigationStyle": "custom"
 			}
@@ -13,9 +26,8 @@
 			}
 		},
 		{
-			"path": "pages/submitUserInformation/submitUserInformation", // 领取大奖
+			"path": "pages/getPrize/getPrize", // 大奖页面
 			"style": {
-				"navigationBarTitleText": "填写信息",
 				"navigationStyle": "custom"
 			}
 		},
@@ -47,18 +59,6 @@
 			}
 		},
 		{
-			"path": "pages/blackList/blackList", // 黑名单
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/getPrize/getPrize", //活动页面
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path": "pages/winningRecord/winningRecord", // 中奖纪录
 			"style": {
 				"navigationBarTitleText": "中奖记录",
@@ -78,7 +78,6 @@
 				"navigationBarTitleText": "皇冠曲奇"
 			}
 		}
-
 	],
 	"tabBar": {
 		"list": [{

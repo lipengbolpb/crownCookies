@@ -1,0 +1,58 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/submitUserInformation/submitUserInformation",
+    "pages/blackList/blackList",
+    "pages/activityEntrance/activityEntrance",
+    "pages/getPrize/getPrize",
+    "pages/personalCenter/personalCenter",
+    "pages/strCode/strCode",
+    "pages/getOpenid/getOpenid",
+    "pages/codeScanned/codeScanned",
+    "pages/winningRecord/winningRecord",
+    "pages/scan/scan",
+    "pages/openScan/openScan"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "青岛啤酒辽宁",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/crownCookiesImg/indexTabOff.png",
+        "selectedIconPath": "static/crownCookiesImg/indexTabOn.png"
+      },
+      {
+        "pagePath": "pages/openScan/openScan",
+        "text": "扫一扫",
+        "iconPath": "static/crownCookiesImg/scanTabOn.png",
+        "selectedIconPath": "static/crownCookiesImg/scanTabOff.png"
+      },
+      {
+        "pagePath": "pages/personalCenter/personalCenter",
+        "text": "我的账户",
+        "iconPath": "static/crownCookiesImg/personalCenterTabOff.png",
+        "selectedIconPath": "static/crownCookiesImg/personalCenterTabOn.png"
+      }
+    ],
+    "backgroundColor": "#ffffff",
+    "color": "#656565",
+    "selectedColor": "#FF0600",
+    "border": "none",
+    "borderStyle": "black",
+    "paddingTop": "16rpx"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "小程序将要获取您的位置信息用于获取您所在的城市"
+    }
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
+}

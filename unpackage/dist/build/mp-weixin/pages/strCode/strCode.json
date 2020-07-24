@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "序列码抽奖",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "wx-open-setting": "/components/wx-open-setting/wx-open-setting",
+    "weixin-open-setting": "/components/wx-open-setting/wx-open-setting"
+  }
+}

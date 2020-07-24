@@ -84,7 +84,7 @@ export default {
 	async onLoad(options) {
 		const that = this;
 		console.log(options);
-		this.isGetPrize = options.isGetPrize || false;
+		this.isGetPrize = options.isGetPrize=='true'?true:false;
 		console.log(this.isGetPrize);
 		// 如果已领取大奖 回显信息
 		if (this.isGetPrize == 'true') {

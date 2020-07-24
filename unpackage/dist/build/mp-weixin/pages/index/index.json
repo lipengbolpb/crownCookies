@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "custom-dialog": "/components/customDialog",
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
+  }
+}

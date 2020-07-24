@@ -5,6 +5,9 @@
 			<view :class="[isStartAnimation ? 'comon-initAni' : '','flex-xR-yn','gpc-gan-box']" :animation="gaiAni" >
 				<image class="gpc-gan" :src="staticUrl + 'hengzigan.png'"></image>
 			</view>
+			<view class="gpc-gan-top">
+				
+			</view>
 			<view class="gpc-mes">
 				<image :class="[isStartAnimation ? 'comon-initAni' : '']" :animation="fontMesAni"  mode="widthFix" :src="staticUrl + 'heziMes.png'"></image>
 			</view>
@@ -13,7 +16,8 @@
 					<image mode="widthFix" class="" :src="staticUrl + 'hezidi.png'"></image>
 				</view>
 			</view> 
-			<image :class="[isStartAnimation ? 'comon-initAni' : '', 'gpc-guang']" mode="widthFix" :animation="guangAni" :src="staticUrl + 'heziguang.png'" ></image>
+			<!-- <image :class="[isStartAnimation ? 'comon-initAni' : '', 'gpc-guang']" mode="widthFix" :animation="guangAni" :src="staticUrl + 'heziguang.png'" ></image> -->
+			<image :class="[isStartAnimation ? 'comon-initAni' : '', 'gpc-guang']" mode="widthFix" :animation="guangAni" src="../../static/crownCookiesImg/guan01.png" ></image>
 			<image :class="[isStartAnimation ? 'comon-initAni' : '', 'gpc-qian']" mode="widthFix" :animation="qianAni" :src="staticUrl + 'heziqian.png'"></image>
 			
 			<view :class="[isStartAnimation ? 'lijilingqu-initAni' : '', 'gpc-lijilingqu-box','flex-xc-yn']"  :animation="lijilingquAni">
@@ -156,13 +160,23 @@ export default {
 .gpc-guang{
 	width: 100%;
 	position: absolute;
-	left:-44rpx;
-	bottom:-72rpx;
+	left:-7rpx;
+	bottom:238rpx;
 }
 .gpc-gan-box{
 	margin-left: 10%;
 	width: 80%;
 	margin-bottom:70rpx;
+	position: absolute;
+	right:10%;
+	top: 0;
+	z-index: 70;
+}
+.gpc-gan-top{
+	margin-left: 10%;
+	width: 80%;
+	margin-bottom:70rpx;
+	height: 246rpx;
 }
 .gpc-gan{
 	width: 64%;

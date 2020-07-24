@@ -85,7 +85,7 @@
 				that.opacityAnimation(0);
 				setTimeout(function(){
 				   that.$emit('activityRuleColse',false);
-				},900);
+				},500);
 				//是否同意 活动规则 如果 同意一下 存入 缓存 不在弹出
 				uni.setStorage({
 					key: 'isAgreeRule',
@@ -100,7 +100,7 @@
 				that.opacityAnimation(0);
 				setTimeout(function(){
 				   that.$emit('activityRuleColse',false);
-				},900);
+				},500);
 				//是否同意 活动规则 如果 同意一下 存入 缓存 不在弹出
 				uni.setStorage({
 					key: 'isAgreeRule',
@@ -166,7 +166,7 @@
 	 }
 	 .activityRule-center{
 		 width: 100%;
-		 height: 50%;
+		 height: 40%;
 		 position: fixed;
 		 bottom: 0;
 		 z-index: 60;
@@ -174,7 +174,7 @@
 		 padding-top:40rpx ;
 	 }.activityRule-center1{
 		 width: 100%;
-		 height: 50%;
+		 height: 40%;
 		 position: fixed;
 		 bottom: 0;
 		 z-index: 60;

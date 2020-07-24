@@ -83,8 +83,8 @@ export default {
 	height: 100rpx;
 	z-index: 80;
 	image {
-		width: 36rpx;
-		height: 36rpx;
+		width: 54rpx;
+		height: 54rpx;
 		margin-bottom: 10rpx;
 	}
 	view {

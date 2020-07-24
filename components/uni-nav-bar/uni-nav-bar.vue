@@ -132,7 +132,7 @@
 	}
 
 	.uni-navbar__header-btns:first-child {
-		padding-left: 0
+		padding-left: 30rpx;
 	}
 
 	.uni-navbar__header-btns:last-child {
@@ -145,7 +145,7 @@
 	}
 
 	.uni-navbar__header-container-inner {
-		font-size: 30upx;
+		font-size: 36upx;
 		text-align: center;
 		padding-right: 60upx
 	}

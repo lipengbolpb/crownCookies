@@ -72,8 +72,6 @@ function getLocation() {
 				// 经度 longitude
 				// 维度 latitude
 				//精度 accuracy
-				console.log('res444444444444444444444444');
-				console.log(res);
 				if (res.errMsg == "getLocation:ok") {
 					resolve([0, res]);
 					// 存储 用户 位置信息

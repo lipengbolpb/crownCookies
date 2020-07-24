@@ -14,17 +14,18 @@
 				<view class="submitBox-submit" @click="submitForm">提交信息</view>
 			</view>
 			<view class="blc-mobile" @click='callGetPhoneFun'>客服电话：{{ callGetPhone }}</view>
-			<view class="flex-xc-yn"><image mode="widthFix" class="blc-crownCookies" src="../../static/crownCookiesImg/crownCookiesImg.png"></image></view>
+			<view class="flex-xc-yn"><image mode="widthFix" class="blc-crownCookies" :src="staticUrl+'crownCookiesImg.png'"></image></view>
 		</view>
 		<view class="bl-center" v-else>
-			<view class="flex-xc-yn"><image mode="widthFix" class="blc-logo" src="../../static/crownCookiesImg/crownCookiesImgLogo.png"></image></view>
+			<view class="flex-xc-yn"><image mode="widthFix" class="blc-logo" :src="staticUrl + 'crownCookiesImgLogo.png'"></image></view>
 			<p class="blc-title">您的账号存在可疑风险，为确保您的账号安全，</p>
 			<p class="blc-p">
 				<text class="blc-text">1、关注【Danisa皇冠丹麦曲奇公众号】，</text>
 				获得更多活动信息，请截图保存该图片，并在手机相册中进行识别二维码。
 			</p>
 			<p class="blc-p" @click='callGetPhoneFun'>2、客服电话：{{ callGetPhone }}</p>
-			<view class="flex-xc-yn"><image mode="widthFix" class="blc-officialAccount" :src="staticUrl + 'officialAccountBack.png'"></image></view>
+			<!-- <view class="flex-xc-yn"><image mode="widthFix" class="blc-officialAccount" :src="staticUrl + 'officialAccountBack.png'"></image></view> -->
+			<view class="flex-xc-yn"><image mode="widthFix" class="blc-officialAccount" src="../../static/crownCookiesImg/erweima.jpeg"></image></view>
 			<view class="flex-xc-yn"><image mode="widthFix" class="blc-crownCookies" :src="staticUrl + 'crownCookiesImg.png'"></image></view>
 		</view>
 	</view>
@@ -146,13 +147,11 @@ export default {
 				updateUserInfoMobile(openid, this.phonenum, this.captcha)
 					.then(res => {
 						if (res.result.businessCode == 0) {
-							uni.setStorage({
-								key:"sweepstr",
-								data:'res.result'
-							})
 							const sweepstr = uni.getStorageSync("sweepstr");
+							console.log('sweepstrsweepstrsweepstr');
+							console.log(sweepstr);
 							uni.redirectTo({
-								url: '../activityEntrance/activityEntrance?sweepstr=' + sweepstr
+								url: '../activityEntrance/activityEntrance?sweepstr=' + encodeURIComponent(sweepstr)
 							});
 						} else {
 							uni.showModal({

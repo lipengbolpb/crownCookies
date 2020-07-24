@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "wx-open-setting": "/components/wx-open-setting/wx-open-setting",
+    "custom-footer-bar": "/components/custom-footer-bar/custom-footer-bar",
+    "activity-rule": "/components/activityRule",
+    "get-cash": "/pages/getCash/getCash",
+    "weixin-open-setting": "/components/wx-open-setting/wx-open-setting"
+  }
+}

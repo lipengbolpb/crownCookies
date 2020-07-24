@@ -14,11 +14,21 @@ function sweepQrcode(sendParams) {
 		if(uni.getStorageSync('userInfo')){
 			sendParams.nickname = uni.getStorageSync('userInfo').nickName;
 			sendParams.headimgurl = uni.getStorageSync('userInfo').avatarUrl;
-		}else{   
-			
+		}else{
 			sendParams.nickname = '';
 			sendParams.headimgurl = '';
 		} 
+		
+		// if(sendParams.sweepstr){
+		// 	const storageSweepstr = uni.getStorageSync('sweepstr');
+		// }else{
+			
+		// }
+		// uni.setStorage({
+		// 	key:"sweepstr",
+		// 	data:res.result
+		// })
+		
 		console.log("backParams");
 		console.log(sendParams);
 		requestPost('/sweep/sweepQrcode', sendParams).then((backParams) => {

@@ -47,7 +47,7 @@
 		<view v-if="customDialogType == 5">
 			<view style="opacity: 0;" :animation="opacityAniCen" class="customDialog-center-nobg">
 				<!-- <view class="cdc-titleImg"><image :src="staticUrl + 'gaunzhu.png'" mode="widthFix"></image></view> -->
-				<view class="cdc-titleImg"><image src="../static/crownCookiesImg/gaunzhu.png" mode="widthFix"></image></view>
+				<view class="cdc-titleImg5"><image src="../static/crownCookiesImg/gaunzhu.png" mode="widthFix"></image></view>
 				<view class="cdc-close" @click="closeCustomDialog"><image :src="staticUrl + 'closeBottom.png'" mode="widthFix"></image></view>
 			</view>
 		</view>
@@ -273,6 +273,11 @@ export default {
 	margin-left: -30rpx;
 	bottom: -100rpx;
 	image {
+		width: 100%;
+	}
+}
+.cdc-titleImg5{
+	image{
 		width: 100%;
 	}
 }

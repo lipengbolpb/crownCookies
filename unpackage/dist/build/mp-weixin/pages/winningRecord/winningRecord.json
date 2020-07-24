@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "中奖记录",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
+  }
+}
