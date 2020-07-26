@@ -7,7 +7,7 @@
 	} from '@/utils/api.js';
 	export default {
 		onLaunch: function() {
-			console.log('App Launch');
+			// console.log('App Launch');
 			// 判断设备是否为 iPhone X
 			this.checkIsIPhoneX();
 			// 获取用户信息
