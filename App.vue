@@ -122,6 +122,30 @@
 		height: 100%;
 		-webkit-overflow-scrolling: touch;
 	}
+	.page-template{
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+	.page-template-wrap{
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.page-template-wrap-center{
+		width: 100%;
+		/* height: 1334rpx; */
+		height: 1234rpx;
+		overflow: hidden;
+		position: absolute;
+		top: 50%;
+		-webkit-transform: translateY(-50%);
+		transform: translateY(-50%);
+
+	}
 	/* 
 	*  x 代表水平方向 y垂直方向
 	*  c 居中 （垂直居中、水平居中）

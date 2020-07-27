@@ -1,49 +1,57 @@
 <template>
-	<view class="activityEntrance">
-		<image mode="widthFix" class="crownCookies-logo" src="../../static/crownCookiesImg/crownCookiesImgLogo.png"></image>
-
-		<view class="activityEntrance-center-Animation" v-if="isStartAnimation" :style="{ 'margin-top': isOpenAdaptation ? '512rpx' : '396rpx' }">
-			<image class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
-			<image :animation="crownCookiesAni" class="aec-crownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
-			<image :animation="baifenbaiAni" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image>
-		</view>
-		<view class="activityEntrance-center" v-else :style="{ 'margin-top': isOpenAdaptation ? '334rpx' : '226rpx' }">
-			<image class="aec-chuanquqi" mode="widthFix" src="../../static/crownCookiesImg/chuanquqi.png"></image>
-			<image class="aec-baifenbai" mode="widthFix" src="../../static/crownCookiesImg/baifenbai.png"></image>
-		</view>
-
-		<view :animation="fontMesAni" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view>
-
-		<view class="focusGguidance" v-if="isShowGguidance" @click="showGguidanceFun" :style="{ bottom: isOpenAdaptation ? '170rpx' : '120rpx' }">
-			<image :animation="focusGguidanceAni" :src="staticUrl + 'focusGguidance.png'"></image>
-		</view>
-
-		<!-- 抽奖按钮 获取手机号-->
-		<view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn">
-			<view @click="showGetCash" class="choujiangBtn" v-if="isHasPhoneNumber">
-				<image :src="staticUrl + 'dianjichoujiang.png'" mode="widthFix"></image>
+	
+	<view class="page-template">
+		<view class="page-template-wrap page-template-wrap-bg">
+			<view class="page-template-wrap-center">
+				<view class="activityEntrance">
+					<image mode="widthFix" class="crownCookies-logo" src="../../static/crownCookiesImg/crownCookiesImgLogo.png"></image>
+				
+					<view class="activityEntrance-center-Animation" v-if="isStartAnimation" :style="{ 'margin-top': isOpenAdaptation ? '512rpx' : '396rpx' }">
+						<image class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
+						<image :animation="crownCookiesAni" class="aec-crownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
+						<image :animation="baifenbaiAni" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image>
+					</view>
+					<view class="activityEntrance-center" v-else :style="{ 'margin-top': isOpenAdaptation ? '334rpx' : '226rpx' }">
+						<image class="aec-chuanquqi" mode="widthFix" src="../../static/crownCookiesImg/chuanquqi.png"></image>
+						<image class="aec-baifenbai" mode="widthFix" src="../../static/crownCookiesImg/baifenbai.png"></image>
+					</view>
+				
+					<view :animation="fontMesAni" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view>
+				
+					<view class="focusGguidance" v-if="isShowGguidance" @click="showGguidanceFun" :style="{ bottom: isOpenAdaptation ? '170rpx' : '120rpx' }">
+						<image :animation="focusGguidanceAni" :src="staticUrl + 'focusGguidance.png'"></image>
+					</view>
+				
+					<!-- 抽奖按钮 获取手机号-->
+					<view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn">
+						<view @click="showGetCash" class="choujiangBtn" v-if="isHasPhoneNumber">
+							<image :src="staticUrl + 'dianjichoujiang.png'" mode="widthFix"></image>
+						</view>
+						<view class="choujiangBtn" v-else>
+							<button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" class="btn againGetPhone">
+								<image :src="staticUrl + 'dianjichoujiang.png'" mode="widthFix"></image>
+							</button>
+						</view>
+					</view>
+				
+					<!-- 规则弹窗 -->
+					<activity-rule ref="activityRuleChild" @activityRuleColse="updateActivityRuleColse" :activityRuleSource="activityRuleSource"
+					 :activityRuleIsShow="activityRuleIsShow"></activity-rule>
+				
+					<!-- 获取红包动效页面 -->
+					<get-cash ref="getCashChild" :getCashIsShow="getCashIsShow" :getCashIsShowMes="getCashIsShowMes" :isStartAnimation="getCashIsStartAnimation"
+					 :currentMoney="currentMoney"></get-cash>
+				
+					<!-- 引导开启 位置授权 -->
+					<wx-open-setting :wxOpenSettingIsShow="wxOpenSettingIsShow" :isStartAnimation="wxOpenSettingIsStartAnimation"
+					 @WxOpenSettingColse="WxOpenSettingColse" @openSetting="wosOpenSetting"></wx-open-setting>
+				
+					<custom-footer-bar ref="customFooterBarChild" :cusFooterBarIsShow="cusFooterBarIsShow" :isOpenAdaptation="isOpenAdaptation"></custom-footer-bar>
+				</view>
 			</view>
-			<view class="choujiangBtn" v-else>
-				<button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" class="btn againGetPhone">
-					<image :src="staticUrl + 'dianjichoujiang.png'" mode="widthFix"></image>
-				</button>
-			</view>
 		</view>
+	</view> 
 
-		<!-- 规则弹窗 -->
-		<activity-rule ref="activityRuleChild" @activityRuleColse="updateActivityRuleColse" :activityRuleSource="activityRuleSource"
-		 :activityRuleIsShow="activityRuleIsShow"></activity-rule>
-
-		<!-- 获取红包动效页面 -->
-		<get-cash ref="getCashChild" :getCashIsShow="getCashIsShow" :getCashIsShowMes="getCashIsShowMes" :isStartAnimation="getCashIsStartAnimation"
-		 :currentMoney="currentMoney"></get-cash>
-
-		<!-- 引导开启 位置授权 -->
-		<wx-open-setting :wxOpenSettingIsShow="wxOpenSettingIsShow" :isStartAnimation="wxOpenSettingIsStartAnimation"
-		 @WxOpenSettingColse="WxOpenSettingColse" @openSetting="wosOpenSetting"></wx-open-setting>
-
-		<custom-footer-bar ref="customFooterBarChild" :cusFooterBarIsShow="cusFooterBarIsShow" :isOpenAdaptation="isOpenAdaptation"></custom-footer-bar>
-	</view>
 </template>
 
 <script>
@@ -177,37 +185,37 @@
 			// 串码类型 扫码串码1 输入串码2
 			that.codeType = options.codeType || '1';
 			console.log(that.codeType);
-			if(that.codeType == 2){
-				this.sweepstr = '';
-			}else{
-				if (sweepstrUrl.indexOf('xt.vjifen.com') != -1) {
-					//测试二维码
-					if (sweepstrUrl.indexOf('/LN/') != -1) {
-						//测试的微信直接打开小程序
-						that.sweepstr = sweepstrUrl.split('LN/')[1];
-					} else {
-						that.sweepstr = sweepstrUrl.split('v=')[1];
-					}
-				} else if (sweepstrUrl.indexOf('VJ1.TV/LN/') != -1) {
-					that.sweepstr = sweepstrUrl.split('LN/')[1];
-				} else if (sweepstrUrl.indexOf('vj1.tv/LN/') != -1) {
-					that.sweepstr = sweepstrUrl.split('LN/')[1];
-				} else {
-					that.sweepstr = '';
-					return uni.showModal({
-						title: '温馨提示',
-						content: '请扫描正确的活动二维码~',
-						showCancel: false,
-						success(res) {
-							if (res.confirm) {
-								uni.reLaunch({
-									url: '../index/index'
-								});
-							}
-						}
-					});
-				}
-			}
+			// if(that.codeType == 2){
+			// 	this.sweepstr = '';
+			// }else{
+			// 	if (sweepstrUrl.indexOf('xt.vjifen.com') != -1) {
+			// 		//测试二维码
+			// 		if (sweepstrUrl.indexOf('/LN/') != -1) {
+			// 			//测试的微信直接打开小程序
+			// 			that.sweepstr = sweepstrUrl.split('LN/')[1];
+			// 		} else {
+			// 			that.sweepstr = sweepstrUrl.split('v=')[1];
+			// 		}
+			// 	} else if (sweepstrUrl.indexOf('VJ1.TV/LN/') != -1) {
+			// 		that.sweepstr = sweepstrUrl.split('LN/')[1];
+			// 	} else if (sweepstrUrl.indexOf('vj1.tv/LN/') != -1) {
+			// 		that.sweepstr = sweepstrUrl.split('LN/')[1];
+			// 	} else {
+			// 		that.sweepstr = '';
+			// 		return uni.showModal({
+			// 			title: '温馨提示',
+			// 			content: '请扫描正确的活动二维码~',
+			// 			showCancel: false,
+			// 			success(res) {
+			// 				if (res.confirm) {
+			// 					uni.reLaunch({
+			// 						url: '../index/index'
+			// 					});
+			// 				}
+			// 			}
+			// 		});
+			// 	}
+			// }
 		},
 		onReady() {
 			// 开启本页面 动效
@@ -650,12 +658,13 @@
 </script>
 <!-- <view class="container" style="background-image:url({{imgBaseUrl}}/bg.jpg) no-repeat;background-size:cover;"></view> -->
 <style scoped lang="scss">
+	.page-template-wrap-bg{
+		background: url($crownCookiesImg+'crownCookiesImgBg.jpg') no-repeat center;
+		background-size: cover;
+	}
 	.activityEntrance {
 		width: 100%;
 		height: 100%;
-		background: url($crownCookiesImg+'crownCookiesImgBg.jpg') no-repeat center;
-		background-size: cover;
-		overflow: hidden;
 	}
 
 	.crownCookies-logo {

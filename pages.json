@@ -1,5 +1,11 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/activityEntrance/activityEntrance", //活动页面
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
 		{   
 			"path": "pages/index/index", // 首页
 			"style": {
@@ -15,12 +21,6 @@
 		},
 		{
 			"path": "pages/blackList/blackList", // 黑名单
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/activityEntrance/activityEntrance", //活动页面
 			"style": {
 				"navigationStyle": "custom"
 			}

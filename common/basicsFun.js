@@ -66,6 +66,7 @@ function judgeBusinessCode(data) {
 		const result = data.result;
 		const reply = data.reply;
 		const businessCode = data.result.businessCode;
+		return false;
 		// const businessCode = 0; 
 		if (businessCode == 0) { // 扫码成功 红包
 			resolve(businessCode);
