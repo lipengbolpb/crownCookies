@@ -9,10 +9,9 @@
 				<view class="head">
 					<!-- 小程序的logo和名字 -->
 					<image :src="staticUrl + 'crownCookiesImgLogo.png'" mode="widthFix" class="headimg"></image>
-					<!-- 青岛啤酒辽宁 -->
-					<text>畅享青啤</text>
+					<text>皇冠曲奇</text>
 					<text>申请</text>
-					<image src="../../static/crownCookiesImg/closeimg.png" @click="closeWxOpenSetting" mode="widthFix" class="close"></image>
+					<image :src="staticUrl+'closeimg.png'" @click="closeWxOpenSetting" mode="widthFix" class="close"></image>
 				</view>
 				<view class="content">
 					<text>获取您的地理位置信息</text>

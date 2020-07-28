@@ -25,7 +25,7 @@
 			</p>
 			<p class="blc-p" @click='callGetPhoneFun'>2、客服电话：{{ callGetPhone }}</p>
 			<!-- <view class="flex-xc-yn"><image mode="widthFix" class="blc-officialAccount" :src="staticUrl + 'officialAccountBack.png'"></image></view> -->
-			<view class="flex-xc-yn"><image mode="widthFix" class="blc-officialAccount" src="../../static/crownCookiesImg/erweima.jpeg"></image></view>
+			<view class="flex-xc-yn"><image mode="widthFix" :style="{ marginottom: isOpenAdaptation ? '210rpx' : '54rpx' }" class="blc-officialAccount" :src="staticUrl+'erweima.jpeg'"></image></view>
 			<view class="flex-xc-yn"><image mode="widthFix" class="blc-crownCookies" :src="staticUrl + 'crownCookiesImg.png'"></image></view>
 		</view>
 	</view>
@@ -49,7 +49,15 @@ export default {
 			const userSystemInfo = uni.getStorageSync('userSystemInfo');
 			const safeAreaTop = userSystemInfo.safeArea.top;
 			return safeAreaTop;
-		}
+		},
+		// 当窗口 高度 大于800 是 重新 计算 盒子的上边距
+		isOpenAdaptation() {
+			if (this.windowHeight > 800) {
+				return true;
+			} else {
+				return false;
+			}
+		},
 	},
 	name: 'blacklist',
 	data() {
@@ -70,7 +78,7 @@ export default {
 			this.showType = true;
 		} else {
 			this.showType = false;
-		}
+		}  
 		console.log(this.showType);
 
 		const userData = uni.getStorageSync('userData');
@@ -200,7 +208,7 @@ page {
 	flex: 1;
 	margin: 44rpx 30rpx 30rpx 30rpx;
 	background: #fff;
-	padding: 20rpx;
+	padding: 40rpx;
 	border-radius: 20rpx;
 }
 .blc-title {
@@ -222,7 +230,7 @@ page {
 	width: 348rpx;
 }
 .blc-officialAccount {
-	margin-bottom: 122rpx;
+	margin-bottom: 53rpx;
 	margin-top:56rpx;
 	width: 300rpx;
 }

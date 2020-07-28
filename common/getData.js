@@ -177,10 +177,10 @@ function queryUserHomePage() {
 					reslove()
 				}
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: jo.result.msg
-				});
+				// uni.showModal({
+				// 	title: '提示',
+				// 	content: jo.result.msg
+				// });
 			}
 		})
 	})

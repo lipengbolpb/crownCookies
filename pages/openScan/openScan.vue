@@ -3,6 +3,8 @@
 </template>
 
 <script>
+	import { config } from '@/utils/api.js';
+	import { dateformat } from '@/common/basicsFun.js';
 	export default {
 		data() {
 			return {
@@ -23,12 +25,30 @@
 						key:"sweepstr",
 						data:res.result
 					})
-					uni.redirectTo({
-					  url: '../activityEntrance/activityEntrance?sweepstr=' + encodeURIComponent(res.result),
-					  complete() {
-					  	getApp().globalData.openQrcode = false
-					  }
+					const dateStatus =	dateformat(config.startDate);
+					console.log("dateStatus");
+					console.log(dateStatus);
+					console.log(config.startDate);
+					uni.setStorage({
+						key:"dateStatus",
+						data:dateStatus==true?'1':'0'
 					})
+					if(!dateStatus){
+						uni.switchTab({
+						  url: '../index/index',
+						  complete() {
+						  	getApp().globalData.openQrcode = false
+						  }
+						})
+					}else{
+						console.log('../activityEntrance/activit');
+						uni.redirectTo({
+						  url: '../activityEntrance/activityEntrance?sweepstr=' + encodeURIComponent(res.result),
+						  complete() {
+						  	getApp().globalData.openQrcode = false
+						  }
+						})
+					}
 				},
 				fail:function (res){
 					uni.switchTab({

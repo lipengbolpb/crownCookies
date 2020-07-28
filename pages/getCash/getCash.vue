@@ -32,7 +32,7 @@ export default {
 		},
 		currentMoney: {
 			type: String,
-			default: '0'
+			default: ''
 		},
 		// 是否展示
 		getCashIsShow: {

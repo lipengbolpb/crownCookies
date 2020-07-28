@@ -1,21 +1,32 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [ //pages数组中第一项表示应用启动页
 		{
-			"path": "pages/activityEntrance/activityEntrance", //活动页面
+			"path": "pages/getPrize/getPrize", // 获取大奖页面
 			"style": {
 				"navigationStyle": "custom"
 			}
 		},
-		{   
+		{
 			"path": "pages/index/index", // 首页
 			"style": {
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/submitUserInformation/submitUserInformation", // 领取大奖
+			"path": "pages/codeScanned/codeScanned", // 二维码已被扫
 			"style": {
-				"navigationBarTitleText": "填写信息",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "components/activityRuleDetail", // 首页
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/activityEntrance/activityEntrance", //活动页面
+			"style": {
 				"navigationStyle": "custom"
 			}
 		},
@@ -26,8 +37,9 @@
 			}
 		},
 		{
-			"path": "pages/getPrize/getPrize", // 大奖页面
+			"path": "pages/submitUserInformation/submitUserInformation", // 领取大奖
 			"style": {
+				"navigationBarTitleText": "填写信息",
 				"navigationStyle": "custom"
 			}
 		},
@@ -46,15 +58,9 @@
 			}
 		},
 		{
-			"path": "pages/getOpenid/getOpenid", // 输入串码 
+			"path": "pages/getOpenid/getOpenid", // 获取 openid 目前没有调用
 			"style": {
 				"navigationBarTitleText": " ",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/codeScanned/codeScanned", // 二维码已被扫
-			"style": {
 				"navigationStyle": "custom"
 			}
 		},
@@ -66,14 +72,7 @@
 			}
 		},
 		{
-			"path": "pages/scan/scan",
-			"style": {
-				"navigationBarTitleText": "青岛啤酒辽宁",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/openScan/openScan",
+			"path": "pages/openScan/openScan", //打开扫一扫
 			"style": {
 				"navigationBarTitleText": "皇冠曲奇"
 			}
@@ -108,7 +107,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "青岛啤酒辽宁",
+		"navigationBarTitleText": "皇冠曲奇",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},

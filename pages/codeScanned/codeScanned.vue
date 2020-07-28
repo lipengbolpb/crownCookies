@@ -7,8 +7,12 @@
 				<image mode="widthFix" class="csc-cuowuerweima" :src="staticUrl + 'cuowuerweima.png'"></image>
 			</view>
 			<p class="csc-title">这个二维码已被扫过</p>
-			<p class="csc-p">{{ mesFont }}<br> <view class="csc-currentMoney">  {{ mesFontCurrentMoney }} </view></p> 
+	
+			<p :class="[showType==1?'csc-p1':'csc-p']">
+				<view class="csc-currentMoney">  {{ mesFontCurrentMoney }} </view>{{ mesFont }}
+			</p> 
 			<view class="flex-xc-yn"><image mode="widthFix" class="csc-crownCookies" :src="staticUrl + 'crownCookiesImg.png'"></image></view>
+
 		</view>
 	</view>
 </template>
@@ -51,18 +55,20 @@ export default {
 			
 			this.mesFont = `您已于 ${ earnTime } 扫过这个二维码`;
 			this.mesFontCurrentMoney=`并获得 ${ currentMoney }元`;
-			
+			this.showType = '1';
 		}else{
 			// 已被他人扫码
 			this.mesFont = '每个二维码仅限扫码一次';
-			this.mesFontCurrentMoney=` `;
+			this.mesFontCurrentMoney=``;
+			this.showType = '2';
 		}
 	},
 	data() {
 		return {
 			mesFont:'每个二维码仅限扫码一次',
 			mesFontCurrentMoney:'',
-			staticUrl: config.staticUrl
+			staticUrl: config.staticUrl,
+			'showType':'1',
 		};
 	},
 	methods: {
@@ -107,12 +113,22 @@ export default {
 	margin-bottom: 126rpx;
 	position: relative;
 }
+.csc-p1{
+	font-size: 26rpx;
+	color: #666666;
+	line-height: 50rpx;
+	margin-bottom: 40rpx;
+	margin-top: 86rpx;
+	position: relative;
+}
 .csc-currentMoney{
 	width: 100%;
 	position: absolute;
 	left: 0;
-	bottom: -60rpx;
+	top: -60rpx;
 	text-align: center;
+	font-size: 36rpx;
+	color: #FF0F00;
 }
 .csc-crownCookies {
 	width: 348rpx;

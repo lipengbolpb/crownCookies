@@ -14,7 +14,8 @@ if (isOnline) {
 		// requestUrl_ln: 'https://lnqp.vjifen.com/DBTLNQPInterface',
 		requestUrl_ln:'https://mapi.vjifen.com/vjifenInterface',
 		appid_ln: 'wx347148911badcf19',
-		payAppid_ln: 'wxa42a20606316e2e9'
+		payAppid_ln: 'wxa42a20606316e2e9',
+		startDate:'2020/08/31 23:59:59',
 	}
 } else {
 	config = {
@@ -26,7 +27,9 @@ if (isOnline) {
 		// requestUrl_ln: 'http://192.168.1.230:8090/vjifenInterface',
 		requestUrl_ln: 'https://vtt.vjifen.com:447/vjifenInterface',
 		appid_ln: 'wx1ce2ca65ccc5aa5e',
-		payAppid_ln: 'wx459ee9aa61f38da3'
+		payAppid_ln: 'wx459ee9aa61f38da3',
+		// startDate:'2020/08/31 23:59:59',
+		startDate:'2020/06/31 23:59:59',
 	}
 }
 

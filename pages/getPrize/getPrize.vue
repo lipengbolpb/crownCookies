@@ -1,29 +1,26 @@
 <template>
 	<!-- 中出大奖 -->
 	<view class="getPrize">
+		<image mode="widthFix" class="crownCookies-logo" :src="staticUrl+'crownCookiesImgLogo.png'"></image>
 		<view  class="getPrize-center">
-			<view :class="[isStartAnimation ? 'comon-initAni' : '','flex-xR-yn','gpc-gan-box']" :animation="gaiAni" >
+			<view :class="[isStartAnimation ? 'comon-initAni-gan' : '','flex-xR-yn','gpc-gan-box']" :animation="gaiAni" >
 				<image class="gpc-gan" :src="staticUrl + 'hengzigan.png'"></image>
 			</view>
-			<view class="gpc-gan-top">
-				
-			</view>
+			<view class="gpc-gan-top"></view>
 			<view class="gpc-mes">
-				<image :class="[isStartAnimation ? 'comon-initAni' : '']" :animation="fontMesAni"  mode="widthFix" :src="staticUrl + 'heziMes.png'"></image>
+				<image :class="[isStartAnimation ? 'comon-initAni-fontMes' : '']" :animation="fontMesAni" :src="staticUrl + 'heziMes.png'"></image>
 			</view>
 			<view class="flex-xc-yn">
-				<view :class="[isStartAnimation ? 'comon-initAni' : '', 'gpc-basbox']"  :animation="diAni">
+				<!-- <view :class="[isStartAnimation ? 'comon-initAni' : '', 'gpc-basbox']"  :animation="diAni"> -->
+				<view class="gpc-basbox">
 					<image mode="widthFix" class="" :src="staticUrl + 'hezidi.png'"></image>
 				</view>
 			</view> 
-			<!-- <image :class="[isStartAnimation ? 'comon-initAni' : '', 'gpc-guang']" mode="widthFix" :animation="guangAni" :src="staticUrl + 'heziguang.png'" ></image> -->
-			<image :class="[isStartAnimation ? 'comon-initAni' : '', 'gpc-guang']" mode="widthFix" :animation="guangAni" src="../../static/crownCookiesImg/guan01.png" ></image>
-			<image :class="[isStartAnimation ? 'comon-initAni' : '', 'gpc-qian']" mode="widthFix" :animation="qianAni" :src="staticUrl + 'heziqian.png'"></image>
-			
+			<image :class="[isStartAnimation ? 'comon-initAni-guan' : '', 'gpc-guang']" mode="widthFix" :animation="guangAni" :src="staticUrl+'guan01.png'" ></image>
+			<image :class="[isStartAnimation ? 'comon-initAni-qian' : '', 'gpc-qian']" mode="widthFix" :animation="qianAni" :src="staticUrl + 'heziqian.png'"></image>
 			<view :class="[isStartAnimation ? 'lijilingqu-initAni' : '', 'gpc-lijilingqu-box','flex-xc-yn']"  :animation="lijilingquAni">
 				<image @click="toGetPrize" class="gpc-lijilingqu" :src="staticUrl + 'lijilingqu.png'"></image>
 			</view>
-			
 		</view>
 	</view>
 </template>
@@ -68,28 +65,29 @@ export default {
 			diAnimation.scale(1).step();
 			that.diAni = diAnimation.export();
 			
+			// 钱
 			const qianAnimation = wx.createAnimation({
-				duration: 500,
+				duration: 400,
 				timingFunction: 'ease',
 				delay: 500
 			});
-			qianAnimation.scale(1).step();
+			qianAnimation.opacity(1).scale(1.1).step();
 			that.qianAni = qianAnimation.export();
-			
+			// 光 动画
 			const guangAnimation = wx.createAnimation({
-				duration: 500,
+				duration: 1000,
 				timingFunction: 'ease',
 				delay: 500
 			});
-			guangAnimation.scale(1).step();
+			guangAnimation.opacity(1).step();
 			that.guangAni = guangAnimation.export();
-			
+			// 文字提示
 			const fontMesAnimation = wx.createAnimation({
-				duration: 500,
+				duration: 300,
 				timingFunction: 'ease',
-				delay: 500
+				delay: 800
 			});
-			fontMesAnimation.scale(1).step();
+			fontMesAnimation.opacity(1).scale(1).step();
 			that.fontMesAni = fontMesAnimation.export();
 			
 			const gaiAnimation = wx.createAnimation({
@@ -97,14 +95,14 @@ export default {
 				timingFunction: 'ease',
 				delay: 500
 			});
-			gaiAnimation.scale(1).step();
+			gaiAnimation.translateY(0).step();
 			that.gaiAni = gaiAnimation.export();
 			
 			// 立即领取按钮 从下向上滑出
 			const lijilingquAnimation = wx.createAnimation({
-				duration: 500,
+				duration: 300,
 				timingFunction: 'ease',
-				delay: 1000
+				delay: 500
 			});
 			lijilingquAnimation.opacity(1).translateY(0).step();
 			that.lijilingquAni = lijilingquAnimation.export();
@@ -122,12 +120,30 @@ export default {
 // 红色盒子 初始位置
 .comon-initAni {
 	transform: scale(.8);
+} 
+.comon-initAni-fontMes {
+	transform: scale(0);
+	opacity: 0;
+} 
+.comon-initAni-qian{
+	transform: scale(.2);
+	opacity: 0;
 }
+// 盖 初始位置
+.comon-initAni-gan{
+	transform: translateY(50px);
+}
+.comon-initAni-guan{
+	// transform: scale(0);
+	// transform: translateY(50px);
+	opacity: 0;
+}
+
 // 立即领取 按钮
 .lijilingqu-initAni{
 	transform: translateY(100px);
 	opacity: 0;
-}
+} 
 .getPrize {
 	width: 100%;
 	height: 100%;
@@ -160,7 +176,7 @@ export default {
 .gpc-guang{
 	width: 100%;
 	position: absolute;
-	left:-7rpx;
+	left:-5rpx;
 	bottom:238rpx;
 }
 .gpc-gan-box{
@@ -170,7 +186,7 @@ export default {
 	position: absolute;
 	right:10%;
 	top: 0;
-	z-index: 70;
+	z-index: -7;
 }
 .gpc-gan-top{
 	margin-left: 10%;
@@ -193,6 +209,7 @@ export default {
 	transform: translate(-50%,-50%);
 	image {
 		width: 100%;
+		height: 200rpx;
 	}
 }
 .gpc-lijilingqu-box{
@@ -212,5 +229,11 @@ export default {
 	left: 50%;
 	margin-left: -30rpx;
 	top: -130rpx;
+}
+.crownCookies-logo {
+	width: 180rpx;
+	position: absolute;
+	left: 54rpx;
+	top: 106rpx;
 }
 </style>

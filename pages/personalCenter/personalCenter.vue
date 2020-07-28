@@ -15,13 +15,13 @@
 			<!-- 累计红包金额 获取丹麦旅游 -->
 			<view class="pct-tab flex-xsb-yc">
 				<view class="shuxianBox">
-					<image mode="widthFix" :src="staticUrl+'hongbaoIcon.png'"></image>
+					<image :src="staticUrl+'hongbaoIcon.png'" class="hongbaoIcon"></image>
 					<p class="pct-tab-mes1">累计红包金额</p>
 					<p class="pct-tab-mes2">￥ <text>{{ allAccountMoney }}</text> 元</p>
 					<view class="shuxian"></view>
 				</view>
 				<view class="">
-					<image mode="widthFix" :src="staticUrl+'danmaiIcon.png'"></image>
+					<image :src="staticUrl+'danmaiIcon.png'" class="danmaiIcon"></image>
 					<p class="pct-tab-mes1">获取丹麦旅游</p>
 					<p class="pct-tab-mes2"><text>{{ totalPrizeNum }}</text> 次</p>
 				</view>
@@ -83,7 +83,7 @@ export default {
 					isCanClick: true,
 					status: 1, // 1 跳转 路径 2 显示弹窗
 					name: '查看中奖记录',
-					icon: '/static/crownCookiesImg/zhongjiangjiluIcon.png',
+					icon: config.staticUrl+'zhongjiangjiluIcon.png',
 					navUrl: '/pages/winningRecord/winningRecord'
 				},
 				{
@@ -91,7 +91,7 @@ export default {
 					isCanClick: true,
 					status: 1, // 1 跳转 路径 2 显示弹窗
 					name: '输入序列码抽奖',
-					icon: '/static/crownCookiesImg/xuliehaoIcon.png',
+					icon: config.staticUrl+'xuliehaoIcon.png',
 					navUrl: '/pages/strCode/strCode'
 				},
 				{
@@ -99,13 +99,13 @@ export default {
 					isCanClick: true,
 					status: 2, // 1 跳转 路径 2 显示弹窗
 					name: '活动规则',
-					icon: '/static/crownCookiesImg/huodongguizeIcon.png',
+					icon: config.staticUrl+'huodongguizeIcon.png',
 					navUrl: ''
 				}
 			],
 			userInfo: {
 				avatarUrl: '',
-				nickName: ''
+				nickName: '昵称'
 			}, //用户 信息 头像 昵称
 			allAccountMoney: 0, // 累计获得多少钱
 			totalPrizeNum: 0 // 获取丹麦旅游
@@ -117,7 +117,10 @@ export default {
 		const backGetUserDataFun = await getUserDataFun();
 		
 	},
-
+	onHide() {
+		this.activityRuleIsShow = false;
+		
+	},
 	onShow() {
 		// 获取展示 信息
 		queryUserHomePage().then(res => {
@@ -145,7 +148,7 @@ export default {
 			fail: function(res) {
 				// 没有头像
 				that.userInfo.avatarUrl = '';
-				that.userInfo.nickName = '';
+				that.userInfo.nickName = '昵称';
 			}
 		});
 	},
@@ -308,6 +311,12 @@ button {
 }
 .shuxianBox{
 	position: relative;
+	.hongbaoIcon{
+		height: 44rpx;
+	}
+}
+.danmaiIcon{
+	height: 44rpx;
 }
 .shuxian{
 	width: 2rpx;

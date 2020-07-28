@@ -3,15 +3,15 @@
 		<!-- <view class="cfb-center flex-xc-yn" :style="{ 'height': isOpenAdaptation ? '160rpx' : '100rpx' }" :animation="footerbarAni"> -->
 		<view :class="['cfb-center',isOpenAdaptation?'flex-xc-yn':'flex-xc-yc']" :style="{ 'height': isOpenAdaptation ? '150rpx' : '100rpx'}" :animation="footerbarAni">
 			<view :class="[isOpenAdaptation?'flex-xc-ys-dirY':'flex-xc-yc-dirY']" @click="jumpFun(1)" :style="{'margin-top':isOpenAdaptation ? '10rpx' : '0' }">
-				<image src="../../static/crownCookiesImg/indexTabOff.png"></image>
+				<image :src="staticUrl+'indexTabOff.png'"></image>
 				<view class="">首页</view>
 			</view>
 			<view :class="[isOpenAdaptation?'flex-xc-ys-dirY':'flex-xc-yc-dirY']" @click="jumpFun(2)" :style="{'margin-top':isOpenAdaptation ? '10rpx' : '0' }">
-				<image src="../../static/crownCookiesImg/scanTabOn.png"></image>
+				<image :src="staticUrl+'scanTabOn.png'"></image>
 				<view class="">扫一扫</view>
 			</view>
 			<view :class="[isOpenAdaptation?'flex-xc-ys-dirY':'flex-xc-yc-dirY']" @click="jumpFun(3)" :style="{'margin-top':isOpenAdaptation ? '10rpx' : '0' }">
-				<image src="../../static/crownCookiesImg/personalCenterTabOff.png"></image>
+				<image :src="staticUrl+'personalCenterTabOff.png'"></image>
 				<view class="">我的账户</view>
 			</view>
 		</view>

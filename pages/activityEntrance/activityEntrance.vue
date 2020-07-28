@@ -1,56 +1,56 @@
 <template>
-	
 	<view class="page-template">
 		<view class="page-template-wrap page-template-wrap-bg">
 			<view class="page-template-wrap-center">
 				<view class="activityEntrance">
-					<image mode="widthFix" class="crownCookies-logo" src="../../static/crownCookiesImg/crownCookiesImgLogo.png"></image>
-				
-					<view class="activityEntrance-center-Animation" v-if="isStartAnimation" :style="{ 'margin-top': isOpenAdaptation ? '512rpx' : '396rpx' }">
+					<image mode="widthFix" class="crownCookies-logo" :src="staticUrl+'crownCookiesImgLogo.png'"></image>
+					<!-- <view class="activityEntrance-center-Animation" v-if="isStartAnimation" :style="{ 'margin-top': isOpenAdaptation ? '512rpx' : '396rpx' }"> -->
+					<view class="activityEntrance-center-Animation" v-if="isStartAnimation">
 						<image class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
 						<image :animation="crownCookiesAni" class="aec-crownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
 						<image :animation="baifenbaiAni" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image>
 					</view>
 					<view class="activityEntrance-center" v-else :style="{ 'margin-top': isOpenAdaptation ? '334rpx' : '226rpx' }">
-						<image class="aec-chuanquqi" mode="widthFix" src="../../static/crownCookiesImg/chuanquqi.png"></image>
-						<image class="aec-baifenbai" mode="widthFix" src="../../static/crownCookiesImg/baifenbai.png"></image>
+						<image class="aec-chuanquqi" mode="widthFix" :src="staticUrl+'chuanquqi.png'"></image>
+						<image class="aec-baifenbai" mode="widthFix" :src="staticUrl+'baifenbai.png'"></image>
 					</view>
-				
+
 					<view :animation="fontMesAni" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view>
-				
-					<view class="focusGguidance" v-if="isShowGguidance" @click="showGguidanceFun" :style="{ bottom: isOpenAdaptation ? '170rpx' : '120rpx' }">
-						<image :animation="focusGguidanceAni" :src="staticUrl + 'focusGguidance.png'"></image>
-					</view>
-				
+
 					<!-- 抽奖按钮 获取手机号-->
 					<view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn">
 						<view @click="showGetCash" class="choujiangBtn" v-if="isHasPhoneNumber">
-							<image :src="staticUrl + 'dianjichoujiang.png'" mode="widthFix"></image>
+							<image :src="staticUrl + 'dianjichoujiang.png'"></image>
 						</view>
 						<view class="choujiangBtn" v-else>
 							<button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" class="btn againGetPhone">
-								<image :src="staticUrl + 'dianjichoujiang.png'" mode="widthFix"></image>
+								<image :src="staticUrl + 'dianjichoujiang.png'"></image>
 							</button>
 						</view>
 					</view>
-				
-					<!-- 规则弹窗 -->
-					<activity-rule ref="activityRuleChild" @activityRuleColse="updateActivityRuleColse" :activityRuleSource="activityRuleSource"
-					 :activityRuleIsShow="activityRuleIsShow"></activity-rule>
-				
-					<!-- 获取红包动效页面 -->
-					<get-cash ref="getCashChild" :getCashIsShow="getCashIsShow" :getCashIsShowMes="getCashIsShowMes" :isStartAnimation="getCashIsStartAnimation"
-					 :currentMoney="currentMoney"></get-cash>
-				
-					<!-- 引导开启 位置授权 -->
-					<wx-open-setting :wxOpenSettingIsShow="wxOpenSettingIsShow" :isStartAnimation="wxOpenSettingIsStartAnimation"
-					 @WxOpenSettingColse="WxOpenSettingColse" @openSetting="wosOpenSetting"></wx-open-setting>
-				
-					<custom-footer-bar ref="customFooterBarChild" :cusFooterBarIsShow="cusFooterBarIsShow" :isOpenAdaptation="isOpenAdaptation"></custom-footer-bar>
 				</view>
+
 			</view>
+			<!-- 引导关注 -->
+			<view class="focusGguidance" v-if="isShowGguidance" @click="showGguidanceFun" :style="{ bottom: isOpenAdaptation ? '170rpx' : '120rpx' }">
+				<image :animation="focusGguidanceAni" :src="staticUrl + 'focusGguidance.png'"></image>
+			</view>
+			<!-- 规则弹窗 -->
+			<activity-rule ref="activityRuleChild" @activityRuleColse="updateActivityRuleColse" :activityRuleSource="activityRuleSource"
+			 :activityRuleIsShow="activityRuleIsShow"></activity-rule>
+
+			<!-- 获取红包动效页面 -->
+			<get-cash ref="getCashChild" :getCashIsShow="getCashIsShow" :getCashIsShowMes="getCashIsShowMes" :isStartAnimation="getCashIsStartAnimation"
+			 :currentMoney="currentMoney"></get-cash>
+
+			<!-- 引导开启 位置授权 -->
+			<wx-open-setting :wxOpenSettingIsShow="wxOpenSettingIsShow" :isStartAnimation="wxOpenSettingIsStartAnimation"
+			 @WxOpenSettingColse="WxOpenSettingColse" @openSetting="wosOpenSetting"></wx-open-setting>
+			<!-- 自定义导航 -->
+			<custom-footer-bar ref="customFooterBarChild" :cusFooterBarIsShow="cusFooterBarIsShow" :isOpenAdaptation="isOpenAdaptation"></custom-footer-bar>
+
 		</view>
-	</view> 
+	</view>
 
 </template>
 
@@ -118,7 +118,7 @@
 				isShowCustomLocation: false, // 是否展示 自定义 定位引导
 				wxOpenSettingIsShow: false, //是否展示 位置授权
 				wxOpenSettingIsStartAnimation: false, // 位置授权 是否展示动画
-				sweepstr: 'JYJRMB3GU938',
+				sweepstr: 'JYJ9CSJ8W79P',
 				cusFooterBarIsShow: false, //是否展示 页面tab （显示条件：出现 获得红包动效 ）
 				giveSpackTxStatusArr: [{
 						id: 1,
@@ -178,44 +178,41 @@
 			},
 		},
 		onLoad(options) {
-			console.log('options');
 			const sweepstrUrl = decodeURIComponent(options.sweepstr);
-			console.log(options);
 			const that = this;
 			// 串码类型 扫码串码1 输入串码2
 			that.codeType = options.codeType || '1';
-			console.log(that.codeType);
-			// if(that.codeType == 2){
-			// 	this.sweepstr = '';
-			// }else{
-			// 	if (sweepstrUrl.indexOf('xt.vjifen.com') != -1) {
-			// 		//测试二维码
-			// 		if (sweepstrUrl.indexOf('/LN/') != -1) {
-			// 			//测试的微信直接打开小程序
-			// 			that.sweepstr = sweepstrUrl.split('LN/')[1];
-			// 		} else {
-			// 			that.sweepstr = sweepstrUrl.split('v=')[1];
-			// 		}
-			// 	} else if (sweepstrUrl.indexOf('VJ1.TV/LN/') != -1) {
-			// 		that.sweepstr = sweepstrUrl.split('LN/')[1];
-			// 	} else if (sweepstrUrl.indexOf('vj1.tv/LN/') != -1) {
-			// 		that.sweepstr = sweepstrUrl.split('LN/')[1];
-			// 	} else {
-			// 		that.sweepstr = '';
-			// 		return uni.showModal({
-			// 			title: '温馨提示',
-			// 			content: '请扫描正确的活动二维码~',
-			// 			showCancel: false,
-			// 			success(res) {
-			// 				if (res.confirm) {
-			// 					uni.reLaunch({
-			// 						url: '../index/index'
-			// 					});
-			// 				}
-			// 			}
-			// 		});
-			// 	}
-			// }
+			if (that.codeType == 2) {
+				this.sweepstr = '';
+			} else {
+				if (sweepstrUrl.indexOf('xt.vjifen.com') != -1) {
+					//测试二维码
+					if (sweepstrUrl.indexOf('/LN/') != -1) {
+						//测试的微信直接打开小程序
+						that.sweepstr = sweepstrUrl.split('LN/')[1];
+					} else {
+						that.sweepstr = sweepstrUrl.split('v=')[1];
+					}
+				} else if (sweepstrUrl.indexOf('VJ1.TV/LN/') != -1) {
+					that.sweepstr = sweepstrUrl.split('LN/')[1];
+				} else if (sweepstrUrl.indexOf('vj1.tv/LN/') != -1) {
+					that.sweepstr = sweepstrUrl.split('LN/')[1];
+				} else {
+					that.sweepstr = '';
+					return uni.showModal({
+						title: '温馨提示',
+						content: '请扫描正确的活动二维码~',
+						showCancel: false,
+						success(res) {
+							if (res.confirm) {
+								uni.reLaunch({
+									url: '../index/index'
+								});
+							}
+						}
+					});
+				}
+			}
 		},
 		onReady() {
 			// 开启本页面 动效
@@ -225,9 +222,6 @@
 		},
 		async onShow() {
 			this.openid = await this.computedGetOpenid;
-			console.log('that.codeTypeonShowonShowonShowonShowonShow');
-			console.log(this.codeType);
-			console.log(this.sweepstr);
 			this.init();
 		},
 		/**
@@ -239,9 +233,9 @@
 				console.log(res.target);
 			}
 			return {
-				title: '青岛啤酒',
+				title: '皇冠曲奇',
 				path: '/pages/index/index',
-				imageUrl: this.imgUrl + 'share.png'
+				imageUrl: this.staticUrl + 'fenxiangImg.png'
 			};
 		},
 		onHide() {
@@ -257,7 +251,6 @@
 				 * 存在并且为true   表示已同意活动规则直接检查缓存中用户位置信息
 				 * 不存在        显示 活动规则 （关闭活动规则或者点击同意活动规则检查缓存中用户位置信息）
 				 */
-
 				uni.getStorage({
 					key: 'isAgreeRule',
 					success(sto) {
@@ -274,7 +267,7 @@
 									// key:'serialCodeData',
 									key: 'sweepQrcodeData',
 									success(stoData) {
-										const currentMoney = stoData.data.reply.currentMoney || '0.00';
+										const currentMoney = stoData.data.reply.currentMoney || '';
 										that.currentMoney = currentMoney;
 										const res = stoData.data;
 										if (res.reply.phonenum) {
@@ -359,7 +352,6 @@
 								content: '系统升级中...'
 							});
 						} else {
-							// code!='0' 服务失败
 							uni.showModal({
 								title: '提示',
 								content: '呜呜，服务开了个小差，请稍后重试！'
@@ -382,7 +374,6 @@
 					this.startFocusGguidanceAnimation(); // 显示 关注公众号引导 dongxian
 				}, 100);
 			},
-			async onLoadInit() {},
 			// 验证缓存中 是否 存在用户位置
 			async checkUserLocation() {
 				/**
@@ -496,7 +487,6 @@
 					delay: 500
 				});
 				baifenbaiAnimation.translateX(0).step();
-
 				// 提示文字动画
 				const fontMesAnimation = wx.createAnimation({
 					duration: 1000,
@@ -549,7 +539,7 @@
 						// key:'serialCodeData',
 						key: 'sweepQrcodeData',
 						success(stoData) {
-							const currentMoney = stoData.data.reply.currentMoney || '0.00';
+							const currentMoney = stoData.data.reply.currentMoney || '';
 							that.currentMoney = currentMoney;
 						}
 					});
@@ -584,7 +574,7 @@
 						analysisMobile(session_key, backDetail);
 					}
 				} else {
-					
+
 				}
 				// 无论是否同意 获取手机号 都调用 展示 红包方法
 				this.showGetCash();
@@ -603,7 +593,7 @@
 				// 调用扫码接口
 				sweepQrcode(sendParams)
 					.then(res => {
-						const currentMoney = res.reply.currentMoney || '0.00';
+						const currentMoney = res.reply.currentMoney || '';
 						that.currentMoney = currentMoney;
 						// 判断是否 返回手机号 如果有 不在 弹出授权
 						if (res.reply.phonenum) {
@@ -658,10 +648,11 @@
 </script>
 <!-- <view class="container" style="background-image:url({{imgBaseUrl}}/bg.jpg) no-repeat;background-size:cover;"></view> -->
 <style scoped lang="scss">
-	.page-template-wrap-bg{
-		background: url($crownCookiesImg+'crownCookiesImgBg.jpg') no-repeat center;
+	.page-template-wrap-bg {
+		background: url($crownCookiesImg+'crownCookiesImgBgBig.jpg') no-repeat center;
 		background-size: cover;
 	}
+
 	.activityEntrance {
 		width: 100%;
 		height: 100%;
@@ -670,7 +661,7 @@
 	.crownCookies-logo {
 		width: 180rpx;
 		margin-left: 54rpx;
-		margin-top: 126rpx;
+		margin-top: 106rpx;
 	}
 
 	.activityEntrance-center {
@@ -689,7 +680,7 @@
 	}
 
 	.activityEntrance-center-Animation {
-		margin: 226rpx 120rpx 36rpx 54rpx;
+		margin: 352rpx 120rpx 36rpx 54rpx;
 		position: relative;
 
 		image {
@@ -748,13 +739,15 @@
 	}
 
 	.choujiangBtn {
-		width: 40%;
-		margin-top: 34rpx;
+		width: 240rpx;
+		height: 166rpx;
+		margin-top: 26rpx;
 
 		// transform: scale(0.8,0.8);
 		// opacity: .3;
 		image,
 		button {
+			height: 166rpx;
 			width: 100%;
 		}
 	}

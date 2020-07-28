@@ -66,7 +66,6 @@ function judgeBusinessCode(data) {
 		const result = data.result;
 		const reply = data.reply;
 		const businessCode = data.result.businessCode;
-		return false;
 		// const businessCode = 0; 
 		if (businessCode == 0) { // 扫码成功 红包
 			resolve(businessCode);
@@ -149,24 +148,26 @@ function judgeBusinessStrCode(data) {
 			// businessCode 19 : 漏码
 			// businessCode 23 : 扫码次数已达上限
 			// businessCode -1 : 系统升级中
-			uni.setStorage({
-				key: 'businessCode',
-				data: businessCode
-			})
+			
+			// uni.setStorage({
+			// 	key: 'businessCode',
+			// 	data: businessCode
+			// })
 
-			if (businessCode == 2) {
-				uni.showModal({
-					title: '这个串码已被扫',
-					content: `扫码时间: ${ reply.earnTime } 再扫一瓶试试看~~`,
-				})
-			} else if (businessCode == 4) {
-				uni.showModal({
-					title: '活动未开始',
-					content: "亲再等等哦",
-				})
-			} else {
-				reject(businessCode);
-			}
+			reject(result);
+			// if (businessCode == 2) {
+			// 	uni.showModal({
+			// 		title: '这个串码已被扫',
+			// 		content: `扫码时间: ${ reply.earnTime } 再扫一瓶试试看~~`,
+			// 	})
+			// } else if (businessCode == 4) {
+			// 	uni.showModal({
+			// 		title: '活动未开始',
+			// 		content: "亲再等等哦",
+			// 	})
+			// } else {
+			// 	reject(businessCode);
+			// }
 		}
 	})
 }
@@ -254,6 +255,19 @@ async function userCodeExchangeOpenid() {
 	return backData;
 }
 
+// 时间判断 判断但前时间 与 某个时间比较
+const dateformat =  function (date1){
+	const curTimesTamp = new Date().getTime();
+	const dataTimesTamp = new Date(date1).getTime();
+	let backStatus = '';
+	if(curTimesTamp>dataTimesTamp){
+		backStatus = true;
+	}else{
+		backStatus = false;
+	}
+	return backStatus;
+}
+
 export {
 	judgeBusinessCode,
 	filterArr,
@@ -261,5 +275,6 @@ export {
 	judgeBusinessStrCode,
 	idcardValidate,
 	strlen,
-	strSub
+	strSub,
+	dateformat
 }

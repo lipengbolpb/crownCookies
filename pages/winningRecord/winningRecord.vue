@@ -25,7 +25,7 @@
 			
 			<block v-else>
 				<view class="wrc-nodata flex-xc-yc-dirY">
-					<image src="../../static/crownCookiesImg/wuzhongjiangjulu.png" mode="widthFix"></image>
+					<image :src="staticUrl+'wuzhongjiangjulu.png'" mode="widthFix"></image>
 					<view class="">暂无中奖记录，再接再厉哦～</view>
 				</view>
 			</block>

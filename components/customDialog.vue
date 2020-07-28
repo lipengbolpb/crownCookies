@@ -19,7 +19,7 @@
 		<view v-if="customDialogType == 8">
 			<view style="opacity: 0;" :animation="opacityAniCen" class="customDialog-center">
 				<view class="cdc-titleImg"><image :src="staticUrl + 'tanchuangTop.png'" mode="widthFix"></image></view>
-				<view class="cdc-center cdc-center8">
+				<view class="cdc-center cdc-center8 flex-xc-yc-dirY">
 					<p class="cdc-center-h1">{{ customDialogFontTitle }}</p>
 					<p class="cdc-center-p2">{{ customDialogFontCenter }}</p>
 				</view>
@@ -34,10 +34,14 @@
 				<view class="cdc-center cdc-center10 flex-xc-yc" v-if="customDialogType == 10">
 					<p class="cdc-center-h1">{{ customDialogFontTitle }}</p>
 				</view>
-				<view class="cdc-center cdc-center1" v-if="customDialogType == 1">
-					<p class="cdc-center-p1">{{ customDialogFontP1 }}</p>
+				<view class="cdc-center cdc-center1 flex-xc-yc-dirY" v-if="customDialogType == 1">
+					<!-- <p class="cdc-center-p1">{{ customDialogFontP1 }}</p>
 					<p class="cdc-center-p2">{{ customDialogFontP2 }}</p>
-					<p class="cdc-center-p3">{{ customDialogFontP3 }}</p>
+					<p class="cdc-center-p3">{{ customDialogFontP3 }}</p> -->
+					
+					<p class="cdc-center-p1">别心急，活动未开始哟～</p>
+					<p class="cdc-center-p2">本次活动将于2020年9月1日正式开始</p>
+					<p class="cdc-center-p3">敬请期待</p>
 				</view>
 				<view class="cdc-close" @click="closeCustomDialog"><image :src="staticUrl + 'closeBottom.png'" mode="widthFix"></image></view>
 			</view>
@@ -47,7 +51,7 @@
 		<view v-if="customDialogType == 5">
 			<view style="opacity: 0;" :animation="opacityAniCen" class="customDialog-center-nobg">
 				<!-- <view class="cdc-titleImg"><image :src="staticUrl + 'gaunzhu.png'" mode="widthFix"></image></view> -->
-				<view class="cdc-titleImg5"><image src="../static/crownCookiesImg/gaunzhu.png" mode="widthFix"></image></view>
+				<view class="cdc-titleImg5"><image :src="staticUrl+'gaunzhu.png'" mode="widthFix"></image></view>
 				<view class="cdc-close" @click="closeCustomDialog"><image :src="staticUrl + 'closeBottom.png'" mode="widthFix"></image></view>
 			</view>
 		</view>
@@ -148,6 +152,7 @@ export default {
 	background: #fff;
 	border-radius: 30rpx;
 	transform: translate(-50%, -50%);
+	height: 620rpx;
 	// overflow: hidden;
 }
 .customDialog-center-nobg{
@@ -178,18 +183,12 @@ export default {
 	padding-left: 32rpx;
 	padding-right: 32rpx;
 	background: #fff;
-	// 	background: url(../../static/crownCookiesImg/actStatusBg.png) no-repeat;
-	// 	background-size: 100% 100%;
-	// 	p {
-	// 		font-size: 32rpx;
-	// 		line-height: 48rpx;
-	// 	}
 }
 .cdc-center1 {
 	border-bottom-left-radius: 30rpx;
 	border-bottom-right-radius: 30rpx;
 	text-align: center;
-	padding-bottom: 100rpx;
+	height: 300rpx;
 	> p {
 		font-size: 32rpx;
 		line-height: 48rpx;
@@ -224,8 +223,12 @@ export default {
 		font-size: 36rpx;
 	}
 }
+.cdc-center8{
+	height: 169rpx;
+}
+
 .cdc-center10 {
-	height: 160rpx;
+	height: 300rpx;
 	line-height: 160rpx;
 	border-bottom-left-radius: 30rpx;
 	border-bottom-right-radius: 30rpx;

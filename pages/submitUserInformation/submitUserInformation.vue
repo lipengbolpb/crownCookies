@@ -4,7 +4,7 @@
 		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" left-icon="back" @click-left="back" title="填写信息"></uni-nav-bar>
 		<view class="strCode-center">
 			<view class="scc-titleImg">
-				<image src="../../static/crownCookiesImg/shuruToplogo.png"></image>
+				<image :src="staticUrl+'shuruToplogo.png'"></image>
 				<view class="">请填写中奖人信息</view>
 			</view>
 			<view class="submitBox">
@@ -13,7 +13,7 @@
 						<text>姓</text>
 						<text>名</text>
 					</view>
-					<input maxlength="20" v-model="userName" :disabled="!isGetPrize" class="submitBox-input" type="text" value="" placeholder="请输入姓名" />
+					<input maxlength="20" v-model.trim="userName" :disabled="isGetPrize" class="submitBox-input" type="text" value="" placeholder="请输入姓名" />
 				</view>
 				<view class="flex-xsb-yc">
 					<view class="submitBox-label flex-xsb-yc">
@@ -21,7 +21,7 @@
 						<text>机</text>
 						<text>号</text>
 					</view>
-					<input maxlength="11" v-model="phonenum" :disabled="!isGetPrize" class="submitBox-input" type="text" value="" placeholder="请输入手机号" />
+					<input maxlength="11" v-model.trim="phonenum" :disabled="isGetPrize" class="submitBox-input" type="text" value="" placeholder="请输入手机号" />
 				</view>
 				<view class="flex-xsb-yc">
 					<view class="submitBox-label flex-xsb-yc">
@@ -30,12 +30,12 @@
 						<text>证</text>
 						<text>号</text>
 					</view>
-					<input maxlength="18" v-model="idcard" :disabled="!isGetPrize" class="submitBox-input" type="text" value="" placeholder="请输入身份证号" />
+					<input maxlength="18" v-model.trim="idcard" :disabled="isGetPrize" class="submitBox-input" type="text" value="" placeholder="请输入身份证号" />
 				</view>
 				<!-- <view class="submitBox-submit" @click="submitFun">{{ submitFont }}</view> -->
 				<button :disabled="isDisabled" class="submitBox-submit" @click="submitFun">{{ submitFont }}</button>
 			</view>
-			<view class="flex-xc-yn"><image mode="widthFix" class="stc-crownCookies" src="../../static/crownCookiesImg/crownCookiesImg.png"></image></view>
+			<view class="flex-xc-yn"><image mode="widthFix" class="stc-crownCookies" :src="staticUrl+'crownCookiesImg.png'"></image></view>
 		</view>
 		<custom-dialog
 			ref="customDialogChild"
@@ -87,7 +87,7 @@ export default {
 		this.isGetPrize = options.isGetPrize=='true'?true:false;
 		console.log(this.isGetPrize);
 		// 如果已领取大奖 回显信息
-		if (this.isGetPrize == 'true') {
+		if (this.isGetPrize == true) {
 			console.log(3333333333);
 			const sweepQrcodeData = uni.getStorageSync('sweepQrcodeData');
 			if (sweepQrcodeData.reply) {

@@ -10,6 +10,7 @@ const store = new Vuex.Store({
 		userInfo:{},
 		isIPX:false,
 		staticUrl: 'https://xcxsite.vjifen.com/v/crownCookiesImg/',
+		startDate:'2020/08/31 23:59:59',
 		qr:'',
 		qrcode:'',
 		provinceCode:'',
