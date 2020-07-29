@@ -33,6 +33,14 @@
 						key:"dateStatus",
 						data:dateStatus==true?'1':'0'
 					})
+					
+					uni.setStorage({
+						key:"isInitsweepstr",
+						data:'true'
+					})
+					
+					getApp().globalData.isInitsweepstr = 'true';
+					
 					if(!dateStatus){
 						uni.switchTab({
 						  url: '../index/index',

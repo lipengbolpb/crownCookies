@@ -14,12 +14,10 @@
 						<image class="aec-chuanquqi" mode="widthFix" :src="staticUrl+'chuanquqi.png'"></image>
 						<image class="aec-baifenbai" mode="widthFix" :src="staticUrl+'baifenbai.png'"></image>
 					</view>
-
 					<view :animation="fontMesAni" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view>
-
 					<!-- 抽奖按钮 获取手机号-->
 					<view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn">
-						<view @click="showGetCash" class="choujiangBtn" v-if="isHasPhoneNumber">
+						<view @click.once="showGetCash" class="choujiangBtn" v-if="isHasPhoneNumber">
 							<image :src="staticUrl + 'dianjichoujiang.png'"></image>
 						</view>
 						<view class="choujiangBtn" v-else>
@@ -29,7 +27,6 @@
 						</view>
 					</view>
 				</view>
-
 			</view>
 			<!-- 引导关注 -->
 			<view class="focusGguidance" v-if="isShowGguidance" @click="showGguidanceFun" :style="{ bottom: isOpenAdaptation ? '170rpx' : '120rpx' }">
@@ -38,11 +35,9 @@
 			<!-- 规则弹窗 -->
 			<activity-rule ref="activityRuleChild" @activityRuleColse="updateActivityRuleColse" :activityRuleSource="activityRuleSource"
 			 :activityRuleIsShow="activityRuleIsShow"></activity-rule>
-
 			<!-- 获取红包动效页面 -->
 			<get-cash ref="getCashChild" :getCashIsShow="getCashIsShow" :getCashIsShowMes="getCashIsShowMes" :isStartAnimation="getCashIsStartAnimation"
 			 :currentMoney="currentMoney"></get-cash>
-
 			<!-- 引导开启 位置授权 -->
 			<wx-open-setting :wxOpenSettingIsShow="wxOpenSettingIsShow" :isStartAnimation="wxOpenSettingIsStartAnimation"
 			 @WxOpenSettingColse="WxOpenSettingColse" @openSetting="wosOpenSetting"></wx-open-setting>
@@ -74,7 +69,8 @@
 	} from '@/common/getData.js';
 	import {
 		judgeBusinessCode,
-		filterArr
+		filterArr,
+		dateformat
 	} from '@/common/basicsFun.js';
 	import {
 		activityRule
@@ -104,7 +100,7 @@
 				getCashIsShow: false, // 中出红包 是否显示
 				getCashIsShowMes: false, // 中出红包 是否显示 红包已存入微信红包中
 				getCashIsStartAnimation: false, //中出红包  是否 开启动画
-				currentMoney: '0.00', //中出红包 中出金额
+				currentMoney: '', //中出红包 中出金额
 				isShowGguidance: false, //是否展示 引导关注 公众号 logo
 				isStartAnimation: true, // 本页面 是否开启动画
 				isShowluckDrawBtn: false, //是否 显示 抽奖按钮
@@ -124,7 +120,7 @@
 						id: 1,
 						businessCode: '1',
 						title: '提示',
-						content: '您的红包金额不足，再喝几瓶攒够1元发红包！'
+						content: '您的红包金额不足，攒够0.3元可提现！'
 					},
 					{
 						id: 2,
@@ -286,8 +282,17 @@
 									}
 								});
 							} else {
-								// 走扫码的逻辑 检测位置微信 调用接口
-								that.checkUserLocation();
+								const isInitsweepstr = uni.getStorageSync('isInitsweepstr');
+								console.log('getApp().globalData.isInitsweepstr');
+								console.log(getApp().globalData.isInitsweepstr);
+								console.log(isInitsweepstr);
+								if(getApp().globalData.isInitsweepstr=='true'){
+									// 走扫码的逻辑 检测位置微信 调用接口
+									that.checkUserLocation();
+								}else{
+									return false;
+								}
+								
 							}
 						} else {
 							// 继续弹出 活动规则
@@ -401,7 +406,6 @@
 						if (LocationStatus == 0) {
 							// 弹出自定义 位置引导弹窗
 							that.wxOpenSettingIsShow = true;
-
 						} else {
 							// 弹出 获取位置
 							getLocation().then((...res) => {
@@ -458,6 +462,7 @@
 				}
 				return returnUserData;
 			},
+			// 打开微信 位置授权页面
 			wosOpenSetting() {
 				//设置里打开授权地理位置
 				// this.againClick = true;
@@ -610,6 +615,9 @@
 							}
 						}
 						console.log('获取 扫码接口 返回信息 并处理');
+						// 清除 扫码入口 存储得 标记
+						uni.removeStorageSync('isInitsweepstr');
+						getApp().globalData.isInitsweepstr=='false';
 						return judgeBusinessCode(res);
 					})
 					.then(

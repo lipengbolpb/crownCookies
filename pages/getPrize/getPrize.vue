@@ -1,4 +1,9 @@
 <template>
+	
+	<view class="page-template">
+		<view class="page-template-wrap page-template-wrap-bg">
+			<view class="page-template-wrap-center">
+	
 	<!-- 中出大奖 -->
 	<view class="getPrize">
 		<image mode="widthFix" class="crownCookies-logo" :src="staticUrl+'crownCookiesImgLogo.png'"></image>
@@ -11,8 +16,8 @@
 				<image :class="[isStartAnimation ? 'comon-initAni-fontMes' : '']" :animation="fontMesAni" :src="staticUrl + 'heziMes.png'"></image>
 			</view>
 			<view class="flex-xc-yn">
-				<!-- <view :class="[isStartAnimation ? 'comon-initAni' : '', 'gpc-basbox']"  :animation="diAni"> -->
-				<view class="gpc-basbox">
+				<view :class="[isStartAnimation ? 'comon-initAni-di' : '', 'gpc-basbox']"  :animation="diAni">
+				<!-- <view class="gpc-basbox"> -->
 					<image mode="widthFix" class="" :src="staticUrl + 'hezidi.png'"></image>
 				</view>
 			</view> 
@@ -21,6 +26,10 @@
 			<view :class="[isStartAnimation ? 'lijilingqu-initAni' : '', 'gpc-lijilingqu-box','flex-xc-yn']"  :animation="lijilingquAni">
 				<image @click="toGetPrize" class="gpc-lijilingqu" :src="staticUrl + 'lijilingqu.png'"></image>
 			</view>
+		</view>
+	</view>
+	
+	</view>
 		</view>
 	</view>
 </template>
@@ -44,7 +53,13 @@ export default {
 		};
 	},
 	onShow(){
-		this.startAnimation();	
+		const that = this;
+		setTimeout(function(){
+			that.startAnimation();	
+		},500)
+	},
+	onReady() {
+		console.log('页面在家完成');
 	},
 	onLoad(options){
 		console.log(options)
@@ -62,7 +77,7 @@ export default {
 				timingFunction: 'ease',
 				delay: 500
 			});
-			diAnimation.scale(1).step();
+			diAnimation.opacity(1).step();
 			that.diAni = diAnimation.export();
 			
 			// 钱
@@ -71,7 +86,7 @@ export default {
 				timingFunction: 'ease',
 				delay: 500
 			});
-			qianAnimation.opacity(1).scale(1.1).step();
+			qianAnimation.opacity(1).scale(1).step();
 			that.qianAni = qianAnimation.export();
 			// 光 动画
 			const guangAnimation = wx.createAnimation({
@@ -95,7 +110,7 @@ export default {
 				timingFunction: 'ease',
 				delay: 500
 			});
-			gaiAnimation.translateY(0).step();
+			gaiAnimation.opacity(1).translateY(0).step();
 			that.gaiAni = gaiAnimation.export();
 			
 			// 立即领取按钮 从下向上滑出
@@ -117,6 +132,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+	.page-template-wrap-bg {
+		background: url($crownCookiesImg+'crownCookiesImgBgBig.jpg') no-repeat center;
+		background-size: cover;
+	}
+.comon-initAni-di{
+	opacity: 0;
+}
 // 红色盒子 初始位置
 .comon-initAni {
 	transform: scale(.8);
@@ -132,6 +154,7 @@ export default {
 // 盖 初始位置
 .comon-initAni-gan{
 	transform: translateY(50px);
+	opacity: 0;
 }
 .comon-initAni-guan{
 	// transform: scale(0);
@@ -147,8 +170,6 @@ export default {
 .getPrize {
 	width: 100%;
 	height: 100%;
-	background: url($crownCookiesImg+'crownCookiesImgBg.jpg') no-repeat center;
-	background-size: cover;
 }
 
 .getPrize-center {
@@ -186,7 +207,7 @@ export default {
 	position: absolute;
 	right:10%;
 	top: 0;
-	z-index: -7;
+	z-index: 70;
 }
 .gpc-gan-top{
 	margin-left: 10%;

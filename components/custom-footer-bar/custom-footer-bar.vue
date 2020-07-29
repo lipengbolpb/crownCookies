@@ -56,12 +56,13 @@ export default {
 		},
 		// 开始动画
 		startAnimation() {
-			console.log(3);
 			const that = this;
 			const footerbarAnimation = wx.createAnimation({
-				duration: 1000,
+				duration: 1,
+				// duration: 1000,
 				timingFunction: 'ease',
-				delay: 1500
+				// delay: 1500
+				delay: 1
 			});
 			footerbarAnimation.opacity(1).step();
 			that.footerbarAni = footerbarAnimation.export();
@@ -85,7 +86,7 @@ export default {
 	image {
 		width: 54rpx;
 		height: 54rpx;
-		margin-bottom: 10rpx;
+		margin-bottom: 4rpx;
 	}
 	view {
 		font-size: 24rpx;

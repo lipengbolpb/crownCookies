@@ -6,11 +6,17 @@
 			<view class="flex-xc-yn" :style="{ 'margin-top': isOpenAdaptation ? '100rpx' : '0' }">
 				<image mode="widthFix" class="csc-cuowuerweima" :src="staticUrl + 'cuowuerweima.png'"></image>
 			</view>
-			<p class="csc-title">这个二维码已被扫过</p>
-	
-			<p :class="[showType==1?'csc-p1':'csc-p']">
-				<view class="csc-currentMoney">  {{ mesFontCurrentMoney }} </view>{{ mesFont }}
-			</p> 
+			<block v-if="isexpireTimeStatus==true">
+				<p class="csc-title">奖项已过期</p>
+				<p class='csc-p'></p>
+			</block>
+			<block v-else>
+				<p class="csc-title">这个二维码已被扫过</p>
+				<p :class="[showType==1?'csc-p1':'csc-p']">
+					<view class="csc-currentMoney">  {{ mesFontCurrentMoney }} </view>{{ mesFont }}
+				</p> 
+			</block>
+			
 			<view class="flex-xc-yn"><image mode="widthFix" class="csc-crownCookies" :src="staticUrl + 'crownCookiesImg.png'"></image></view>
 
 		</view>
@@ -56,11 +62,15 @@ export default {
 			this.mesFont = `您已于 ${ earnTime } 扫过这个二维码`;
 			this.mesFontCurrentMoney=`并获得 ${ currentMoney }元`;
 			this.showType = '1';
+			this.isexpireTimeStatus = false;
+		}else if(options.bizcode == 7){
+			this.isexpireTimeStatus = true;
 		}else{
 			// 已被他人扫码
 			this.mesFont = '每个二维码仅限扫码一次';
 			this.mesFontCurrentMoney=``;
 			this.showType = '2';
+			this.isexpireTimeStatus = false;
 		}
 	},
 	data() {
@@ -68,7 +78,8 @@ export default {
 			mesFont:'每个二维码仅限扫码一次',
 			mesFontCurrentMoney:'',
 			staticUrl: config.staticUrl,
-			'showType':'1',
+			showType:'1',
+			isexpireTimeStatus:false,// 默认 没有过期 如果bizcode==7 说明从大奖过来并且大奖已过期
 		};
 	},
 	methods: {

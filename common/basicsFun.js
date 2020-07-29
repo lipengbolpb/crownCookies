@@ -74,14 +74,35 @@ function judgeBusinessCode(data) {
 			resolve(redirectToUrl);
 		// } else if (businessCode == 7 || businessCode == 21) { //大奖 
 		} else if (businessCode == 7) { //大奖 
+			// let redirectToUrl = '';
+			// // if (reply.username || result.msg == '重复扫码') { //已填写 或者重复扫码 直接显示 已领取 信息
+			// if (reply.username) { //已填写 或者重复扫码 直接显示 已领取 信息
+			// 	redirectToUrl = `../submitUserInformation/submitUserInformation?bizcode=${businessCode}&isGetPrize=true`;
+			// } else {
+			// 	redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+			// }
+			// resolve(redirectToUrl);
 			let redirectToUrl = '';
 			// if (reply.username || result.msg == '重复扫码') { //已填写 或者重复扫码 直接显示 已领取 信息
 			if (reply.username) { //已填写 或者重复扫码 直接显示 已领取 信息
 				redirectToUrl = `../submitUserInformation/submitUserInformation?bizcode=${businessCode}&isGetPrize=true`;
 			} else {
-				redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+				if(reply.checkPrizeRecord){
+					const expireTime = reply.checkPrizeRecord.expireTime;
+					const expireTimeStatus = dateformat(expireTime); //返回 false 说明 当前小于活动截止时间 可以正常扫码 如果true说明当前时间大于截止时间不能扫码 跳转至二维码被扫
+					console.log('判断大奖是否到期');
+					console.log(expireTime);
+					console.log(expireTimeStatus);
+					if(expireTimeStatus){
+						redirectToUrl = `../codeScanned/codeScanned?bizcode=${businessCode}`
+					}else{
+						redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+					}
+				}else{
+					redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+				}
 			}
-			resolve(redirectToUrl);
+			resolve(redirectToUrl); 
 		} else if (businessCode == 12 || businessCode == 13) { //可疑 黑名单
 			// 12 展示出入手机号 13 静态页面 提示
 			const redirectToUrl = `../blackList/blackList?bizcode=${businessCode}`
@@ -131,7 +152,20 @@ function judgeBusinessStrCode(data) {
 			if (reply.username) { //已填写 或者重复扫码 直接显示 已领取 信息
 				redirectToUrl = `../submitUserInformation/submitUserInformation?bizcode=${businessCode}&isGetPrize=true`;
 			} else {
-				redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+				if(reply.checkPrizeRecord){
+					const expireTime = reply.checkPrizeRecord.expireTime;
+					const expireTimeStatus = dateformat(expireTime); //返回 false 说明 当前小于活动截止时间 可以正常扫码 如果true说明当前时间大于截止时间不能扫码 跳转至二维码被扫
+					console.log('判断大奖是否到期');
+					console.log(expireTime);
+					console.log(expireTimeStatus);
+					if(expireTimeStatus){
+						redirectToUrl = `../codeScanned/codeScanned?bizcode=${businessCode}`
+					}else{
+						redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+					}
+				}else{
+					redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+				}
 			}
 			resolve(redirectToUrl); 
 		} else if (businessCode == 12 || businessCode == 13) { //可疑 黑名单
@@ -259,6 +293,8 @@ async function userCodeExchangeOpenid() {
 const dateformat =  function (date1){
 	const curTimesTamp = new Date().getTime();
 	const dataTimesTamp = new Date(date1).getTime();
+	console.log('dataTimesTamp');
+	console.log(dataTimesTamp);
 	let backStatus = '';
 	if(curTimesTamp>dataTimesTamp){
 		backStatus = true;

@@ -8,7 +8,7 @@
 					<view class="flex-xc-yn"><image class="gcc-titleImg" mode="widthFix" :src="staticUrl + 'hongbaoTitle.png'"></image></view>
 					<view class="flex-xc-yn">
 						<view class="gcc-Price">
-							{{ currentMoney }}
+							{{ currentMoney }}0.3
 							<text class="gcc-Price-company">元</text>
 						</view>
 					</view>
@@ -186,7 +186,7 @@ export default {
 	.gcc-Price-company {
 		position: absolute;
 		right: -56rpx;
-		top: 16rpx;
+		top: 14rpx;
 		font-size: 36rpx;
 	}
 }

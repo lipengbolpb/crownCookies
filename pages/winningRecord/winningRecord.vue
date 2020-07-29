@@ -5,7 +5,6 @@
 		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" left-icon="back" @click-left="back" title="我的中奖记录"></uni-nav-bar>
 		<view class="wr-center flex-xn-ys" id="wr-center">
 			<view class="flex-xc-yn" id="wr-center-title"><image class="wrc-titleImg" :src="staticUrl + 'wodezhongjiangjilu.png'" mode="widthFix"></image></view>
-			
 			<scroll-view v-if="isHasData" :style="{ height: scrollViewHeight + 'px' }" scroll-y="true" class="wrc-listBox" @scrolltolower="lower">
 			<!-- <scroll-view v-if="isHasData" :style="{ height: scrollViewHeight + 'px' }" scroll-y="true" class="wrc-listBox"> -->
 				<view class="wrc-listBox-list flex-xsb-yn" v-for="item in objList" :key="item.id">
@@ -13,7 +12,12 @@
 						<view class="wrc-listBox-list-mes">{{ item.giftsName ? item.giftsName : '扫码中奖' }}</view>
 						<view class="wrc-listBox-list-time">{{ item.earnTime }}</view>
 					</view>
-					<view class="wrc-listBox-list-price">+{{ item.earnMoney }}</view>
+					<block v-if="item.prizeType=='P'">
+						<view class="wrc-listBox-list-danmai">丹麦游一份</view>
+					</block>
+					<block v-else>
+						<view class="wrc-listBox-list-price">¥<text>{{ item.earnMoney }}</text>元</view>
+					</block>
 				</view>
 				<view class="clickMore" @click="clickMore" v-show="moneyNext">
 					点击加载更多
@@ -179,7 +183,14 @@ page {
 	color: #999999;
 }
 .wrc-listBox-list-price {
-	font-size: 32rpx;
+	font-size: 24rpx;
+	color: #f10000;
+	text{
+		font-size: 36rpx;
+	}
+}
+.wrc-listBox-list-danmai{
+	font-size: 30rpx;
 	color: #f10000;
 }
 .wrc-titleImg {

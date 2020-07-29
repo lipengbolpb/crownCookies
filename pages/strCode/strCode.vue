@@ -446,14 +446,17 @@
 </script>
 
 <style scoped lang="scss">
-	// 	button::after{
-	// 	  border:none;
-	// 	}
-	// 	input{
-	// 	  outline:none;
-	// 	  border:none;
-	// 	  list-style: none;
-	// 	}
+		button::after{
+		  border:none;
+		}
+		button{
+			padding: 0;
+		}
+		input{
+		  outline:none;
+		  border:none;
+		  list-style: none;
+		}
 	.strCode {
 		height: 100%;
 		background: url($crownCookiesImg+'bg2.png') no-repeat center;
@@ -464,7 +467,7 @@
 		flex: 1;
 		margin: 54rpx 30rpx 28rpx 30rpx;
 		background: #fff;
-		padding: 146rpx 20rpx 20rpx 20rpx;
+		padding: 146rpx 40rpx 20rpx 40rpx;
 		border-radius: 20rpx;
 		position: relative;
 	}

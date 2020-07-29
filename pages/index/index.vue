@@ -29,7 +29,8 @@
 	} from '@/utils/api.js';
 	import {
 		filterArr,
-		getUserDataFun
+		getUserDataFun,
+		dateformat
 	} from '@/common/basicsFun.js';
 	import {
 		customDialog
@@ -99,6 +100,7 @@
 			};
 		},
 		async onLoad(options) {
+			
 			const backGetUserDataFun = await getUserDataFun();
 			// businessCode 1 : 这个二维码不存在
 			// businessCode 3 : 这个二维码已过期
@@ -150,6 +152,11 @@
 			}
 		},
 		onShow() {
+			
+			// getApp().globalData.isInitsweepstr = 'true';
+			// console.log('getApp().globalData.isInitsweepstr ');
+			// console.log(getApp().globalData.isInitsweepstr);
+			
 			// console.log(this.windowHeight);
 			// console.log(this.$store.state.staticUrl);
 			const dateStatus = uni.getStorageSync('dateStatus');

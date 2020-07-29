@@ -14,15 +14,15 @@
 			</view>
 			<!-- 累计红包金额 获取丹麦旅游 -->
 			<view class="pct-tab flex-xsb-yc">
-				<view class="shuxianBox">
-					<image :src="staticUrl+'hongbaoIcon.png'" class="hongbaoIcon"></image>
-					<p class="pct-tab-mes1">累计红包金额</p>
-					<p class="pct-tab-mes2">￥ <text>{{ allAccountMoney }}</text> 元</p>
-					<view class="shuxian"></view>
+				<view class="shuxianBox" @click="goWinningRecord">
+						<image :src="staticUrl+'hongbaoIcon.png'" class="hongbaoIcon"></image>
+						<p class="pct-tab-mes1">累计红包金额</p>
+						<p class="pct-tab-mes2">￥ <text>{{ allAccountMoney }}</text> 元</p>
+						<view class="shuxian"></view>
 				</view>
-				<view class="">
+				<view class="" @click="goSubmitUserInfor">
 					<image :src="staticUrl+'danmaiIcon.png'" class="danmaiIcon"></image>
-					<p class="pct-tab-mes1">获取丹麦旅游</p>
+					<p class="pct-tab-mes1">获得丹麦游</p>
 					<p class="pct-tab-mes2"><text>{{ totalPrizeNum }}</text> 次</p>
 				</view>
 			</view>
@@ -129,6 +129,7 @@ export default {
 				this.allAccountMoney = String(res.allAccountMoney);
 				// 获取丹麦旅游
 				this.totalPrizeNum = String(res.totalPrizeNum);
+				getApp().globalData.przieUserData = res;
 			} else {
 				this.allAccountMoney = 0;
 				// 获取丹麦旅游
@@ -177,10 +178,8 @@ export default {
 				const that = this;
 				that.userInfo.avatarUrl = res.userInfo.avatarUrl;
 				that.userInfo.nickName = res.userInfo.nickName;
-				
 			});
 		},
-
 		// 列表展示
 		listNav(navData) {
 			const getNavData = navData;
@@ -201,12 +200,35 @@ export default {
 				}
 			}
 		},
-
 		// 开启活动 活动规则
 		updateActivityRuleColse(data) {
 			const that = this;
 			that.activityRuleIsShow = false;
-		}
+		},
+		// 跳转红包记录页面
+		goWinningRecord(){
+			uni.navigateTo({
+				url:'../winningRecord/winningRecord'
+			})
+		},
+		// 如果中出大奖 点击 进入 填写信息页面 默认展示信息
+		// 跳转红包记录页面
+		goSubmitUserInfor(){
+			// 当 获得 大奖的次数 等于1 时候
+			if(this.totalPrizeNum==1){
+				if(getApp().globalData.przieUserData && getApp().globalData.przieUserData.nickName){
+					uni.navigateTo({
+						url:`../submitUserInformation/submitUserInformation?isGetPrize=true`
+					})
+				}else{
+					uni.navigateTo({
+						url:`../submitUserInformation/submitUserInformation?isGetPrize=false`
+					})
+				}
+				
+			}
+		},
+		
 	}
 };
 </script>

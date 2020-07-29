@@ -19,6 +19,17 @@ function sweepQrcode(sendParams) {
 			sendParams.headimgurl = '';
 		} 
 		
+		console.log('获取 扫码接口 返回信息 并处理');
+		// 清除 扫码入口 存储得 标记
+		uni.removeStorageSync('isInitsweepstr');
+		getApp().globalData.isInitsweepstr='false';
+		
+		const isInitsweepstr = uni.getStorageSync('isInitsweepstr');
+		console.log('getApp().globalData.isInitsweepstr');
+		console.log(getApp().globalData.isInitsweepstr);
+		console.log(isInitsweepstr);
+		
+		
 		// if(sendParams.sweepstr){
 		// 	const storageSweepstr = uni.getStorageSync('sweepstr');
 		// }else{
@@ -80,7 +91,6 @@ function sweepQrcode(sendParams) {
 	})
 } 
   
-  
 // 获取验证码
 function getCaptcha(phonenum) {
 	uni.showLoading({
@@ -134,6 +144,8 @@ function savePrize(sendParams) {
 					if (resultData.businessCode == 0) { //提交成功
 						// 提交成功 then 处理后续逻辑
 						reslove(1);
+					}else if(resultData.businessCode == 4){
+						reslove(4);
 					} else {
 						uni.showModal({
 							title: "提示",
@@ -143,7 +155,7 @@ function savePrize(sendParams) {
 					}
 				} else {
 					uni.showModal({
-						title: "大奖提交提示",
+						title: "提示",
 						content: resultData.msg ? resultData.msg : '系统开了个小差',
 						showCancel: false
 					})
@@ -151,7 +163,7 @@ function savePrize(sendParams) {
 			} else {
 				console.log(e)
 				uni.showModal({
-					title: "大奖提交提示",
+					title: "提示",
 					content: '系统繁忙',
 					showCancel: false
 				})
@@ -293,10 +305,6 @@ function serialCode(sendParams) {
 					key: 'codeType',
 					data: 2
 				})
-				// 				uni.setStorage({
-				// 					key:'sweepQrcodeData',
-				// 					data: backParams
-				// 				})
 				const backData = backParams.result;
 				if (backParams.result.code == 0) {
 					if (resolve) {
