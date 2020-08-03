@@ -14,7 +14,7 @@
 						<image class="aec-chuanquqi" mode="widthFix" :src="staticUrl+'chuanquqi.png'"></image>
 						<image class="aec-baifenbai" mode="widthFix" :src="staticUrl+'baifenbai.png'"></image>
 					</view>
-					<view :animation="fontMesAni" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view>
+					<view :animation="fontMesAni" @transitionend="transitionend" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view>
 					<!-- 抽奖按钮 获取手机号-->
 					<view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn">
 						<view @click.once="showGetCash" class="choujiangBtn" v-if="isHasPhoneNumber">
@@ -33,20 +33,27 @@
 				<image :animation="focusGguidanceAni" :src="staticUrl + 'focusGguidance.png'"></image>
 			</view>
 			<!-- 规则弹窗 -->
-			<activity-rule ref="activityRuleChild" @activityRuleColse="updateActivityRuleColse" :activityRuleSource="activityRuleSource"
-			 :activityRuleIsShow="activityRuleIsShow"></activity-rule>
+			<activity-rule 
+				 ref="activityRuleChild" 
+				 @activityRuleColse="updateActivityRuleColse" 
+				 :activityRuleSource="activityRuleSource"
+				 :activityRuleIsShow="activityRuleIsShow"
+			></activity-rule>
 			<!-- 获取红包动效页面 -->
-			<get-cash ref="getCashChild" :getCashIsShow="getCashIsShow" :getCashIsShowMes="getCashIsShowMes" :isStartAnimation="getCashIsStartAnimation"
-			 :currentMoney="currentMoney"></get-cash>
+			<get-cash 
+				ref="getCashChild" 
+				:getCashIsShow="getCashIsShow" 
+				:getCashIsShowMes="getCashIsShowMes" 
+				:isStartAnimation="getCashIsStartAnimation"
+				:currentMoney="currentMoney"
+			></get-cash>
 			<!-- 引导开启 位置授权 -->
 			<wx-open-setting :wxOpenSettingIsShow="wxOpenSettingIsShow" :isStartAnimation="wxOpenSettingIsStartAnimation"
 			 @WxOpenSettingColse="WxOpenSettingColse" @openSetting="wosOpenSetting"></wx-open-setting>
 			<!-- 自定义导航 -->
 			<custom-footer-bar ref="customFooterBarChild" :cusFooterBarIsShow="cusFooterBarIsShow" :isOpenAdaptation="isOpenAdaptation"></custom-footer-bar>
-
 		</view>
 	</view>
-
 </template>
 
 <script>
@@ -95,6 +102,7 @@
 		data() {
 			return {
 				staticUrl: config.staticUrl,
+				isTransitionend:false,//动画是否执行完毕
 				activityRuleSource: '1', // 活动规则 页面来源
 				activityRuleIsShow: false, // 活动规则  是否展示
 				getCashIsShow: false, // 中出红包 是否显示
@@ -174,13 +182,15 @@
 			},
 		},
 		onLoad(options) {
+			console.log('页面参数 options 176');
+			console.log(options);
 			const sweepstrUrl = decodeURIComponent(options.sweepstr);
 			const that = this;
 			// 串码类型 扫码串码1 输入串码2
 			that.codeType = options.codeType || '1';
 			if (that.codeType == 2) {
 				this.sweepstr = '';
-			} else {
+			} else {  
 				if (sweepstrUrl.indexOf('xt.vjifen.com') != -1) {
 					//测试二维码
 					if (sweepstrUrl.indexOf('/LN/') != -1) {
@@ -211,14 +221,36 @@
 			}
 		},
 		onReady() {
+			console.log('woshi onReady');
+			console.log(this.isStartAnimation);
+			console.log(this.crownCookiesAni);
 			// 开启本页面 动效
 			if (this.isStartAnimation) {
+				this.resetInitAnimation();
 				this.startInitAnimation();
 			}
 		},
 		async onShow() {
+			console.log("页面 onshow 211");
+			// 清除 动画效果
+			this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
+			this.baifenbaiAni = 'aec-baifenbai';  //百分比 动画
+			this.fontMesAni = 'idnex-imgMes';  //饼干动画
+			this.choujiangAni = '';  //抽奖按钮 动画
+			this.focusGguidanceAni = '';  // 引导关注 公众号图片
+			this.isTransitionend = false;
 			this.openid = await this.computedGetOpenid;
-			this.init();
+			// this.init();
+		},
+		onHide() {
+			// 清除 动画效果
+			this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
+			this.baifenbaiAni = 'aec-baifenbai';  //百分比 动画
+			this.fontMesAni = 'idnex-imgMes';  //饼干动画
+			this.choujiangAni = '';  //抽奖按钮 动画
+			this.focusGguidanceAni = '';  // 引导关注 公众号图片
+			this.isTransitionend = false;
+			
 		},
 		/**
 		 * 用户点击右上角分享
@@ -226,7 +258,6 @@
 		onShareAppMessage(res) {
 			if (res.from === 'button') {
 				// 来自页面内分享按钮
-				console.log(res.target);
 			}
 			return {
 				title: '皇冠曲奇',
@@ -237,8 +268,15 @@
 		onHide() {
 			// 弹出自定义 位置引导弹窗
 			this.wxOpenSettingIsShow = false;
+			this.resetInitAnimation();
 		},
 		methods: {
+			transitionend(){
+				this.isTransitionend = true;
+				console.log('动画 执行完毕');
+				console.log(this.isTransitionend);
+				this.init();
+			},
 			// 页面初始化
 			init() {
 				const that = this;
@@ -255,9 +293,9 @@
 							console.log('串码类型 扫码串码1 输入串码2 ');
 							console.log(that.codeType);
 							if (that.codeType && that.codeType == 2) {
-								console.log('串码类型 扫码串码1 输入串码222 ');
 								// 从 输入串码 过来 中区红包 显示 抽奖按钮
 								that.isShowluckDrawBtn = true;
+								that.startChoujiangAnimation();
 								// 获取红包 展示中奖 金额
 								uni.getStorage({
 									// key:'serialCodeData',
@@ -283,12 +321,9 @@
 								});
 							} else {
 								const isInitsweepstr = uni.getStorageSync('isInitsweepstr');
-								console.log('getApp().globalData.isInitsweepstr');
-								console.log(getApp().globalData.isInitsweepstr);
-								console.log(isInitsweepstr);
 								if(getApp().globalData.isInitsweepstr=='true'){
 									// 走扫码的逻辑 检测位置微信 调用接口
-									that.checkUserLocation();
+									that.checkUserLocation(true);
 								}else{
 									return false;
 								}
@@ -296,21 +331,21 @@
 							}
 						} else {
 							// 继续弹出 活动规则
-							setTimeout(() => {
+							// setTimeout(() => {
 								that.activityRuleSource = '1';
 								that.activityRuleIsShow = true;
 								// 活动规则 启动动画
 								that.$refs.activityRuleChild.isStartAnimationFun(true);
-							}, 2000);
+							// }, 2000);
 						}
 					},
 					fail(err) {
-						setTimeout(() => {
+						// setTimeout(() => {
 							that.activityRuleSource = '1';
 							that.activityRuleIsShow = true;
 							// 活动规则 启动动画
 							that.$refs.activityRuleChild.isStartAnimationFun(true);
-						}, 2000);
+						// }, 2000);
 					}
 				});
 			},
@@ -341,8 +376,6 @@
 							setTimeout(function() {
 								that.getCashIsShowMes = false;
 								const filterData = filterArr('businessCode', businessCode, that.giveSpackTxStatusArr)[0];
-								console.log('filterArr____________');
-								console.log(filterData);
 								uni.showModal({
 									title: filterData.title,
 									content: filterData.content
@@ -380,7 +413,7 @@
 				}, 100);
 			},
 			// 验证缓存中 是否 存在用户位置
-			async checkUserLocation() {
+			async checkUserLocation(status=false) {
 				/**
 				 * 获从缓存中  获取 用户位置 信息
 				 * 有 直接调用 接口
@@ -397,9 +430,9 @@
 						const userLocation = res.data;
 						// 调用接口
 						if (userLocation.longitude) {
-							that.getSweepQrcode(userLocation.longitude, userLocation.latitude, that.sweepstr);
+							that.getSweepQrcode(userLocation.longitude, userLocation.latitude, that.sweepstr,status);
 						} else {
-							that.getSweepQrcode('', '', that.sweepstr);
+							that.getSweepQrcode('', '', that.sweepstr,status);
 						}
 					},
 					fail(err) {
@@ -474,34 +507,68 @@
 					}
 				});
 			},
-			// 开始动画
-			startInitAnimation() {
+		// 开始动画
+		startInitAnimation() {
+			const that = this;
+			// 饼干动画 从无到有
+			const crownCookiesAnimation = wx.createAnimation({
+				duration: 1000,
+				timingFunction: 'ease',
+				delay: 500
+			});
+			crownCookiesAnimation.opacity(1).step();
+			// 百分百 中奖logo 从左向右滑出
+			const baifenbaiAnimation = wx.createAnimation({
+				duration: 500,
+				timingFunction: 'ease',
+				delay: 500
+			});
+			baifenbaiAnimation.translateX(0).step();
+			// 提示文字动画
+			const fontMesAnimation = wx.createAnimation({
+				duration: 1000,
+				timingFunction: 'ease',
+				delay: 1400
+			});
+			fontMesAnimation.opacity(1).step();
+			that.baifenbaiAni = baifenbaiAnimation.export();
+			that.crownCookiesAni = crownCookiesAnimation.export();
+			that.fontMesAni = fontMesAnimation.export();
+			
+			console.log('饼干动画 从无到有');
+			console.log(that.baifenbaiAni);
+			console.log(that.crownCookiesAni);
+			console.log(that.fontMesAni);
+		},	
+		// 重置动画
+		resetInitAnimation() {
 				const that = this;
 				// 饼干动画 从无到有
 				const crownCookiesAnimation = wx.createAnimation({
-					duration: 1000,
+					duration: 1,
 					timingFunction: 'ease',
-					delay: 500
+					delay: 0
 				});
-				crownCookiesAnimation.opacity(1).step();
-
+				crownCookiesAnimation.opacity(0).step();
 				// 百分百 中奖logo 从左向右滑出
 				const baifenbaiAnimation = wx.createAnimation({
-					duration: 500,
+					duration: 1,
 					timingFunction: 'ease',
-					delay: 500
+					delay: 0
 				});
-				baifenbaiAnimation.translateX(0).step();
+				baifenbaiAnimation.translateX('-110%').step();
 				// 提示文字动画
 				const fontMesAnimation = wx.createAnimation({
-					duration: 1000,
+					duration: 1,
 					timingFunction: 'ease',
-					delay: 1400
+					delay: 0
 				});
-				fontMesAnimation.opacity(1).step();
+				fontMesAnimation.opacity(0).step();
 				that.baifenbaiAni = baifenbaiAnimation.export();
 				that.crownCookiesAni = crownCookiesAnimation.export();
 				that.fontMesAni = fontMesAnimation.export();
+				
+				console.log('重置动画！');
 			},
 			// 开始 抽奖按钮 动画
 			startChoujiangAnimation() {
@@ -536,9 +603,9 @@
 				const that = this;
 				that.activityRuleIsShow = false;
 				if (that.codeType && that.codeType == 2) {
-					console.log('串码类型 扫码串码1 输入串码222 ');
 					// 从 输入串码 过来 中区红包 显示 抽奖按钮
 					that.isShowluckDrawBtn = true;
+					that.startChoujiangAnimation();
 					// 获取红包 展示中奖 金额
 					uni.getStorage({
 						// key:'serialCodeData',
@@ -558,7 +625,6 @@
 				const that = this;
 				that.wxOpenSettingIsShow = false;
 				// 关闭了 也要继续往下走
-				console.log('关闭了 也要继续往下走');
 				// 继续调用 接口
 				that.getSweepQrcode('', '', that.sweepstr);
 			},
@@ -585,7 +651,7 @@
 				this.showGetCash();
 			},
 			//获取 扫码接口 返回信息 并处理
-			getSweepQrcode(longitude = '00', latitude = '00', sweepstr = '') {
+			getSweepQrcode(longitude = '00', latitude = '00', sweepstr = '',status=false) {
 				const that = this;
 				var sendParams = {
 					openid: that.openid,
@@ -614,7 +680,6 @@
 								that.isHasPhoneNumber = false;
 							}
 						}
-						console.log('获取 扫码接口 返回信息 并处理');
 						// 清除 扫码入口 存储得 标记
 						uni.removeStorageSync('isInitsweepstr');
 						getApp().globalData.isInitsweepstr=='false';
@@ -627,9 +692,27 @@
 								that.isShowluckDrawBtn = true;
 								that.startChoujiangAnimation();
 							} else {
-								uni.redirectTo({
-									url: res
-								});
+								if(status){
+									if(that.isTransitionend){
+										console.log('动画结束后 调用方法');
+										// 当统一活动规则和位置授权后 再跳转
+										uni.redirectTo({
+											url: res
+										});
+										
+									} else {
+										console.log('没有拿到 isTransitionend 659');
+										uni.redirectTo({
+											url: res
+										});
+									}
+								}else{
+									// 等本页动画执行完 在进行跳转
+									uni.redirectTo({
+										url: res
+									});
+								}
+								
 							}
 						},
 						err => {
@@ -653,6 +736,10 @@
 			}
 		}
 	};
+	
+	// 1 没有统一 活动 规则 和位置授权 
+	// 2 同意 活动规则和位置授权直接调用接口
+	
 </script>
 <!-- <view class="container" style="background-image:url({{imgBaseUrl}}/bg.jpg) no-repeat;background-size:cover;"></view> -->
 <style scoped lang="scss">
@@ -669,7 +756,7 @@
 	.crownCookies-logo {
 		width: 180rpx;
 		margin-left: 54rpx;
-		margin-top: 106rpx;
+		margin-top: 126rpx;
 	}
 
 	.activityEntrance-center {
@@ -686,22 +773,18 @@
 			left: 0;
 		}
 	}
-
 	.activityEntrance-center-Animation {
-		margin: 352rpx 120rpx 36rpx 54rpx;
+		margin: 352rpx 120rpx 16rpx 54rpx;
 		position: relative;
-
 		image {
 			width: 100%;
 		}
-
 		.aec-baifenbai {
 			position: absolute;
-			bottom: 0;
+			bottom: 20rpx;
 			left: 0;
 			transform: translateX(-110%);
 		}
-
 		.aec-crownCookiesImg {
 			// 饼干 初始 状态
 			opacity: 0;
@@ -731,6 +814,7 @@
 		text-align: center;
 		font-size: 24rpx;
 		color: #b2bce3;
+		letter-spacing: 8rpx;
 	}
 
 	button {
@@ -747,15 +831,19 @@
 	}
 
 	.choujiangBtn {
-		width: 240rpx;
-		height: 166rpx;
-		margin-top: 26rpx;
+		// width: 240rpx;
+		// height: 166rpx;
+		
+		width: 306rpx;
+		height: 209rpx;
+		// margin-top: 26rpx;
+		margin-top: 61rpx;
 
 		// transform: scale(0.8,0.8);
 		// opacity: .3;
 		image,
 		button {
-			height: 166rpx;
+			height: 209rpx;
 			width: 100%;
 		}
 	}

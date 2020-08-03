@@ -20,6 +20,7 @@
 
 <script>
 import { config } from '@/utils/api.js';
+import { wxScanCode } from '@/common/getWxUserInfor.js';
 export default {
 	name: 'cus-footer-bar',
 	props: {
@@ -45,9 +46,13 @@ export default {
 					url: '/pages/index/index'
 				});
 			} else if (type == 2) {
-				uni.switchTab({
-					url: '/pages/openScan/openScan'
+				uni.redirectTo({
+					url: '/pages/openScanCom/openScanCom'
 				});
+				
+				// 调用微信扫一扫
+				// wxScanCode();
+				
 			} else if (type == 3) {
 				uni.switchTab({
 					url: '/pages/personalCenter/personalCenter'

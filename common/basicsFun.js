@@ -65,6 +65,7 @@ function judgeBusinessCode(data) {
 		console.log(data);
 		const result = data.result;
 		const reply = data.reply;
+		const replyTime = data.replyTime;
 		const businessCode = data.result.businessCode;
 		// const businessCode = 0; 
 		if (businessCode == 0) { // 扫码成功 红包
@@ -89,7 +90,7 @@ function judgeBusinessCode(data) {
 			} else {
 				if(reply.checkPrizeRecord){
 					const expireTime = reply.checkPrizeRecord.expireTime;
-					const expireTimeStatus = dateformat(expireTime); //返回 false 说明 当前小于活动截止时间 可以正常扫码 如果true说明当前时间大于截止时间不能扫码 跳转至二维码被扫
+					const expireTimeStatus = dateformatTemp(replyTime,expireTime); //返回 false 说明 当前小于活动截止时间 可以正常扫码 如果true说明当前时间大于截止时间不能扫码 跳转至二维码被扫
 					console.log('判断大奖是否到期');
 					console.log(expireTime);
 					console.log(expireTimeStatus);
@@ -136,6 +137,7 @@ function judgeBusinessStrCode(data) {
 		console.log(data);
 		const result = data.result;
 		const reply = data.reply;
+		const replyTime = data.replyTime;
 		const businessCode = data.result.businessCode;
 		// const businessCode = 0;
 		console.log('businessCodebusinessCodebusinessCodebusinessCode');
@@ -154,7 +156,7 @@ function judgeBusinessStrCode(data) {
 			} else {
 				if(reply.checkPrizeRecord){
 					const expireTime = reply.checkPrizeRecord.expireTime;
-					const expireTimeStatus = dateformat(expireTime); //返回 false 说明 当前小于活动截止时间 可以正常扫码 如果true说明当前时间大于截止时间不能扫码 跳转至二维码被扫
+					const expireTimeStatus = dateformatTemp(replyTime,expireTime); //返回 false 说明 当前小于活动截止时间 可以正常扫码 如果true说明当前时间大于截止时间不能扫码 跳转至二维码被扫
 					console.log('判断大奖是否到期');
 					console.log(expireTime);
 					console.log(expireTimeStatus);
@@ -163,7 +165,7 @@ function judgeBusinessStrCode(data) {
 					}else{
 						redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
 					}
-				}else{
+				} else {
 					redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
 				}
 			}
@@ -291,12 +293,29 @@ async function userCodeExchangeOpenid() {
 
 // 时间判断 判断但前时间 与 某个时间比较
 const dateformat =  function (date1){
-	const curTimesTamp = new Date().getTime();
-	const dataTimesTamp = new Date(date1).getTime();
 	console.log('dataTimesTamp');
-	console.log(dataTimesTamp);
+	const dateEnd = date1.replace(/-/g,"/").substring(0,19);
+	const curTimesTamp = new Date().getTime();
+	const dataTimesTamp = new Date(dateEnd).getTime();
 	let backStatus = '';
 	if(curTimesTamp>dataTimesTamp){
+		backStatus = true;
+	}else{
+		backStatus = false;
+	}
+	return backStatus;
+}
+
+// 时间判断 判断但前时间 与 某个时间比较
+const dateformatTemp =  function (temp,date1){
+	console.log('dateformatTempdateformatTempdateformatTemp');
+	console.log(temp);
+	console.log(date1);
+	const dateEnd = date1.replace(/-/g,"/").substring(0,19);
+	const curTimesTamp = new Date().getTime();
+	const dataTimesTamp = new Date(dateEnd).getTime();
+	let backStatus = '';
+	if(temp>dataTimesTamp){
 		backStatus = true;
 	}else{
 		backStatus = false;
@@ -312,5 +331,6 @@ export {
 	idcardValidate,
 	strlen,
 	strSub,
-	dateformat
+	dateformat,
+	dateformatTemp
 }

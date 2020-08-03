@@ -7,8 +7,21 @@
 			}
 		},
 		{
+			"path": "pages/activityEntrance/activityEntrance", //活动页面
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/getPrize/getPrize", // 获取大奖页面
 			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/submitUserInformation/submitUserInformation", // 领取大奖
+			"style": {
+				"navigationBarTitleText": "填写信息",
 				"navigationStyle": "custom"
 			}
 		},
@@ -25,21 +38,8 @@
 			}
 		},
 		{
-			"path": "pages/activityEntrance/activityEntrance", //活动页面
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path": "pages/blackList/blackList", // 黑名单
 			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/submitUserInformation/submitUserInformation", // 领取大奖
-			"style": {
-				"navigationBarTitleText": "填写信息",
 				"navigationStyle": "custom"
 			}
 		},
@@ -72,7 +72,12 @@
 			}
 		},
 		{
-			"path": "pages/openScan/openScan", //打开扫一扫
+			"path": "pages/openScan/openScan", //打开扫一扫 tabr
+			"style": {
+				"navigationBarTitleText": "皇冠曲奇"
+			}
+		},{
+			"path": "pages/openScanCom/openScanCom", // 扫一扫通用
 			"style": {
 				"navigationBarTitleText": "皇冠曲奇"
 			}
@@ -82,20 +87,20 @@
 		"list": [{
 				"pagePath": "pages/index/index",
 				"text": "首页",
-				"iconPath": "static/crownCookiesImg/indexTabOff.png",
-				"selectedIconPath": "static/crownCookiesImg/indexTabOn.png"
+				"iconPath": "static/crownCookiesImg/indexTabOff.jpg",
+				"selectedIconPath": "static/crownCookiesImg/indexTabOn.jpg"
 			},
 			{
 				"pagePath": "pages/openScan/openScan",
 				"text": "扫一扫",
-				"iconPath": "static/crownCookiesImg/scanTabOn.png",
-				"selectedIconPath": "static/crownCookiesImg/scanTabOff.png"
+				"iconPath": "static/crownCookiesImg/scanTabOn.jpg",
+				"selectedIconPath": "static/crownCookiesImg/scanTabOff.jpg"
 			},
 			{
 				"pagePath": "pages/personalCenter/personalCenter",
 				"text": "我的账户",
-				"iconPath": "static/crownCookiesImg/personalCenterTabOff.png",
-				"selectedIconPath": "static/crownCookiesImg/personalCenterTabOn.png"
+				"iconPath": "static/crownCookiesImg/personalCenterTabOff.jpg",
+				"selectedIconPath": "static/crownCookiesImg/personalCenterTabOn.jpg"
 			}
 		],
 		"backgroundColor": "#ffffff",

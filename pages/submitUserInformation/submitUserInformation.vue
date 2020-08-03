@@ -1,13 +1,15 @@
 <template>
 	<!-- 输入信息 领取大奖 -->
 	<view class="strCode flex-xn-ys">
-		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" left-icon="back" @click-left="back" title="填写信息"></uni-nav-bar>
-		<view class="strCode-center" :style="{ 'margin-bottom': isGetPrize==true?'144rpx':'28rpx' }">
+		<uni-nav-bar :style="{ 'margin-top': safeAreaTop*2 + 'rpx' }" left-icon="back" @click-left="back" title="填写信息"></uni-nav-bar>
+		<!-- <view class="strCode-center" :style="{ 'margin-bottom': isGetPrize==true?'144rpx':'28rpx' }"> -->
+		<view class="strCode-center" :style="{ 'margin-bottom':strCodeCenterMarginBot}">
 			<view class="scc-titleImg">
 				<image :src="staticUrl+'shuruToplogo.png'"></image>
 				<view class="">请填写中奖人信息</view>
 			</view>
-			<view class="submitBox" :style="{ 'margin-bottom': isShowVerifycode==true?'144rpx':'188rpx' }">
+			<view class="submitBox" :style="{ 'margin-bottom': isShowVerifycode==true?'60rpx':'188rpx' }">
+			<!-- <view class="submitBox" :style="{ 'margin-bottom': strCodeCenterMarginBot }"> -->
 				<view class="flex-xsb-yc">
 					<view class="submitBox-label flex-xsb-yc">
 						<text>姓</text>
@@ -36,11 +38,17 @@
 					 placeholder="请输入身份证号" />
 				</view>
 				<view class="flex-xsb-yc submitBox-checkCode" v-if="isShowVerifycode">
-					<input class="submitBox-input yamInput" type="text" value="" placeholder="请输入验证码" maxlength="4" v-model="verifycode" />
+					<input :disabled="isGetPrize" class="submitBox-input yamInput" type="text" value="" placeholder="请输入验证码" maxlength="4" v-model="verifycode" />
 					<button class="yamButton submitBox-button" @click="getyzm">{{ sec == 0 ? '获取验证码' : sec + '秒后再次获取' }}</button>
 				</view>
-				<!-- <view class="submitBox-submit" @click="submitFun">{{ submitFont }}</view> -->
-				<button :disabled="isDisabled" class="submitBox-submit" @click="submitFun">{{ submitFont }}</button>
+				
+				<!-- <button :disabled="isDisabled" class="submitBox-submit" @click="submitFun">{{ submitFont }}</button> -->
+				<button :disabled="isDisabled" :class="[isDisabled?'submitBox-submit-dis':'submitBox-submit']" @click="submitFun">{{ submitFont }}</button>
+				
+				<view class="submitBox-mes submitBox-checkCode" v-if="isShowVerifycode">
+					*请填写正确的手机号及身份证号码。并保留活动产品的邀请函和购买凭证，以备兑奖查验。
+				</view>
+			
 			</view>
 			<view class="flex-xc-yn">
 				<image mode="widthFix" class="stc-crownCookies" :src="staticUrl+'crownCookiesImg.png'"></image>
@@ -83,7 +91,14 @@
 			// 当窗口 高度 大于800 是 重新 计算 盒子的上边距
 			safeAreaTop() {
 				const userSystemInfo = uni.getStorageSync('userSystemInfo');
-				const safeAreaTop = userSystemInfo.safeArea.top;
+				let safeAreaTop = '30'
+				if(userSystemInfo){
+					safeAreaTop = userSystemInfo.safeArea.top==0?'30':userSystemInfo.safeArea.top;
+				} else {
+					safeAreaTop = '30';
+				}
+				console.log('safeAreaTopsafeAreaTopsafeAreaTopsafeAreaTop');
+				console.log(safeAreaTop);
 				return safeAreaTop;
 			},
 			// 当窗口 高度 大于800 是 重新 计算 盒子的上边距
@@ -95,6 +110,25 @@
 					return false;
 				}
 			},
+			strCodeCenterMarginBot(){
+				let returnNum = 0;
+				if(this.isGetPrize==true){
+					if(this.isOpenAdaptation==true){
+						returnNum = '184rpx';
+					}else{
+						returnNum = '144rpx';
+					}
+				}else{
+					if(this.isOpenAdaptation==true){
+						returnNum = '28rpx'
+					}else{
+						returnNum = '28rpx'
+					}
+				}
+				console.log('returnNum');
+				console.log(returnNum);
+				return returnNum;
+			}
 		},
 		data() {
 			name: 'strcode';
@@ -123,9 +157,13 @@
 			this.isGetPrize = options.isGetPrize == 'true' ? true : false;
 			console.log(this.isGetPrize);
 			console.log('getApp().globalData.przieUserData');
-			console.log(getApp().globalData.przieUserData);
-			const przieUserData = getApp().globalData.przieUserData; // 获取个人中心页面 返回填写大奖的信息
-			console.log(22222)
+			let przieUserData = '';
+			if(getApp().globalData.przieUserData){
+				przieUserData = getApp().globalData.przieUserData.reply; // 获取个人中心页面 返回填写大奖的信息
+			}else{
+				przieUserData = '';
+			}
+			console.log(22222);
 			console.log(przieUserData);
 			// 如果已领取大奖 回显信息
 			if (this.isGetPrize == true) {
@@ -136,18 +174,15 @@
 						that.phonenum = sweepQrcodeData.reply.phonenum;
 						that.idcard = sweepQrcodeData.reply.idcard;
 					}else if (przieUserData!=undefined) {
-						console.log(33333333)
 						that.userName = przieUserData.nickName;
 						that.phonenum = przieUserData.phonenum;
 						that.idcard = przieUserData.idcard;
 					}
 				} else if (przieUserData!=undefined) {
-					console.log(33333333)
 					that.userName = przieUserData.nickName;
 					that.phonenum = przieUserData.phonenum;
 					that.idcard = przieUserData.idcard;
 				} else {
-					console.log(2222)
 					that.userName = '';
 					that.phonenum = '';
 					that.idcard = '';
@@ -197,19 +232,28 @@
 				const userData = uni.getStorageSync('userData');
 				const sweepQrcodeDataReply = sweepQrcodeData.reply;
 				const openid = userData.uinfo.openid;
-				console.log(sweepQrcodeData);
-				
 				const przieUserData = getApp().globalData.przieUserData; // 获取个人中心页面 返回填写大奖的信息
-				
-				const skukey = sweepQrcodeDataReply.skukey || przieUserData.skukey;
-				const grandPrizeType = sweepQrcodeDataReply.grandPrizeType || przieUserData.grandPrizeType;
-				const prizeVcode = sweepQrcodeDataReply.prizeVcode || przieUserData.prizeVcode;
-				
+				let skukey = '';
+				let grandPrizeType = '';
+				let prizeVcode = '';
+				if(sweepQrcodeDataReply){
+					 skukey = sweepQrcodeDataReply.skukey || przieUserData.skukey;
+					 grandPrizeType = sweepQrcodeDataReply.grandPrizeType || przieUserData.grandPrizeType;
+					 prizeVcode = sweepQrcodeDataReply.prizeVcode || przieUserData.prizeVcode;
+				}else{
+					 skukey = przieUserData.skukey;
+					 grandPrizeType = przieUserData.grandPrizeType;
+					 prizeVcode = przieUserData.prizeVcode;
+				}
+			
 				const sendParams = {
 					openid: openid,
-					skukey: sweepQrcodeDataReply.skukey,
-					grandPrizeType: sweepQrcodeDataReply.grandPrizeType,
-					prizeVcode: sweepQrcodeDataReply.prizeVcode,
+					// skukey: sweepQrcodeDataReply.skukey,
+					// grandPrizeType: sweepQrcodeDataReply.grandPrizeType,
+					// prizeVcode: sweepQrcodeDataReply.prizeVcode,
+					skukey: skukey,
+					grandPrizeType: grandPrizeType,
+					prizeVcode: prizeVcode,
 					username: this.userName,
 					idcard: this.idcard,
 					phonenum: this.phonenum,
@@ -238,6 +282,9 @@
 				// 显示 自定tab
 				that.cusFooterBarIsShow = true;
 				that.$refs.customFooterBarChild.isStartAnimationFun(true); //开启tab动效
+				that.isGetPrize = true;
+				that.isDisabled = true;
+				that.isShowVerifycode = false; // 提交成功后 隐藏 提示语和 验证码
 			},
 			// 返回
 			back() {
@@ -313,6 +360,7 @@
 		color: #A87328 !important;
 	}
 	.strCode {
+		overflow: hidden;
 		height: 100%;
 		background: url($crownCookiesImg+'bg2.png') no-repeat center;
 		background-size: cover;
@@ -378,6 +426,18 @@
 		margin-top: 54rpx;
 		border-radius: 20rpx;
 		background: linear-gradient(to top, rgba(255, 170, 11, 1), rgba(249, 211, 0, 1));
+	}
+	.submitBox-submit-dis {
+		width: 78%;
+		margin-left: 11%;
+		height: 100rpx;
+		text-align: center;
+		line-height: 100rpx;
+		font-size: 36rpx;
+		color: #814e05;
+		margin-top: 54rpx;
+		border-radius: 20rpx;
+		background: linear-gradient(to top,rgba(255, 204, 36, .5),rgba(255, 204, 36, .5));
 	}
 
 	.stc-crownCookies {
@@ -449,5 +509,13 @@
 		height: 100rpx;
 		line-height: 100rpx;
 		background-color: transparent;
+	}
+	.submitBox-mes{
+		width: 90%;
+		margin-left: 5%;
+		font-size: 26rpx;
+		line-height: 36rpx;
+		color: #221596;
+		text-align: center;
 	}
 </style>

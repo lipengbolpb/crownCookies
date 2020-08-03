@@ -61,6 +61,8 @@
 						data:e
 					})
 					
+					// getApp().globalData.userSystemInfo = e;
+					
 					// #ifndef MP
 					Vue.prototype.StatusBar = e.statusBarHeight;
 					if (e.platform == 'android') {
@@ -137,8 +139,9 @@
 	}
 	.page-template-wrap-center{
 		width: 100%;
-		/* height: 1334rpx; */
-		height: 1234rpx;
+		/* 没有导航 用1334 有导航用 1334-底部导航高度 */
+		height: 1334rpx;
+		/* height: 1234rpx; */
 		overflow: hidden;
 		position: absolute;
 		top: 50%;
@@ -229,5 +232,9 @@
 		flex-direction:column;
 		align-items: center;
 		-webkit-align-items: center;
+	}
+	
+	image{
+		height: auto;
 	}
 </style>

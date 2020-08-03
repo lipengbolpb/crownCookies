@@ -144,7 +144,7 @@ function savePrize(sendParams) {
 					if (resultData.businessCode == 0) { //提交成功
 						// 提交成功 then 处理后续逻辑
 						reslove(1);
-					}else if(resultData.businessCode == 4){
+					} else if(resultData.businessCode == 4){
 						reslove(4);
 					} else {
 						uni.showModal({
@@ -184,7 +184,7 @@ function queryUserHomePage() {
 		requestPost('/turnaroundDraw/queryUserHomePage', params).then((jo) => {
 			if (jo.result.code == 0) {
 				if (jo.result.businessCode == 0) {
-					reslove(jo.reply)
+					reslove(jo)
 				} else {
 					reslove()
 				}

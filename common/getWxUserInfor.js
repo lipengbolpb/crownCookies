@@ -110,8 +110,8 @@ function analysisMobile(session_key, encryptionData) {
 				console.log(res);
 				const backData = res.data.data.decryptData;
 				uni.setStorage({
-					key:'userMobileData',
-					data:backData
+					key: 'userMobileData',
+					data: backData
 				})
 				resolve(backData);
 			},
@@ -292,8 +292,62 @@ function callPhone(phoneNumber) {
 		}
 	})
 }
-
-
+import { dateformat } from '@/common/basicsFun.js';
+// 扫一扫
+function wxScanCode() {
+	uni.scanCode({
+		success: function(res) {
+			console.log('条码类型：' + res.scanType);
+			console.log('条码内容：' + res.result);
+			uni.setStorage({
+				key: "codeData",
+				data: res
+			})
+			uni.setStorage({
+				key: "sweepstr",
+				data: res.result
+			})
+			const dateStatus = dateformat(config.startDate);
+			console.log("dateStatus");
+			console.log(dateStatus);
+			console.log(config.startDate);
+			uni.setStorage({
+				key: "dateStatus",
+				data: dateStatus == true ? '1' : '0'
+			})
+			uni.setStorage({
+				key: "isInitsweepstr",
+				data: 'true'
+			})
+			getApp().globalData.isInitsweepstr = 'true';
+			if (!dateStatus) {
+				uni.switchTab({
+					url: '../index/index',
+					complete() {
+						getApp().globalData.openQrcode = false
+					}
+				})
+			} else {
+				uni.redirectTo({
+					url: '../activityEntrance/activityEntrance?sweepstr=' + encodeURIComponent(res.result)+'&status=1',
+					complete() {
+						getApp().globalData.openQrcode = false
+					}
+				})
+			}
+		},
+		fail: function(res) {
+			console.log('我是扫一扫页面')
+			console.log(res);
+			uni.switchTab({
+				url: '../index/index',
+				complete() {
+					getApp().globalData.openQrcode = false
+				}
+			})
+		}
+	})
+}
 export {
 	getLocation,
 	analysisMobile,
@@ -302,5 +356,6 @@ export {
 	getOpenid,
 	getSettingLocation,
 	getUserInfo,
-	callPhone
+	callPhone,
+	wxScanCode
 }

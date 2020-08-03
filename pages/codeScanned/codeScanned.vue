@@ -1,7 +1,7 @@
 <template>
 	<!-- 二维码已被扫 -->
 	<view class="codeScanned flex-xn-ys">
-		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" left-icon="back" @click-left="back" title="皇冠曲奇"></uni-nav-bar>
+		<uni-nav-bar :style="{ 'margin-top': safeAreaTop*2 + 'rpx' }" left-icon="back" @click-left="back" title="皇冠曲奇"></uni-nav-bar>
 		<view class="cs-center">
 			<view class="flex-xc-yn" :style="{ 'margin-top': isOpenAdaptation ? '100rpx' : '0' }">
 				<image mode="widthFix" class="csc-cuowuerweima" :src="staticUrl + 'cuowuerweima.png'"></image>
@@ -43,9 +43,16 @@ export default {
 		// 当窗口 高度 大于800 是 重新 计算 盒子的上边距
 		safeAreaTop() {
 			const userSystemInfo = uni.getStorageSync('userSystemInfo');
-			const safeAreaTop = userSystemInfo.safeArea.top;
+			let safeAreaTop = '30'
+			if(userSystemInfo){
+				safeAreaTop = userSystemInfo.safeArea.top==0?'30':userSystemInfo.safeArea.top;
+			} else {
+				safeAreaTop = '30';
+			}
+			console.log('safeAreaTopsafeAreaTopsafeAreaTopsafeAreaTop');
+			console.log(safeAreaTop);
 			return safeAreaTop;
-		}
+		},
 	},
 	onLoad(options){
 		console.log("options----------------");

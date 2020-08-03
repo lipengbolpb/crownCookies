@@ -2,7 +2,7 @@
 <template>
 	<!-- 中奖纪录 -->
 	<view class="winningRecord flex-xn-ys">
-		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" left-icon="back" @click-left="back" title="我的中奖记录"></uni-nav-bar>
+		<uni-nav-bar :style="{ 'margin-top': safeAreaTop*2 + 'rpx' }" left-icon="back" @click-left="back" title="我的中奖记录"></uni-nav-bar>
 		<view class="wr-center flex-xn-ys" id="wr-center">
 			<view class="flex-xc-yn" id="wr-center-title"><image class="wrc-titleImg" :src="staticUrl + 'wodezhongjiangjilu.png'" mode="widthFix"></image></view>
 			<scroll-view v-if="isHasData" :style="{ height: scrollViewHeight + 'px' }" scroll-y="true" class="wrc-listBox" @scrolltolower="lower">
@@ -12,24 +12,27 @@
 						<view class="wrc-listBox-list-mes">{{ item.giftsName ? item.giftsName : '扫码中奖' }}</view>
 						<view class="wrc-listBox-list-time">{{ item.earnTime }}</view>
 					</view>
-					<block v-if="item.prizeType=='P'">
-						<view class="wrc-listBox-list-danmai">丹麦游一份</view>
-					</block>
-					<block v-else>
-						<view class="wrc-listBox-list-price">¥<text>{{ item.earnMoney }}</text>元</view>
-					</block>
+					<view class="flex-xn-yc">
+						<block v-if="item.prizeType=='P'">
+							<view class="wrc-listBox-list-danmai">丹麦游一份</view>
+						</block>
+						<block v-else>
+							<view class="wrc-listBox-list-price">¥<text>{{ item.earnMoney }}</text>元</view>
+						</block>
+					</view>
 				</view>
 				<view class="clickMore" @click="clickMore" v-show="moneyNext">
 					点击加载更多
 				</view>
-				<view class="clickMore" v-show="!moneyNext">
+				<view class="clickMore colorGrey" v-show="!moneyNext">
 					加载完毕
 				</view>
 			</scroll-view> 
 			
 			<block v-else>
 				<view class="wrc-nodata flex-xc-yc-dirY">
-					<image :src="staticUrl+'wuzhongjiangjulu.png'" mode="widthFix"></image>
+					<!-- <image :src="staticUrl+'wuzhongjiangjulu.png'" mode="widthFix"></image> -->
+					<image src="../../static/crownCookiesImg/zanwujilu.jpg" mode="widthFix"></image>
 					<view class="">暂无中奖记录，再接再厉哦～</view>
 				</view>
 			</block>
@@ -51,7 +54,14 @@ export default {
 		// 当窗口 高度 大于800 是 重新 计算 盒子的上边距
 		safeAreaTop() {
 			const userSystemInfo = uni.getStorageSync('userSystemInfo');
-			const safeAreaTop = userSystemInfo.safeArea.top;
+			let safeAreaTop = '30'
+			if(userSystemInfo){
+				safeAreaTop = userSystemInfo.safeArea.top==0?'30':userSystemInfo.safeArea.top;
+			} else {
+				safeAreaTop = '30';
+			}
+			console.log('safeAreaTopsafeAreaTopsafeAreaTopsafeAreaTop');
+			console.log(safeAreaTop);
 			return safeAreaTop;
 		},
 		isHasData(){ 
@@ -83,8 +93,8 @@ export default {
 			.select('#wr-center-title')
 			.boundingClientRect()
 			.exec(function(res) {
-				// const scrollViewHeight = parseFloat(res[0].height - res[1].height).toFixed(2);
-				const scrollViewHeight = 480;
+				const scrollViewHeight = parseFloat(res[0].height - res[1].height-60).toFixed(2);
+				// const scrollViewHeight = 480;
 				console.log(res);
 				console.log(scrollViewHeight);
 				that.scrollViewHeight = scrollViewHeight;
@@ -198,10 +208,10 @@ page {
 	margin-bottom: 20rpx;
 }
 .wrc-nodata{
-	margin-top: 70%;
+	margin-top: 54%;
 	transform: translateY(-50%);
 	image{
-		width: 320rpx;
+		width: 100%;
 	}
 	view{
 		font-size: 30rpx;
@@ -212,5 +222,8 @@ page {
 .clickMore{
 	text-align: center;
 	margin-top: 20rpx;
+}
+.colorGrey{
+	color: #999999;
 }
 </style>

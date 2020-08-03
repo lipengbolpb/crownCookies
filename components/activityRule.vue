@@ -1,7 +1,7 @@
 <template>
 	<!-- 活动主页 -->
 	<view class="activityRule" v-if="activityRuleIsShow">
-		<view class="activityRule-mask" :animation='opacityAni' @click="closeActivityRule"></view>
+		<view class="activityRule-mask" :animation='opacityAni' @click="closeActivityRule(1)"></view>
 		<!-- 来源 活动主页 activity -->
 		<view id="wr-center" :animation="actAni" :class="[isStartAnimation ? 'activityRule-initAni' : '','activityRule-center flex-xn-ys']"
 		 v-if="activityRuleSource==1">
@@ -17,7 +17,7 @@
 		</view>
 		<!-- 来源 个人中心页面 personalCenter-->
 		<view :animation="actAni" :class="[isStartAnimation ? 'activityRule-initAni' : '','activityRule-center1']" v-if="activityRuleSource==2">
-			<image @click="closeActivityRule" class="arc-close-image" :src="staticUrl+'closeTop.png'" mode="widthFix"></image>
+			<image @click="closeActivityRule(2)" class="arc-close-image" :src="staticUrl+'closeTop.png'" mode="widthFix"></image>
 			<scroll-view scroll-y="true" class="arc-scrollView">
 				<!-- 活动规则详情 -->
 				<activity-rule-detail></activity-rule-detail>
@@ -68,7 +68,9 @@
 		},
 		methods: {
 			// 关闭弹窗
-			closeActivityRule() {
+			closeActivityRule(type) {
+				console.log('closeActivityRule');
+				console.log(type);
 				const that = this;
 				that.actAni = ''; // 动画所需配置
 				that.actAniClose = ''; // 动画所需配置
@@ -77,11 +79,14 @@
 				setTimeout(function() {
 					that.$emit('activityRuleColse', false);
 				}, 500);
-				//是否同意 活动规则 如果 同意一下 存入 缓存 不在弹出
-				uni.setStorage({
-					key: 'isAgreeRule',
-					data: false
-				});
+				// if(type==1){
+				// 	// 1 来源 活动主页 活动 2个人中心 活动规则弹窗
+				// 	//是否同意 活动规则 如果 同意一下 存入 缓存 不在弹出
+				// 	uni.setStorage({
+				// 		key: 'isAgreeRule',
+				// 		data: false
+				// 	});
+				// }
 			},
 			consentRule() {
 				const that = this;
@@ -89,9 +94,9 @@
 				that.actAniClose = ''; // 动画所需配置
 				that.startAnimation('130%');
 				that.opacityAnimation(0);
-				setTimeout(function() {
+				// setTimeout(function() {
 					that.$emit('activityRuleColse', false);
-				}, 500);
+				// }, 500);
 				//是否同意 活动规则 如果 同意一下 存入 缓存 不在弹出
 				uni.setStorage({
 					key: 'isAgreeRule',

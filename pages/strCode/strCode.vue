@@ -1,6 +1,6 @@
 <template>
 	<view class="strCode flex-xn-ys">
-		<uni-nav-bar :style="{ 'padding-top': safeAreaTop+'px' }" left-icon="back" @click-left="back" title="序列码抽奖"></uni-nav-bar>
+		<uni-nav-bar :style="{ 'padding-top': safeAreaTop*2+'rpx' }" left-icon="back" @click-left="back" title="序列码抽奖"></uni-nav-bar>
 		<view class="strCode-center">
 			<view class="scc-titleImg">
 				<image :src="staticUrl+'shuruToplogo.png'"></image>
@@ -199,7 +199,14 @@
 			// 当窗口 高度 大于800 是 重新 计算 盒子的上边距
 			safeAreaTop() {
 				const userSystemInfo = uni.getStorageSync('userSystemInfo');
-				const safeAreaTop = userSystemInfo.safeArea.top;
+				let safeAreaTop = '30'
+				if(userSystemInfo){
+					safeAreaTop = userSystemInfo.safeArea.top==0?'30':userSystemInfo.safeArea.top;
+				} else {
+					safeAreaTop = '30';
+				}
+				console.log('safeAreaTopsafeAreaTopsafeAreaTopsafeAreaTop');
+				console.log(safeAreaTop);
 				return safeAreaTop;
 			},
 			// 获取 接口需要的 openid session_key
@@ -429,9 +436,6 @@
 					// 				}
 					// 			}
 				}
-				
-				
-			
 
 			},
 

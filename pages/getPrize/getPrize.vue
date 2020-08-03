@@ -13,7 +13,7 @@
 			</view>
 			<view class="gpc-gan-top"></view>
 			<view class="gpc-mes">
-				<image :class="[isStartAnimation ? 'comon-initAni-fontMes' : '']" :animation="fontMesAni" :src="staticUrl + 'heziMes.png'"></image>
+				<image :class="[isStartAnimation ? 'comon-initAni-fontMes' : '']" :animation="fontMesAni" :src="staticUrl + 'heziMes.png?v=1'"></image>
 			</view>
 			<view class="flex-xc-yn">
 				<view :class="[isStartAnimation ? 'comon-initAni-di' : '', 'gpc-basbox']"  :animation="diAni">
@@ -56,7 +56,7 @@ export default {
 		const that = this;
 		setTimeout(function(){
 			that.startAnimation();	
-		},500)
+		},100)
 	},
 	onReady() {
 		console.log('页面在家完成');
@@ -132,10 +132,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	.page-template-wrap-bg {
-		background: url($crownCookiesImg+'crownCookiesImgBgBig.jpg') no-repeat center;
-		background-size: cover;
-	}
+.page-template-wrap-bg {
+	background: url($crownCookiesImg+'crownCookiesImgBgBig.jpg') no-repeat center;
+	background-size: cover;
+}
 .comon-initAni-di{
 	opacity: 0;
 }
@@ -255,6 +255,6 @@ export default {
 	width: 180rpx;
 	position: absolute;
 	left: 54rpx;
-	top: 106rpx;
+	top: 126rpx;
 }
 </style>

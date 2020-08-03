@@ -1,7 +1,7 @@
 <template>
 	<!-- 黑名单页面 -->
 	<view class="blacklist flex-xn-ys">
-		<uni-nav-bar :style="{ 'margin-top': safeAreaTop + 'px' }" left-icon="back" @click-left="back" title="皇冠曲奇"></uni-nav-bar>
+		<uni-nav-bar :style="{ 'margin-top': safeAreaTop*2 + 'rpx' }" left-icon="back" @click-left="back" title="皇冠曲奇"></uni-nav-bar>
 		<view class="bl-center" v-if="showType">
 			<view class="flex-xc-yn"><image mode="widthFix" class="blc-logo" :src="staticUrl + 'crownCookiesImgLogo.png'"></image></view>
 			<p class="blc-title blc-title-ta-center">为确保您的账号安全，请填写验证信息</p>
@@ -47,7 +47,14 @@ export default {
 		// 当窗口 高度 大于800 是 重新 计算 盒子的上边距
 		safeAreaTop() {
 			const userSystemInfo = uni.getStorageSync('userSystemInfo');
-			const safeAreaTop = userSystemInfo.safeArea.top;
+			let safeAreaTop = '30'
+			if(userSystemInfo){
+				safeAreaTop = userSystemInfo.safeArea.top==0?'30':userSystemInfo.safeArea.top;
+			} else {
+				safeAreaTop = '30';
+			}
+			console.log('safeAreaTopsafeAreaTopsafeAreaTopsafeAreaTop');
+			console.log(safeAreaTop);
 			return safeAreaTop;
 		},
 		// 当窗口 高度 大于800 是 重新 计算 盒子的上边距

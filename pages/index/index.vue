@@ -16,7 +16,6 @@
 			<image class="focusGguidance" :src="staticUrl + 'focusGguidance.png'" @click="focusGguidanceShow"></image>
 			<custom-dialog ref="customDialogChild" @customDialogColse="updateCustomDialog" :customDialogFontCenter="customDialogFontCenter"
 			 :customDialogFontTitle="customDialogFontTitle" :customDialogIsShow="customDialogIsShow" :customDialogType="customDialogType"></custom-dialog>
-
 		</view>
 	</view>
 </template>
@@ -241,11 +240,11 @@
 	.crownCookies-logo {
 		width: 180rpx;
 		margin-left: 54rpx;
-		margin-top: 106rpx;
+		margin-top: 126rpx;
 	}
 
 	.index-center {
-		margin: 203rpx 120rpx 36rpx 54rpx;
+		margin: 227rpx 120rpx 36rpx 54rpx;
 		position: relative;
 
 		image {
