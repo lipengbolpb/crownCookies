@@ -14,7 +14,10 @@
 						<image class="aec-chuanquqi" mode="widthFix" :src="staticUrl+'chuanquqi.png'"></image>
 						<image class="aec-baifenbai" mode="widthFix" :src="staticUrl+'baifenbai.png'"></image>
 					</view>
+					<!-- <view :animation="fontMesAni"  @transitionend="transitionendOpenSetting" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准1</view> -->
+					
 					<view :animation="fontMesAni" @transitionend="transitionend" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view>
+					
 					<!-- 抽奖按钮 获取手机号-->
 					<view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn">
 						<view @click.once="showGetCash" class="choujiangBtn" v-if="isHasPhoneNumber">
@@ -26,6 +29,7 @@
 							</button>
 						</view>
 					</view>
+					
 				</view>
 			</view>
 			<!-- 引导关注 -->
@@ -124,6 +128,7 @@
 				wxOpenSettingIsStartAnimation: false, // 位置授权 是否展示动画
 				sweepstr: 'JYJ9CSJ8W79P',
 				cusFooterBarIsShow: false, //是否展示 页面tab （显示条件：出现 获得红包动效 ）
+				fromOpenSetting:false,
 				giveSpackTxStatusArr: [{
 						id: 1,
 						businessCode: '1',
@@ -225,13 +230,14 @@
 			console.log(this.isStartAnimation);
 			console.log(this.crownCookiesAni);
 			// 开启本页面 动效
-			if (this.isStartAnimation) {
-				this.resetInitAnimation();
-				this.startInitAnimation();
-			}
+			// if (this.isStartAnimation) {
+			// 	this.resetInitAnimation();
+			// 	this.startInitAnimation();
+			// }
 		},
 		async onShow() {
 			console.log("页面 onshow 211");
+			console.log(this.wxOpenSettingIsShow);
 			// 清除 动画效果
 			this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
 			this.baifenbaiAni = 'aec-baifenbai';  //百分比 动画
@@ -241,16 +247,23 @@
 			this.isTransitionend = false;
 			this.openid = await this.computedGetOpenid;
 			// this.init();
+			if (this.isStartAnimation) {
+				this.resetInitAnimation();
+				this.startInitAnimation();
+			}
 		},
 		onHide() {
 			// 清除 动画效果
-			this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
-			this.baifenbaiAni = 'aec-baifenbai';  //百分比 动画
-			this.fontMesAni = 'idnex-imgMes';  //饼干动画
-			this.choujiangAni = '';  //抽奖按钮 动画
-			this.focusGguidanceAni = '';  // 引导关注 公众号图片
-			this.isTransitionend = false;
-			
+			const wxOpenSettingIsShow = this.wxOpenSettingIsShow;
+			// if(!wxOpenSettingIsShow){
+				this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
+				this.baifenbaiAni = 'aec-baifenbai';  //百分比 动画
+				this.fontMesAni = 'idnex-imgMes';  //饼干动画
+				this.choujiangAni = '';  //抽奖按钮 动画
+				this.focusGguidanceAni = '';  // 引导关注 公众号图片
+				this.isTransitionend = false;
+				this.wxOpenSettingIsShow = false;
+			// }
 		},
 		/**
 		 * 用户点击右上角分享
@@ -275,7 +288,15 @@
 				this.isTransitionend = true;
 				console.log('动画 执行完毕');
 				console.log(this.isTransitionend);
-				this.init();
+				if(this.fromOpenSetting){
+					this.getSweepQrcode('', '', this.sweepstr);
+				}else{
+					this.init();
+				}
+			},
+			transitionendOpenSetting(){
+				console.log(4444);
+				this.getSweepQrcode('', '', this.sweepstr);
 			},
 			// 页面初始化
 			init() {
@@ -501,9 +522,22 @@
 				// this.againClick = true;
 				uni.openSetting({
 					complete: res => {
+						console.log('我是设置里打开授权地理位置');
 						// 统一在onshow执行地址位置判断
 						// this.getLocation();
 						// return false
+						const that = this;
+						that.wxOpenSettingIsShow = false;
+						// 开启本页面 动效
+						if (this.isStartAnimation) {
+							this.resetInitAnimation();
+							this.startInitAnimation();
+						}
+						// 关闭了 也要继续往下走
+						// 继续调用 接口
+						that.fromOpenSetting = true;
+						// that.getSweepQrcode('', '', that.sweepstr);
+						
 					}
 				});
 			},
@@ -580,8 +614,8 @@
 					delay: 10
 				});
 				choujiangAnimation
-					.scale(1.2, 1.2)
-					.step()
+					// .scale(1.2, 1.2)
+					// .step()
 					.scale(1, 1)
 					.step();
 				that.choujiangAni = choujiangAnimation.export();
@@ -737,8 +771,13 @@
 		}
 	};
 	
-	// 1 没有统一 活动 规则 和位置授权 
-	// 2 同意 活动规则和位置授权直接调用接口
+	// 1 没有同意 活动规则 和位置授权 
+	// 2 同意 活动规则和位置授权 直接调用接口
+	// 2.1 同意活动规则 没有同意 位置授权 显示自定义位置授权（ 从自定义授权返回  ）
+	// 2.2 
+	// 3 从 输入串码过来
+	// 4 重新进入小程序
+	// 5 重复 扫码 
 	
 </script>
 <!-- <view class="container" style="background-image:url({{imgBaseUrl}}/bg.jpg) no-repeat;background-size:cover;"></view> -->
@@ -814,7 +853,7 @@
 		text-align: center;
 		font-size: 24rpx;
 		color: #b2bce3;
-		letter-spacing: 8rpx;
+		// letter-spacing: 8rpx;
 	}
 
 	button {
@@ -831,14 +870,9 @@
 	}
 
 	.choujiangBtn {
-		// width: 240rpx;
-		// height: 166rpx;
-		
 		width: 306rpx;
 		height: 209rpx;
-		// margin-top: 26rpx;
 		margin-top: 61rpx;
-
 		// transform: scale(0.8,0.8);
 		// opacity: .3;
 		image,

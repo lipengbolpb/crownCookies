@@ -9,7 +9,7 @@
 				<view class="head">
 					<!-- 小程序的logo和名字 -->
 					<image :src="staticUrl + 'crownCookiesImgLogo.png'" mode="widthFix" class="headimg"></image>
-					<text>皇冠曲奇</text>
+					<text>Danisa皇冠丹麦曲奇</text>
 					<text>申请</text>
 					<image :src="staticUrl+'closeimg.png'" @click="closeWxOpenSetting" mode="widthFix" class="close"></image>
 				</view>
@@ -84,6 +84,7 @@ export default {
 				this.startAnimation();
 			}
 		}
+		
 	}
 };
 </script>

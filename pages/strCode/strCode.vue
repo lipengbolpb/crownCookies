@@ -21,11 +21,10 @@
 				<image mode="widthFix" class="stc-crownCookies" :src="staticUrl+'crownCookiesImg.png'"></image>
 			</view>
 		</view>
-
 		<!-- 引导开启 位置授权 -->
 		<wx-open-setting :wxOpenSettingIsShow="wxOpenSettingIsShow" :isStartAnimation="wxOpenSettingIsStartAnimation"
 		 @WxOpenSettingColse="WxOpenSettingColse" @openSetting="wosOpenSetting"></wx-open-setting>
-
+		<!-- 自定义 弹窗 -->
 		<custom-dialog 
 			ref="customDialogChild" 
 			@customDialogColse="updateCustomDialog" 

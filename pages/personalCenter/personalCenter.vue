@@ -7,12 +7,17 @@
 		<view class="pc-titleBox pct-common">
 			<!-- 头部 展示 头像和昵称 -->
 			<view class="pct-userInfor flex-xc-yn">
-				<view class="pct-userInfor-userImg">
+				<!-- <view class="pct-userInfor-userImg">
 					<button class="user" open-type="getUserInfo" @getuserinfo="getUserInfoFn" withCredentials="true">
 						<image class="avatar" mode="widthFix" :src="userInfo.avatarUrl || staticUrl + 'shangchuantouxiang.png'"></image>
 					</button>
 					<view class="pct-userInfor-nickName">{{ nickNameSub }}</view>
+				</view> -->
+				<view class="pct-userInfor-userImg">
+					<image class="avatar" mode="widthFix" :src="userInfo.avatarUrl || staticUrl + 'shangchuantouxiang.png'"></image>
+					<view class="pct-userInfor-nickName">{{ nickNameSub }}</view>
 				</view>
+				
 			</view>
 			<!-- 累计红包金额 获取丹麦旅游 -->
 			<view class="pct-tab flex-xsb-yc">
@@ -39,6 +44,15 @@
 		<!-- 活动规则 -->
 		<activity-rule ref="activityRuleChild" @activityRuleColse="updateActivityRuleColse" :activityRuleSource="activityRuleSource"
 		 :activityRuleIsShow="activityRuleIsShow"></activity-rule>
+		
+		<!-- 个人信息授权引导 -->
+		<wx-guidance-operation
+			@WXGuidanceOperationClose='WXGuidanceOperationGet'
+			@WXUserInfor='WXUserInfor'
+			:WXGuidanceOperationType='WXGuidanceOperationType' 
+			:WXGuidanceOperationIsShow='WXGuidanceOperationIsShow'
+			:WXGuidanceOperationShowData='WXGuidanceOperationShowData'
+		></wx-guidance-operation>
 
 	</view>
 </template>
@@ -62,11 +76,13 @@
 		dateformatTemp
 	} from '@/common/basicsFun.js';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
+	import wxGuidanceOperation from '@/components/wx-guidance-operation/wx-guidance-operation.vue'; //个人信息页面授权引导
 	export default {
 		name: 'personalCenter',
 		components: {
 			activityRule,
-			uniNavBar
+			uniNavBar,
+			wxGuidanceOperation
 		},
 		computed: {
 			// 当窗口 高度 大于800 是 重新 计算 盒子的上边距
@@ -124,17 +140,21 @@
 					nickName: '昵称'
 				}, //用户 信息 头像 昵称
 				allAccountMoney: 0, // 累计获得多少钱
-				totalPrizeNum: 0 // 获取丹麦旅游
+				totalPrizeNum: 0 ,// 获取丹麦旅游
+				
+				WXGuidanceOperationIsShow:false,//引导操作  是否展示
+				WXGuidanceOperationType:'2',// 引导操作类型 1:位置授权 2：个人信息授权
+				WXGuidanceOperationShowData:{
+					wxTitle:'获取您的地理位置信息',
+					wxMes:'获取昵称，头像可以给你提供更好的服务',
+					wxButton:'进行授权',
+				}, // 引导操作 展示文字
+				
 			};
 		},
 		async onLoad() {
 			// 获取用户信息 openid seesion_key
 			const backGetUserDataFun = await getUserDataFun();
-		},
-		onHide() {
-			this.activityRuleIsShow = false;
-		},
-		onShow() {
 			// 获取展示 信息
 			queryUserHomePage().then(res => {
 				if (res) {
@@ -150,7 +170,7 @@
 					this.totalPrizeNum = 0;
 				}
 			});
-
+			
 			const that = this;
 			// 已授权的 进入回显头像
 			uni.getStorage({
@@ -159,15 +179,59 @@
 					const userInfo = res.data;
 					that.userInfo.avatarUrl = userInfo.avatarUrl;
 					that.userInfo.nickName = userInfo.nickName;
+					that.WXGuidanceOperationIsShow = false;
+					
 				},
 				fail: function(res) {
 					// 没有头像
 					that.userInfo.avatarUrl = '';
 					that.userInfo.nickName = '昵称';
+					console.log('显示授权引导弹窗！');
+					
+					that.WXGuidanceOperationIsShow = true;
 				}
 			});
+			
 		},
+		onHide() {
+			this.activityRuleIsShow = false;
+		},
+		onShow() {
+			// // 获取展示 信息
+			// queryUserHomePage().then(res => {
+			// 	if (res) {
+			// 		// 累计红包 金额
+			// 		const resreply = res.reply;
+			// 		this.allAccountMoney = String(resreply.allAccountMoney);
+			// 		// 获取丹麦旅游
+			// 		this.totalPrizeNum = String(resreply.totalPrizeNum);
+			// 		getApp().globalData.przieUserData = res;
+			// 	} else {
+			// 		this.allAccountMoney = 0;
+			// 		// 获取丹麦旅游
+			// 		this.totalPrizeNum = 0;
+			// 	}
+			// });
 
+			// const that = this;
+			// // 已授权的 进入回显头像
+			// uni.getStorage({
+			// 	key: 'userInfo',
+			// 	success: function(res) {
+			// 		const userInfo = res.data;
+			// 		that.userInfo.avatarUrl = userInfo.avatarUrl;
+			// 		that.userInfo.nickName = userInfo.nickName;
+			// 		that.isShowAuthorizationGuidance = true;
+			// 	},
+			// 	fail: function(res) {
+			// 		// 没有头像
+			// 		that.userInfo.avatarUrl = '';
+			// 		that.userInfo.nickName = '昵称';
+			// 		that.isShowAuthorizationGuidance = false;
+			// 	}
+			// });
+			
+		},
 		/**
 		 * 用户点击右上角分享
 		 */
@@ -187,13 +251,13 @@
 			/**
 			 * 获取用户信息
 			 */
-			getUserInfoFn() {
-				getUserInfo().then(res => {
-					const that = this;
-					that.userInfo.avatarUrl = res.userInfo.avatarUrl;
-					that.userInfo.nickName = res.userInfo.nickName;
-				});
-			},
+			// getUserInfoFn() {
+			// 	getUserInfo().then(res => {
+			// 		const that = this;
+			// 		that.userInfo.avatarUrl = res.userInfo.avatarUrl;
+			// 		that.userInfo.nickName = res.userInfo.nickName;
+			// 	});
+			// },
 			// 列表展示
 			listNav(navData) {
 				const getNavData = navData;
@@ -253,6 +317,19 @@
 						}
 					}
 				}
+			},
+			
+			// 引导操作 
+			WXGuidanceOperationGet(){
+				this.WXGuidanceOperationIsShow = false;
+			},
+			WXUserInfor(userInfo){
+				console.log("userInfouserInfouserInfo");
+				console.log(userInfo);
+				const that = this;
+				that.WXGuidanceOperationIsShow = false;
+				that.userInfo.avatarUrl = userInfo.avatarUrl;
+				that.userInfo.nickName = userInfo.nickName;
 			},
 		}
 	};

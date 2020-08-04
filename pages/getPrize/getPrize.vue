@@ -239,8 +239,9 @@ export default {
 	left: 0;
 	width: 100%;
 	image{
-		width: 40%;
-		height: 208rpx;
+		width: 306rpx;
+		height: 209rpx;
+		display: block;
 	}
 }
 .arc-close-image {
