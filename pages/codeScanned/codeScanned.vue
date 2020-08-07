@@ -1,7 +1,7 @@
 <template>
 	<!-- 二维码已被扫 -->
 	<view class="codeScanned flex-xn-ys">
-		<uni-nav-bar :style="{ 'margin-top': safeAreaTop*2 + 'rpx' }" left-icon="back" @click-left="back" title="皇冠曲奇"></uni-nav-bar>
+		<uni-nav-bar :style="{ 'margin-top': safeAreaTop*2 + 'rpx' }" left-icon="back" @click-left="back" title="皇冠丹麦曲奇"></uni-nav-bar>
 		<view class="cs-center">
 			<view class="flex-xc-yn" :style="{ 'margin-top': isOpenAdaptation ? '100rpx' : '0' }">
 				<image mode="widthFix" class="csc-cuowuerweima" :src="staticUrl + 'cuowuerweima.png'"></image>
@@ -11,12 +11,12 @@
 				<p class='csc-p'></p>
 			</block>
 			<block v-else>
-				<p class="csc-title">这个二维码已被扫过</p>
+				<p class="csc-title">{{ mesFontTitle }}</p>
+				<!-- <p class="csc-title">这个二维码已被扫过</p> -->
 				<p :class="[showType==1?'csc-p1':'csc-p']">
 					<view class="csc-currentMoney">  {{ mesFontCurrentMoney }} </view>{{ mesFont }}
 				</p> 
 			</block>
-			
 			<view class="flex-xc-yn"><image mode="widthFix" class="csc-crownCookies" :src="staticUrl + 'crownCookiesImg.png'"></image></view>
 
 		</view>
@@ -69,12 +69,14 @@ export default {
 			this.mesFont = `您已于 ${ earnTime } 扫过这个二维码`;
 			this.mesFontCurrentMoney=`并获得 ${ currentMoney }元`;
 			this.showType = '1';
+			this.mesFontTitle = '这个二维码已被您扫过';
 			this.isexpireTimeStatus = false;
 		}else if(options.bizcode == 7){
 			this.isexpireTimeStatus = true;
 		}else{
 			// 已被他人扫码
 			this.mesFont = '每个二维码仅限扫码一次';
+			this.mesFontTitle = '这个二维码已被扫过';
 			this.mesFontCurrentMoney=``;
 			this.showType = '2';
 			this.isexpireTimeStatus = false;
@@ -87,6 +89,7 @@ export default {
 			staticUrl: config.staticUrl,
 			showType:'1',
 			isexpireTimeStatus:false,// 默认 没有过期 如果bizcode==7 说明从大奖过来并且大奖已过期
+			mesFontTitle:'这个二维码已被扫过'
 		};
 	},
 	methods: {

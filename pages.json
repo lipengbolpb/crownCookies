@@ -74,12 +74,12 @@
 		{
 			"path": "pages/openScan/openScan", //打开扫一扫 tabr
 			"style": {
-				"navigationBarTitleText": "皇冠曲奇"
+				"navigationBarTitleText": "皇冠丹麦曲奇"
 			}
 		},{
 			"path": "pages/openScanCom/openScanCom", // 扫一扫通用
 			"style": {
-				"navigationBarTitleText": "皇冠曲奇"
+				"navigationBarTitleText": "皇冠丹麦曲奇"
 			}
 		}
 	],
@@ -112,7 +112,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "皇冠曲奇",
+		"navigationBarTitleText": "皇冠丹麦曲奇",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},

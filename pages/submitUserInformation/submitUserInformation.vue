@@ -43,7 +43,7 @@
 				</view>
 				
 				<!-- <button :disabled="isDisabled" class="submitBox-submit" @click="submitFun">{{ submitFont }}</button> -->
-				<button :disabled="isDisabled" :class="[isDisabled?'submitBox-submit-dis':'submitBox-submit']" @click="submitFun">{{ submitFont }}</button>
+				<button :disabled="isDisabled" :class="[isDisabled?'submitBox-submit-dis':'submitBox-submit','vmdTijiaoxinxi']" @click="submitFun">{{ submitFont }}</button>
 				
 				<view class="submitBox-mes submitBox-checkCode" v-if="isShowVerifycode">
 					*请填写正确的手机号及身份证号码。并保留活动产品的邀请函和购买凭证，以备兑奖查验。
@@ -232,7 +232,7 @@
 				const userData = uni.getStorageSync('userData');
 				const sweepQrcodeDataReply = sweepQrcodeData.reply;
 				const openid = userData.uinfo.openid;
-				const przieUserData = getApp().globalData.przieUserData; // 获取个人中心页面 返回填写大奖的信息
+				const przieUserData = getApp().globalData.przieUserData.reply; // 获取个人中心页面 返回填写大奖的信息
 				let skukey = '';
 				let grandPrizeType = '';
 				let prizeVcode = '';

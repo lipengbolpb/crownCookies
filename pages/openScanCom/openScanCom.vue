@@ -48,7 +48,7 @@
 					}else{
 						console.log('../activityEntrance/activit');
 						uni.redirectTo({
-						  url: '../activityEntrance/activityEntrance?sweepstr=' + encodeURIComponent(res.result),
+						  url: '../activityEntrance/activityEntrance?openScan=1&q=' + encodeURIComponent(res.result),
 						  complete() {
 						  	getApp().globalData.openQrcode = false
 						  }

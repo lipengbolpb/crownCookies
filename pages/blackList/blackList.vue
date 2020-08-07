@@ -1,7 +1,7 @@
 <template>
 	<!-- 黑名单页面 -->
 	<view class="blacklist flex-xn-ys">
-		<uni-nav-bar :style="{ 'margin-top': safeAreaTop*2 + 'rpx' }" left-icon="back" @click-left="back" title="皇冠曲奇"></uni-nav-bar>
+		<uni-nav-bar :style="{ 'margin-top': safeAreaTop*2 + 'rpx' }" left-icon="back" @click-left="back" title="皇冠丹麦曲奇"></uni-nav-bar>
 		<view class="bl-center" v-if="showType">
 			<view class="flex-xc-yn"><image mode="widthFix" class="blc-logo" :src="staticUrl + 'crownCookiesImgLogo.png'"></image></view>
 			<p class="blc-title blc-title-ta-center">为确保您的账号安全，请填写验证信息</p>

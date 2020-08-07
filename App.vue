@@ -85,7 +85,8 @@
 					// #endif
 					
 					Vue.prototype.windowHeight = e.windowHeight;
-					console.log('可使用窗口高度:',e.windowHeight)
+					console.log('可使用窗口高度:',e.windowHeight);
+					
 				}
 			})
 		},
@@ -114,7 +115,8 @@
 					}
 				})
 			}
-		}
+		},
+		
 	}
 </script>
 
@@ -147,7 +149,6 @@
 		top: 50%;
 		-webkit-transform: translateY(-50%);
 		transform: translateY(-50%);
-
 	}
 	/* 
 	*  x 代表水平方向 y垂直方向

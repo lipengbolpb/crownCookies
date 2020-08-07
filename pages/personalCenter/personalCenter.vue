@@ -145,7 +145,7 @@
 				WXGuidanceOperationIsShow:false,//引导操作  是否展示
 				WXGuidanceOperationType:'2',// 引导操作类型 1:位置授权 2：个人信息授权
 				WXGuidanceOperationShowData:{
-					wxTitle:'获取您的地理位置信息',
+					wxTitle:'获取你的昵称、头像、地区及性别',
 					wxMes:'获取昵称，头像可以给你提供更好的服务',
 					wxButton:'进行授权',
 				}, // 引导操作 展示文字
@@ -155,22 +155,6 @@
 		async onLoad() {
 			// 获取用户信息 openid seesion_key
 			const backGetUserDataFun = await getUserDataFun();
-			// 获取展示 信息
-			queryUserHomePage().then(res => {
-				if (res) {
-					// 累计红包 金额
-					const resreply = res.reply;
-					this.allAccountMoney = String(resreply.allAccountMoney);
-					// 获取丹麦旅游
-					this.totalPrizeNum = String(resreply.totalPrizeNum);
-					getApp().globalData.przieUserData = res;
-				} else {
-					this.allAccountMoney = 0;
-					// 获取丹麦旅游
-					this.totalPrizeNum = 0;
-				}
-			});
-			
 			const that = this;
 			// 已授权的 进入回显头像
 			uni.getStorage({
@@ -197,39 +181,21 @@
 			this.activityRuleIsShow = false;
 		},
 		onShow() {
-			// // 获取展示 信息
-			// queryUserHomePage().then(res => {
-			// 	if (res) {
-			// 		// 累计红包 金额
-			// 		const resreply = res.reply;
-			// 		this.allAccountMoney = String(resreply.allAccountMoney);
-			// 		// 获取丹麦旅游
-			// 		this.totalPrizeNum = String(resreply.totalPrizeNum);
-			// 		getApp().globalData.przieUserData = res;
-			// 	} else {
-			// 		this.allAccountMoney = 0;
-			// 		// 获取丹麦旅游
-			// 		this.totalPrizeNum = 0;
-			// 	}
-			// });
-
-			// const that = this;
-			// // 已授权的 进入回显头像
-			// uni.getStorage({
-			// 	key: 'userInfo',
-			// 	success: function(res) {
-			// 		const userInfo = res.data;
-			// 		that.userInfo.avatarUrl = userInfo.avatarUrl;
-			// 		that.userInfo.nickName = userInfo.nickName;
-			// 		that.isShowAuthorizationGuidance = true;
-			// 	},
-			// 	fail: function(res) {
-			// 		// 没有头像
-			// 		that.userInfo.avatarUrl = '';
-			// 		that.userInfo.nickName = '昵称';
-			// 		that.isShowAuthorizationGuidance = false;
-			// 	}
-			// });
+			// 获取展示 信息
+			queryUserHomePage().then(res => {
+				if (res) {
+					// 累计红包 金额
+					const resreply = res.reply;
+					this.allAccountMoney = String(resreply.allAccountMoney);
+					// 获取丹麦旅游
+					this.totalPrizeNum = String(resreply.totalPrizeNum);
+					getApp().globalData.przieUserData = res;
+				} else {
+					this.allAccountMoney = 0;
+					// 获取丹麦旅游
+					this.totalPrizeNum = 0;
+				}
+			});
 			
 		},
 		/**
@@ -241,7 +207,7 @@
 				console.log(res.target);
 			}
 			return {
-				title: '皇冠曲奇',
+				title: '皇冠丹麦曲奇',
 				path: '/pages/personalCenter/personalCenter',
 				imageUrl: this.staticUrl + 'fenxiangImg.png'
 			};

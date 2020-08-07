@@ -199,7 +199,7 @@
 				console.log(res.target);
 			}
 			return {
-				title: '皇冠曲奇',
+				title: '皇冠丹麦曲奇',
 				path: '/pages/index/index',
 				imageUrl: this.staticUrl + 'fenxiangImg.png'
 			};

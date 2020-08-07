@@ -14,7 +14,7 @@
 					<input class="submitBox-input yamInput" type="text" value="" placeholder="输入验证码" maxlength="4" v-model="verifycode" />
 					<button class="yamButton" @click="getyzm">{{ sec == 0 ? '获取验证码' : sec + '秒后再次获取' }}</button>
 				</view>
-				<view class="submitBox-submit" @click="submitForm">提交</view>
+				<view class="submitBox-submit vmdChuanmatijiao" @click="submitForm">提交</view>
 			</view>
 			<view class="scc-mobile" @click='callGetPhoneFun'>客服电话：{{ callGetPhone }}</view>
 			<view class="flex-xc-yn">

@@ -24,7 +24,7 @@
 			<image :class="[isStartAnimation ? 'comon-initAni-guan' : '', 'gpc-guang']" mode="widthFix" :animation="guangAni" :src="staticUrl+'guan01.png'" ></image>
 			<image :class="[isStartAnimation ? 'comon-initAni-qian' : '', 'gpc-qian']" mode="widthFix" :animation="qianAni" :src="staticUrl + 'heziqian.png'"></image>
 			<view :class="[isStartAnimation ? 'lijilingqu-initAni' : '', 'gpc-lijilingqu-box','flex-xc-yn']"  :animation="lijilingquAni">
-				<image @click="toGetPrize" class="gpc-lijilingqu" :src="staticUrl + 'lijilingqu.png'"></image>
+				<image @click="toGetPrize" class="gpc-lijilingqu vmdLijilingqu" :src="staticUrl + 'lijilingqu.png'"></image>
 			</view>
 		</view>
 	</view>

@@ -64,9 +64,7 @@ export default {
 			const that = this;
 			const footerbarAnimation = wx.createAnimation({
 				duration: 1,
-				// duration: 1000,
 				timingFunction: 'ease',
-				// delay: 1500
 				delay: 1
 			});
 			footerbarAnimation.opacity(1).step();

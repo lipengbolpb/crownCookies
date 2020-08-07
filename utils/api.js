@@ -1,7 +1,7 @@
 // var host = 'https://douban.uieee.com/v2/movie';
 // var host = 'https://douban.uubake.com/v2/movie';
 
-var isOnline = false ;  //  false            
+var isOnline = true ;  //  false            
 
 var config = {};
 if (isOnline) {
@@ -15,7 +15,7 @@ if (isOnline) {
 		requestUrl_ln:'https://mapi.vjifen.com/vjifenInterface',
 		appid_ln: 'wx347148911badcf19',
 		payAppid_ln: 'wxa42a20606316e2e9',
-		startDate:'2020/08/31 23:59:59',
+		startDate:'2019/08/31 23:59:59',
 	}
 } else {
 	config = {

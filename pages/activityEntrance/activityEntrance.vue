@@ -2,11 +2,14 @@
 	<view class="page-template">
 		<view class="page-template-wrap page-template-wrap-bg">
 			<view class="page-template-wrap-center">
+				
+				<view class="devTest" @animationend="transitionendDevTest">  </view>
+				
 				<view class="activityEntrance">
 					<image mode="widthFix" class="crownCookies-logo" :src="staticUrl+'crownCookiesImgLogo.png'"></image>
 					<!-- <view class="activityEntrance-center-Animation" v-if="isStartAnimation" :style="{ 'margin-top': isOpenAdaptation ? '512rpx' : '396rpx' }"> -->
 					<view class="activityEntrance-center-Animation" v-if="isStartAnimation">
-						<image class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
+						<image :animation="chuanAni" class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
 						<image :animation="crownCookiesAni" class="aec-crownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
 						<image :animation="baifenbaiAni" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image>
 					</view>
@@ -15,21 +18,18 @@
 						<image class="aec-baifenbai" mode="widthFix" :src="staticUrl+'baifenbai.png'"></image>
 					</view>
 					<!-- <view :animation="fontMesAni"  @transitionend="transitionendOpenSetting" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准1</view> -->
-					
 					<view :animation="fontMesAni" @transitionend="transitionend" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view>
-					
 					<!-- 抽奖按钮 获取手机号-->
 					<view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn">
-						<view @click.once="showGetCash" class="choujiangBtn" v-if="isHasPhoneNumber">
+						<view @click.once="showGetCash" class="choujiangBtn vmdChoujiang" v-if="isHasPhoneNumber">
 							<image :src="staticUrl + 'dianjichoujiang.png'"></image>
 						</view>
 						<view class="choujiangBtn" v-else>
-							<button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" class="btn againGetPhone">
+							<button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" class="btn againGetPhone vmdChoujiang">
 								<image :src="staticUrl + 'dianjichoujiang.png'"></image>
 							</button>
 						</view>
 					</view>
-					
 				</view>
 			</view>
 			<!-- 引导关注 -->
@@ -52,10 +52,19 @@
 				:currentMoney="currentMoney"
 			></get-cash>
 			<!-- 引导开启 位置授权 -->
-			<wx-open-setting :wxOpenSettingIsShow="wxOpenSettingIsShow" :isStartAnimation="wxOpenSettingIsStartAnimation"
-			 @WxOpenSettingColse="WxOpenSettingColse" @openSetting="wosOpenSetting"></wx-open-setting>
+			<wx-open-setting 
+				:wxOpenSettingIsShow="wxOpenSettingIsShow" 
+				:isStartAnimation="wxOpenSettingIsStartAnimation"
+				@WxOpenSettingColse="WxOpenSettingColse" 
+				@openSetting="wosOpenSetting"
+			></wx-open-setting>
 			<!-- 自定义导航 -->
-			<custom-footer-bar ref="customFooterBarChild" :cusFooterBarIsShow="cusFooterBarIsShow" :isOpenAdaptation="isOpenAdaptation"></custom-footer-bar>
+			<custom-footer-bar 
+				ref="customFooterBarChild" 
+				:cusFooterBarIsShow="cusFooterBarIsShow" 
+				:isOpenAdaptation="isOpenAdaptation"
+			></custom-footer-bar>
+			
 		</view>
 	</view>
 </template>
@@ -117,6 +126,7 @@
 				isStartAnimation: true, // 本页面 是否开启动画
 				isShowluckDrawBtn: false, //是否 显示 抽奖按钮
 				isHasPhoneNumber: false, //是否 已获取手机号
+				chuanAni:'',//船 动画
 				crownCookiesAni: '', //饼干 动画
 				baifenbaiAni: '', //百分比 动画
 				fontMesAni: '', //饼干动画
@@ -189,13 +199,16 @@
 		onLoad(options) {
 			console.log('页面参数 options 176');
 			console.log(options);
-			const sweepstrUrl = decodeURIComponent(options.sweepstr);
+			const sweepstrUrl = decodeURIComponent(options.q);
+			if(options.openScan!=1 && sweepstrUrl){
+				getApp().globalData.isInitsweepstr = 'true';
+			}
 			const that = this;
 			// 串码类型 扫码串码1 输入串码2
 			that.codeType = options.codeType || '1';
 			if (that.codeType == 2) {
 				this.sweepstr = '';
-			} else {  
+			} else { 
 				if (sweepstrUrl.indexOf('xt.vjifen.com') != -1) {
 					//测试二维码
 					if (sweepstrUrl.indexOf('/LN/') != -1) {
@@ -204,10 +217,10 @@
 					} else {
 						that.sweepstr = sweepstrUrl.split('v=')[1];
 					}
-				} else if (sweepstrUrl.indexOf('VJ1.TV/LN/') != -1) {
-					that.sweepstr = sweepstrUrl.split('LN/')[1];
-				} else if (sweepstrUrl.indexOf('vj1.tv/LN/') != -1) {
-					that.sweepstr = sweepstrUrl.split('LN/')[1];
+				} else if (sweepstrUrl.indexOf('VJ1.TV/') != -1) {
+					that.sweepstr = sweepstrUrl.split('QQ/')[1];
+				} else if (sweepstrUrl.indexOf('vj1.tv/') != -1) {
+					that.sweepstr = sweepstrUrl.split('QQ/')[1];
 				} else {
 					that.sweepstr = '';
 					return uni.showModal({
@@ -228,18 +241,24 @@
 		onReady() {
 			console.log('woshi onReady');
 			console.log(this.isStartAnimation);
-			console.log(this.crownCookiesAni);
 			// 开启本页面 动效
 			// if (this.isStartAnimation) {
 			// 	this.resetInitAnimation();
 			// 	this.startInitAnimation();
 			// }
+			setTimeout(()=>{
+				this.resetInitAnimation();
+				this.startInitAnimation();
+			},100)
+		
 		},
 		async onShow() {
-			console.log("页面 onshow 211");
+			console.log("页面 onshow 21122333");
 			console.log(this.wxOpenSettingIsShow);
+			console.log(this.isStartAnimation);
 			// 清除 动画效果
 			this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
+			this.chuanAni = 'aec-chuanImg'; //船 动画
 			this.baifenbaiAni = 'aec-baifenbai';  //百分比 动画
 			this.fontMesAni = 'idnex-imgMes';  //饼干动画
 			this.choujiangAni = '';  //抽奖按钮 动画
@@ -247,23 +266,11 @@
 			this.isTransitionend = false;
 			this.openid = await this.computedGetOpenid;
 			// this.init();
-			if (this.isStartAnimation) {
+			setTimeout(()=>{
 				this.resetInitAnimation();
 				this.startInitAnimation();
-			}
-		},
-		onHide() {
-			// 清除 动画效果
-			const wxOpenSettingIsShow = this.wxOpenSettingIsShow;
-			// if(!wxOpenSettingIsShow){
-				this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
-				this.baifenbaiAni = 'aec-baifenbai';  //百分比 动画
-				this.fontMesAni = 'idnex-imgMes';  //饼干动画
-				this.choujiangAni = '';  //抽奖按钮 动画
-				this.focusGguidanceAni = '';  // 引导关注 公众号图片
-				this.isTransitionend = false;
-				this.wxOpenSettingIsShow = false;
-			// }
+			},100)
+			
 		},
 		/**
 		 * 用户点击右上角分享
@@ -273,13 +280,22 @@
 				// 来自页面内分享按钮
 			}
 			return {
-				title: '皇冠曲奇',
+				title: '皇冠丹麦曲奇',
 				path: '/pages/index/index',
 				imageUrl: this.staticUrl + 'fenxiangImg.png'
 			};
 		},
 		onHide() {
-			// 弹出自定义 位置引导弹窗
+			// 清除 动画效果
+			const wxOpenSettingIsShow = this.wxOpenSettingIsShow;
+				this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
+				this.chuanAni = 'aec-chuanImg'; //饼干 动画
+				this.baifenbaiAni = 'aec-baifenbai';  //百分比 动画
+				this.fontMesAni = 'idnex-imgMes';  //饼干动画
+				this.choujiangAni = '';  //抽奖按钮 动画
+				this.focusGguidanceAni = '';  // 引导关注 公众号图片
+				this.isTransitionend = false;
+				this.wxOpenSettingIsShow = false;
 			this.wxOpenSettingIsShow = false;
 			this.resetInitAnimation();
 		},
@@ -293,6 +309,11 @@
 				}else{
 					this.init();
 				}
+			},
+			// 测试 动画
+			transitionendDevTest(){
+				console.log('我是 测试动画 执行完成之后！');
+				
 			},
 			transitionendOpenSetting(){
 				console.log(4444);
@@ -341,7 +362,7 @@
 									}
 								});
 							} else {
-								const isInitsweepstr = uni.getStorageSync('isInitsweepstr');
+								// const isInitsweepstr = uni.getStorageSync('isInitsweepstr');
 								if(getApp().globalData.isInitsweepstr=='true'){
 									// 走扫码的逻辑 检测位置微信 调用接口
 									that.checkUserLocation(true);
@@ -428,10 +449,10 @@
 				this.$refs.getCashChild.isStartAnimationFun(true);
 				this.isShowGguidance = true; // 显示 关注公众号引导
 				this.cusFooterBarIsShow = true; // 显示 自定义页面 页脚
-				this.$refs.customFooterBarChild.isStartAnimationFun(true); //开启tab动效
 				setTimeout(() => {
+					this.$refs.customFooterBarChild.isStartAnimationFun(true); //开启tab动效
 					this.startFocusGguidanceAnimation(); // 显示 关注公众号引导 dongxian
-				}, 100);
+				}, 1000);
 			},
 			// 验证缓存中 是否 存在用户位置
 			async checkUserLocation(status=false) {
@@ -544,6 +565,14 @@
 		// 开始动画
 		startInitAnimation() {
 			const that = this;
+			// 船 从无到有
+			const chuanAnimation = wx.createAnimation({
+				duration: 300,
+				timingFunction: 'ease',
+				delay: 0
+			});
+			chuanAnimation.opacity(1).step();
+			
 			// 饼干动画 从无到有
 			const crownCookiesAnimation = wx.createAnimation({
 				duration: 1000,
@@ -551,6 +580,7 @@
 				delay: 500
 			});
 			crownCookiesAnimation.opacity(1).step();
+			
 			// 百分百 中奖logo 从左向右滑出
 			const baifenbaiAnimation = wx.createAnimation({
 				duration: 500,
@@ -565,18 +595,26 @@
 				delay: 1400
 			});
 			fontMesAnimation.opacity(1).step();
-			that.baifenbaiAni = baifenbaiAnimation.export();
-			that.crownCookiesAni = crownCookiesAnimation.export();
-			that.fontMesAni = fontMesAnimation.export();
+			setTimeout(function(){
+				that.baifenbaiAni = baifenbaiAnimation.export();
+				that.crownCookiesAni = crownCookiesAnimation.export();
+				that.chuanAni = chuanAnimation.export();
+				that.fontMesAni = fontMesAnimation.export();
+			},10)
 			
 			console.log('饼干动画 从无到有');
-			console.log(that.baifenbaiAni);
-			console.log(that.crownCookiesAni);
-			console.log(that.fontMesAni);
 		},	
 		// 重置动画
 		resetInitAnimation() {
 				const that = this;
+				// 船 从无到有
+				const chuanAnimation = wx.createAnimation({
+					duration: 1,
+					timingFunction: 'ease',
+					delay: 0
+				});
+				
+				chuanAnimation.opacity(0).step();
 				// 饼干动画 从无到有
 				const crownCookiesAnimation = wx.createAnimation({
 					duration: 1,
@@ -598,10 +636,12 @@
 					delay: 0
 				});
 				fontMesAnimation.opacity(0).step();
-				that.baifenbaiAni = baifenbaiAnimation.export();
-				that.crownCookiesAni = crownCookiesAnimation.export();
-				that.fontMesAni = fontMesAnimation.export();
-				
+				setTimeout(function(){
+					that.baifenbaiAni = baifenbaiAnimation.export();
+					that.crownCookiesAni = crownCookiesAnimation.export();
+					that.chuanAni = chuanAnimation.export();
+					that.fontMesAni = fontMesAnimation.export();
+				},10)
 				console.log('重置动画！');
 			},
 			// 开始 抽奖按钮 动画
@@ -614,8 +654,6 @@
 					delay: 10
 				});
 				choujiangAnimation
-					// .scale(1.2, 1.2)
-					// .step()
 					.scale(1, 1)
 					.step();
 				that.choujiangAni = choujiangAnimation.export();
@@ -623,15 +661,15 @@
 			// 开始 关注 动画
 			startFocusGguidanceAnimation() {
 				const that = this;
-				// 抽奖按钮 放大缩小
 				const focusGguidanceAnimation = wx.createAnimation({
-					duration: 1000,
+					duration: 1,
 					timingFunction: 'ease',
-					delay: 1500
+					delay: 1
 				});
 				focusGguidanceAnimation.opacity(1).step();
 				that.focusGguidanceAni = focusGguidanceAnimation.export();
 			},
+			
 			// 关闭 活动规则 弹窗
 			updateActivityRuleColse(data) {
 				const that = this;
@@ -686,6 +724,7 @@
 			},
 			//获取 扫码接口 返回信息 并处理
 			getSweepQrcode(longitude = '00', latitude = '00', sweepstr = '',status=false) {
+				console.log('getSweepQrcodegetSweepQrcodegetSweepQrcodegetSweepQrcode');
 				const that = this;
 				var sendParams = {
 					openid: that.openid,
@@ -698,6 +737,7 @@
 				// 调用扫码接口
 				sweepQrcode(sendParams)
 					.then(res => {
+						console.log(sendParams);
 						const currentMoney = res.reply.currentMoney || '';
 						that.currentMoney = currentMoney;
 						// 判断是否 返回手机号 如果有 不在 弹出授权
@@ -733,7 +773,6 @@
 										uni.redirectTo({
 											url: res
 										});
-										
 									} else {
 										console.log('没有拿到 isTransitionend 659');
 										uni.redirectTo({
@@ -833,6 +872,9 @@
 			width: 82%;
 			height: 260rpx;
 		}
+		.aec-chuanImg{
+			opacity: 0;
+		}
 	}
 
 	.focusGguidance {
@@ -880,5 +922,25 @@
 			height: 209rpx;
 			width: 100%;
 		}
+	}
+	
+	.devTest{
+		width: 100rpx;
+		height: 100rpx;
+		position: fixed;
+		top: 0;
+		left: 0;
+		animation:myfirst 5s;
+		-moz-animation:myfirst 5s; /* Firefox */
+		-webkit-animation:myfirst 5s; /* Safari and Chrome */
+		-o-animation:myfirst 5s; /* Opera */
+	}
+	@keyframes myfirst
+	{
+		0%   {background: red;}
+		25%  {background: yellow;}
+		50%  {background: blue;}
+		75%  {background: green;}
+		100% {background: red;}
 	}
 </style>
