@@ -3,7 +3,7 @@
 	<view class="strCode flex-xn-ys">
 		<uni-nav-bar :style="{ 'margin-top': safeAreaTop*2 + 'rpx' }" left-icon="back" @click-left="back" title="填写信息"></uni-nav-bar>
 		<!-- <view class="strCode-center" :style="{ 'margin-bottom': isGetPrize==true?'144rpx':'28rpx' }"> -->
-		<view class="strCode-center" :style="{ 'margin-bottom':strCodeCenterMarginBot}">
+		<view class="strCode-center" :style="{'margin-bottom':strCodeCenterMarginBot}">
 			<view class="scc-titleImg">
 				<image :src="staticUrl+'shuruToplogo.png'"></image>
 				<view class="">请填写中奖人信息</view>
@@ -48,7 +48,7 @@
 				<view class="submitBox-mes submitBox-checkCode" v-if="isShowVerifycode">
 					*请填写正确的手机号及身份证号码。并保留活动产品的邀请函和购买凭证，以备兑奖查验。
 				</view>
-			
+				
 			</view>
 			<view class="flex-xc-yn">
 				<image mode="widthFix" class="stc-crownCookies" :src="staticUrl+'crownCookiesImg.png'"></image>
@@ -230,9 +230,22 @@
 				const that = this;
 				const sweepQrcodeData = uni.getStorageSync('sweepQrcodeData');
 				const userData = uni.getStorageSync('userData');
-				const sweepQrcodeDataReply = sweepQrcodeData.reply;
 				const openid = userData.uinfo.openid;
-				const przieUserData = getApp().globalData.przieUserData.reply; // 获取个人中心页面 返回填写大奖的信息
+				let sweepQrcodeDataReply = '';
+				let przieUserData = ''; // 获取个人中心页面 返回填写大奖的信息
+				
+				if(sweepQrcodeData){
+					sweepQrcodeDataReply = sweepQrcodeData.reply;
+				}else{
+					sweepQrcodeDataReply = '';
+				}
+				
+				if(getApp().globalData.przieUserData){
+					przieUserData = getApp().globalData.przieUserData.reply; // 获取个人中心页面 返回填写大奖的信息
+				}else{
+					przieUserData = '';
+				}
+				
 				let skukey = '';
 				let grandPrizeType = '';
 				let prizeVcode = '';
@@ -245,12 +258,9 @@
 					 grandPrizeType = przieUserData.grandPrizeType;
 					 prizeVcode = przieUserData.prizeVcode;
 				}
-			
+			    
 				const sendParams = {
 					openid: openid,
-					// skukey: sweepQrcodeDataReply.skukey,
-					// grandPrizeType: sweepQrcodeDataReply.grandPrizeType,
-					// prizeVcode: sweepQrcodeDataReply.prizeVcode,
 					skukey: skukey,
 					grandPrizeType: grandPrizeType,
 					prizeVcode: prizeVcode,

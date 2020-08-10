@@ -97,10 +97,13 @@ function judgeBusinessCode(data) {
 					if(expireTimeStatus){
 						redirectToUrl = `../codeScanned/codeScanned?bizcode=${businessCode}`
 					}else{
-						redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+						// redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+						// 修改原因 中出大奖 也要 走点击抽奖按钮 和 弹出 红包一样
+						redirectToUrl = businessCode;
 					}
 				}else{
-					redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+						// redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+						redirectToUrl = businessCode;
 				}
 			}
 			resolve(redirectToUrl); 

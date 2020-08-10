@@ -73,7 +73,7 @@ export default {
 				timingFunction: 'ease',
 				delay: 500
 			});
-			getCashAnimation.scale(1).step();
+			getCashAnimation.opacity(1).scale(1).step();
 			that.getCashAni = getCashAnimation.export();
 
 			// 盒子内 卡片动向 从下向上滑出
@@ -116,11 +116,12 @@ export default {
 <style scoped lang="scss">
 // 动画 初始位置
 .getCash-initAni {
+	opacity: 0;
 	transform: scale(0.8);
 }
 .card-initAni {
 	opacity: 0;
-	transform: translateY(100px);
+	transform: translateY(150px);
 }
 .getCash-mask {
 	width: 100%;

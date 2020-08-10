@@ -2,26 +2,31 @@
 	<view class="page-template">
 		<view class="page-template-wrap page-template-wrap-bg">
 			<view class="page-template-wrap-center">
-				
-				<view class="devTest" @animationend="transitionendDevTest">  </view>
-				
+				<!-- 测试动画 -->
+				<!-- <view class="devTest" @animationend="transitionendDevTest">  </view> -->
 				<view class="activityEntrance">
 					<image mode="widthFix" class="crownCookies-logo" :src="staticUrl+'crownCookiesImgLogo.png'"></image>
 					<!-- <view class="activityEntrance-center-Animation" v-if="isStartAnimation" :style="{ 'margin-top': isOpenAdaptation ? '512rpx' : '396rpx' }"> -->
 					<view class="activityEntrance-center-Animation" v-if="isStartAnimation">
-						<image :animation="chuanAni" class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
-						<image :animation="crownCookiesAni" class="aec-crownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
-						<image :animation="baifenbaiAni" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image>
+						<!-- <image :animation="chuanAni" @transitionend="transitionend" class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image> -->
+						<!-- <image :animation="crownCookiesAni" class="aec-crownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image> -->
+						<!-- <image @animationend="transitionend" class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image> -->
+						<image class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
+						<image class="aec-crownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
+						<image :animation="baifenbaiAni" @transitionend="transitionend" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image>
 					</view>
 					<view class="activityEntrance-center" v-else :style="{ 'margin-top': isOpenAdaptation ? '334rpx' : '226rpx' }">
 						<image class="aec-chuanquqi" mode="widthFix" :src="staticUrl+'chuanquqi.png'"></image>
 						<image class="aec-baifenbai" mode="widthFix" :src="staticUrl+'baifenbai.png'"></image>
 					</view>
 					<!-- <view :animation="fontMesAni"  @transitionend="transitionendOpenSetting" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准1</view> -->
-					<view :animation="fontMesAni" @transitionend="transitionend" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view>
+					<!-- <view :animation="fontMesAni" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view> -->
+					<view class="idnex-imgMes" >图片仅供参考，产品以实物为准</view>
+					
 					<!-- 抽奖按钮 获取手机号-->
-					<view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn">
-						<view @click.once="showGetCash" class="choujiangBtn vmdChoujiang" v-if="isHasPhoneNumber">
+					<!-- <view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn"> -->
+					<view class="flex-xc-yn" v-if="isShowluckDrawBtn">
+						<view @click.once="luckDrawFun" class="choujiangBtn vmdChoujiang" v-if="isHasPhoneNumber">
 							<image :src="staticUrl + 'dianjichoujiang.png'"></image>
 						</view>
 						<view class="choujiangBtn" v-else>
@@ -31,40 +36,26 @@
 						</view>
 					</view>
 				</view>
+				
 			</view>
 			<!-- 引导关注 -->
 			<view class="focusGguidance" v-if="isShowGguidance" @click="showGguidanceFun" :style="{ bottom: isOpenAdaptation ? '170rpx' : '120rpx' }">
 				<image :animation="focusGguidanceAni" :src="staticUrl + 'focusGguidance.png'"></image>
 			</view>
 			<!-- 规则弹窗 -->
-			<activity-rule 
-				 ref="activityRuleChild" 
-				 @activityRuleColse="updateActivityRuleColse" 
-				 :activityRuleSource="activityRuleSource"
-				 :activityRuleIsShow="activityRuleIsShow"
-			></activity-rule>
+			<activity-rule ref="activityRuleChild" @activityRuleColse="updateActivityRuleColse" :activityRuleSource="activityRuleSource"
+			 :activityRuleIsShow="activityRuleIsShow"></activity-rule>
 			<!-- 获取红包动效页面 -->
-			<get-cash 
-				ref="getCashChild" 
-				:getCashIsShow="getCashIsShow" 
-				:getCashIsShowMes="getCashIsShowMes" 
-				:isStartAnimation="getCashIsStartAnimation"
-				:currentMoney="currentMoney"
-			></get-cash>
+			<get-cash ref="getCashChild" :getCashIsShow="getCashIsShow" :getCashIsShowMes="getCashIsShowMes" :isStartAnimation="getCashIsStartAnimation"
+			 :currentMoney="currentMoney"></get-cash>
 			<!-- 引导开启 位置授权 -->
-			<wx-open-setting 
-				:wxOpenSettingIsShow="wxOpenSettingIsShow" 
-				:isStartAnimation="wxOpenSettingIsStartAnimation"
-				@WxOpenSettingColse="WxOpenSettingColse" 
-				@openSetting="wosOpenSetting"
-			></wx-open-setting>
+			<wx-open-setting :wxOpenSettingIsShow="wxOpenSettingIsShow" :isStartAnimation="wxOpenSettingIsStartAnimation"
+			 @WxOpenSettingColse="WxOpenSettingColse" @openSetting="wosOpenSetting"></wx-open-setting>
 			<!-- 自定义导航 -->
-			<custom-footer-bar 
-				ref="customFooterBarChild" 
-				:cusFooterBarIsShow="cusFooterBarIsShow" 
-				:isOpenAdaptation="isOpenAdaptation"
-			></custom-footer-bar>
-			
+			<custom-footer-bar ref="customFooterBarChild" :cusFooterBarIsShow="cusFooterBarIsShow" :isOpenAdaptation="isOpenAdaptation"></custom-footer-bar>
+			<!-- 自定义 -->
+			<custom-dialog ref="customDialogChild" @customDialogColse="updateCustomDialog" :customDialogIsShow="customDialogIsShow"
+			 :customDialogType="customDialogType"></custom-dialog>
 		</view>
 	</view>
 </template>
@@ -104,18 +95,22 @@
 	import {
 		customFooterBar
 	} from '@/components/custom-footer-bar/custom-footer-bar.vue'; // 自定义页脚
+	import {
+		customDialog
+	} from '@/components/customDialog.vue'; // 自定义页脚
 	export default {
 		name: 'activityEntrance',
 		components: {
 			activityRule,
 			getCash,
 			wxOpenSetting,
-			customFooterBar
+			customFooterBar,
+			customDialog
 		},
 		data() {
 			return {
 				staticUrl: config.staticUrl,
-				isTransitionend:false,//动画是否执行完毕
+				isTransitionend: false, //动画是否执行完毕
 				activityRuleSource: '1', // 活动规则 页面来源
 				activityRuleIsShow: false, // 活动规则  是否展示
 				getCashIsShow: false, // 中出红包 是否显示
@@ -126,7 +121,7 @@
 				isStartAnimation: true, // 本页面 是否开启动画
 				isShowluckDrawBtn: false, //是否 显示 抽奖按钮
 				isHasPhoneNumber: false, //是否 已获取手机号
-				chuanAni:'',//船 动画
+				chuanAni: '', //船 动画
 				crownCookiesAni: '', //饼干 动画
 				baifenbaiAni: '', //百分比 动画
 				fontMesAni: '', //饼干动画
@@ -138,7 +133,7 @@
 				wxOpenSettingIsStartAnimation: false, // 位置授权 是否展示动画
 				sweepstr: 'JYJ9CSJ8W79P',
 				cusFooterBarIsShow: false, //是否展示 页面tab （显示条件：出现 获得红包动效 ）
-				fromOpenSetting:false,
+				fromOpenSetting: false,
 				giveSpackTxStatusArr: [{
 						id: 1,
 						businessCode: '1',
@@ -176,7 +171,10 @@
 						content: '提现操作过于频繁'
 					}
 				],
-				codeType: '1'
+				codeType: '1',
+				customDialogIsShow: false, // 自定义 弹窗  关注引导
+				customDialogType: '', // 自定义 弹窗  关注引导
+				businessCode: '' // 用于点击抽奖按钮 区分 红包 还是 大奖
 			};
 		},
 
@@ -200,7 +198,7 @@
 			console.log('页面参数 options 176');
 			console.log(options);
 			const sweepstrUrl = decodeURIComponent(options.q);
-			if(options.openScan!=1 && sweepstrUrl){
+			if (options.openScan != 1 && sweepstrUrl) {
 				getApp().globalData.isInitsweepstr = 'true';
 			}
 			const that = this;
@@ -246,11 +244,11 @@
 			// 	this.resetInitAnimation();
 			// 	this.startInitAnimation();
 			// }
-			setTimeout(()=>{
+			setTimeout(() => {
 				this.resetInitAnimation();
 				this.startInitAnimation();
-			},100)
-		
+			}, 100)
+
 		},
 		async onShow() {
 			console.log("页面 onshow 21122333");
@@ -259,18 +257,18 @@
 			// 清除 动画效果
 			this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
 			this.chuanAni = 'aec-chuanImg'; //船 动画
-			this.baifenbaiAni = 'aec-baifenbai';  //百分比 动画
-			this.fontMesAni = 'idnex-imgMes';  //饼干动画
-			this.choujiangAni = '';  //抽奖按钮 动画
-			this.focusGguidanceAni = '';  // 引导关注 公众号图片
+			this.baifenbaiAni = 'aec-baifenbai'; //百分比 动画
+			this.fontMesAni = 'idnex-imgMes'; //饼干动画
+			this.choujiangAni = ''; //抽奖按钮 动画
+			this.focusGguidanceAni = ''; // 引导关注 公众号图片
 			this.isTransitionend = false;
 			this.openid = await this.computedGetOpenid;
 			// this.init();
-			setTimeout(()=>{
+			setTimeout(() => {
 				this.resetInitAnimation();
 				this.startInitAnimation();
-			},100)
-			
+			}, 100)
+
 		},
 		/**
 		 * 用户点击右上角分享
@@ -288,34 +286,34 @@
 		onHide() {
 			// 清除 动画效果
 			const wxOpenSettingIsShow = this.wxOpenSettingIsShow;
-				this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
-				this.chuanAni = 'aec-chuanImg'; //饼干 动画
-				this.baifenbaiAni = 'aec-baifenbai';  //百分比 动画
-				this.fontMesAni = 'idnex-imgMes';  //饼干动画
-				this.choujiangAni = '';  //抽奖按钮 动画
-				this.focusGguidanceAni = '';  // 引导关注 公众号图片
-				this.isTransitionend = false;
-				this.wxOpenSettingIsShow = false;
+			this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
+			this.chuanAni = 'aec-chuanImg'; //饼干 动画
+			this.baifenbaiAni = 'aec-baifenbai'; //百分比 动画
+			this.fontMesAni = 'idnex-imgMes'; //饼干动画
+			this.choujiangAni = ''; //抽奖按钮 动画
+			this.focusGguidanceAni = ''; // 引导关注 公众号图片
+			this.isTransitionend = false;
+			this.wxOpenSettingIsShow = false;
 			this.wxOpenSettingIsShow = false;
 			this.resetInitAnimation();
 		},
 		methods: {
-			transitionend(){
+			transitionend() {
 				this.isTransitionend = true;
 				console.log('动画 执行完毕');
 				console.log(this.isTransitionend);
-				if(this.fromOpenSetting){
+				if (this.fromOpenSetting) {
 					this.getSweepQrcode('', '', this.sweepstr);
-				}else{
+				} else {
 					this.init();
 				}
 			},
 			// 测试 动画
-			transitionendDevTest(){
+			transitionendDevTest() {
 				console.log('我是 测试动画 执行完成之后！');
-				
+
 			},
-			transitionendOpenSetting(){
+			transitionendOpenSetting() {
 				console.log(4444);
 				this.getSweepQrcode('', '', this.sweepstr);
 			},
@@ -363,39 +361,48 @@
 								});
 							} else {
 								// const isInitsweepstr = uni.getStorageSync('isInitsweepstr');
-								if(getApp().globalData.isInitsweepstr=='true'){
+								if (getApp().globalData.isInitsweepstr == 'true') {
 									// 走扫码的逻辑 检测位置微信 调用接口
 									that.checkUserLocation(true);
-								}else{
+								} else {
 									return false;
 								}
-								
+
 							}
 						} else {
 							// 继续弹出 活动规则
-							// setTimeout(() => {
-								that.activityRuleSource = '1';
-								that.activityRuleIsShow = true;
-								// 活动规则 启动动画
-								that.$refs.activityRuleChild.isStartAnimationFun(true);
-							// }, 2000);
-						}
-					},
-					fail(err) {
-						// setTimeout(() => {
 							that.activityRuleSource = '1';
 							that.activityRuleIsShow = true;
 							// 活动规则 启动动画
 							that.$refs.activityRuleChild.isStartAnimationFun(true);
-						// }, 2000);
+						}
+					},
+					fail(err) {
+						that.activityRuleSource = '1';
+						that.activityRuleIsShow = true;
+						// 活动规则 启动动画
+						that.$refs.activityRuleChild.isStartAnimationFun(true);
 					}
 				});
+			},
+			// 点击抽奖按钮 判断 中大奖 还是 红包
+			luckDrawFun() {
+				const that = this;
+				const businessCode = this.businessCode;
+				if (businessCode == 0) { //中出红包
+					that.showGetCash()
+				} else if (businessCode == 7) { // 中出 大奖
+					const redirectToUrl = `../getPrize/getPrize?bizcode=${businessCode}&isGetPrize=false`;
+					uni.redirectTo({
+						url: redirectToUrl
+					});
+				}
+				console.log(this.businessCode)
 			},
 			// 显示 中出红包动效
 			showGetCash() {
 				// 调用提现接口
 				// 获取红包成功后 动效开启
-				// this.getCashSuccessAni();
 				const that = this;
 				giveSpackTx().then(
 					res => {
@@ -455,7 +462,7 @@
 				}, 1000);
 			},
 			// 验证缓存中 是否 存在用户位置
-			async checkUserLocation(status=false) {
+			async checkUserLocation(status = false) {
 				/**
 				 * 获从缓存中  获取 用户位置 信息
 				 * 有 直接调用 接口
@@ -472,9 +479,9 @@
 						const userLocation = res.data;
 						// 调用接口
 						if (userLocation.longitude) {
-							that.getSweepQrcode(userLocation.longitude, userLocation.latitude, that.sweepstr,status);
+							that.getSweepQrcode(userLocation.longitude, userLocation.latitude, that.sweepstr, status);
 						} else {
-							that.getSweepQrcode('', '', that.sweepstr,status);
+							that.getSweepQrcode('', '', that.sweepstr, status);
 						}
 					},
 					fail(err) {
@@ -558,54 +565,52 @@
 						// 继续调用 接口
 						that.fromOpenSetting = true;
 						// that.getSweepQrcode('', '', that.sweepstr);
-						
+
 					}
 				});
 			},
-		// 开始动画
-		startInitAnimation() {
-			const that = this;
-			// 船 从无到有
-			const chuanAnimation = wx.createAnimation({
-				duration: 300,
-				timingFunction: 'ease',
-				delay: 0
-			});
-			chuanAnimation.opacity(1).step();
-			
-			// 饼干动画 从无到有
-			const crownCookiesAnimation = wx.createAnimation({
-				duration: 1000,
-				timingFunction: 'ease',
-				delay: 500
-			});
-			crownCookiesAnimation.opacity(1).step();
-			
-			// 百分百 中奖logo 从左向右滑出
-			const baifenbaiAnimation = wx.createAnimation({
-				duration: 500,
-				timingFunction: 'ease',
-				delay: 500
-			});
-			baifenbaiAnimation.translateX(0).step();
-			// 提示文字动画
-			const fontMesAnimation = wx.createAnimation({
-				duration: 1000,
-				timingFunction: 'ease',
-				delay: 1400
-			});
-			fontMesAnimation.opacity(1).step();
-			setTimeout(function(){
-				that.baifenbaiAni = baifenbaiAnimation.export();
-				that.crownCookiesAni = crownCookiesAnimation.export();
-				that.chuanAni = chuanAnimation.export();
-				that.fontMesAni = fontMesAnimation.export();
-			},10)
-			
-			console.log('饼干动画 从无到有');
-		},	
-		// 重置动画
-		resetInitAnimation() {
+			// 开始动画
+			startInitAnimation() {
+				const that = this;
+				// 船 从无到有
+				const chuanAnimation = wx.createAnimation({
+					duration: 1000,
+					timingFunction: 'ease',
+					delay: 100
+				});
+				chuanAnimation.opacity(1).step();
+
+				// 饼干动画 从无到有
+				const crownCookiesAnimation = wx.createAnimation({
+					duration: 1000,
+					timingFunction: 'ease',
+					delay: 100
+				});
+				crownCookiesAnimation.opacity(1).step();
+
+				// 百分百 中奖logo 从左向右滑出
+				const baifenbaiAnimation = wx.createAnimation({
+					duration: 1000,
+					timingFunction: 'ease',
+					delay: 100
+				});
+				baifenbaiAnimation.translateX(0).step();
+				// 提示文字动画
+				const fontMesAnimation = wx.createAnimation({
+					duration: 300,
+					timingFunction: 'ease',
+					delay: 100
+				});
+				fontMesAnimation.opacity(1).step();
+				setTimeout(function() {
+					that.baifenbaiAni = baifenbaiAnimation.export();
+					that.crownCookiesAni = crownCookiesAnimation.export();
+					that.chuanAni = chuanAnimation.export();
+					that.fontMesAni = fontMesAnimation.export();
+				}, 10)
+			},
+			// 重置动画
+			resetInitAnimation() {
 				const that = this;
 				// 船 从无到有
 				const chuanAnimation = wx.createAnimation({
@@ -613,7 +618,7 @@
 					timingFunction: 'ease',
 					delay: 0
 				});
-				
+
 				chuanAnimation.opacity(0).step();
 				// 饼干动画 从无到有
 				const crownCookiesAnimation = wx.createAnimation({
@@ -636,20 +641,20 @@
 					delay: 0
 				});
 				fontMesAnimation.opacity(0).step();
-				setTimeout(function(){
+				setTimeout(function() {
 					that.baifenbaiAni = baifenbaiAnimation.export();
 					that.crownCookiesAni = crownCookiesAnimation.export();
 					that.chuanAni = chuanAnimation.export();
 					that.fontMesAni = fontMesAnimation.export();
-				},10)
-				console.log('重置动画！');
+				}, 10)
 			},
 			// 开始 抽奖按钮 动画
 			startChoujiangAnimation() {
 				const that = this;
 				// 抽奖按钮 放大缩小
 				const choujiangAnimation = wx.createAnimation({
-					duration: 200,
+					// duration: 200,
+					duration: 1,
 					timingFunction: 'ease',
 					delay: 10
 				});
@@ -669,7 +674,6 @@
 				focusGguidanceAnimation.opacity(1).step();
 				that.focusGguidanceAni = focusGguidanceAnimation.export();
 			},
-			
 			// 关闭 活动规则 弹窗
 			updateActivityRuleColse(data) {
 				const that = this;
@@ -719,11 +723,11 @@
 				} else {
 
 				}
-				// 无论是否同意 获取手机号 都调用 展示 红包方法
-				this.showGetCash();
+				// 无论是否同意 获取手机号 都调用方法
+				this.luckDrawFun();
 			},
 			//获取 扫码接口 返回信息 并处理
-			getSweepQrcode(longitude = '00', latitude = '00', sweepstr = '',status=false) {
+			getSweepQrcode(longitude = '00', latitude = '00', sweepstr = '', status = false) {
 				console.log('getSweepQrcodegetSweepQrcodegetSweepQrcodegetSweepQrcode');
 				const that = this;
 				var sendParams = {
@@ -756,18 +760,19 @@
 						}
 						// 清除 扫码入口 存储得 标记
 						uni.removeStorageSync('isInitsweepstr');
-						getApp().globalData.isInitsweepstr=='false';
+						getApp().globalData.isInitsweepstr == 'false';
 						return judgeBusinessCode(res);
 					})
 					.then(
 						res => {
-							if (res == 0) {
+							if (res == 0 || res == 7) {
 								// 显示 抽奖按钮
+								that.businessCode = res;
 								that.isShowluckDrawBtn = true;
 								that.startChoujiangAnimation();
 							} else {
-								if(status){
-									if(that.isTransitionend){
+								if (status) {
+									if (that.isTransitionend) {
 										console.log('动画结束后 调用方法');
 										// 当统一活动规则和位置授权后 再跳转
 										uni.redirectTo({
@@ -779,13 +784,13 @@
 											url: res
 										});
 									}
-								}else{
+								} else {
 									// 等本页动画执行完 在进行跳转
 									uni.redirectTo({
 										url: res
 									});
 								}
-								
+
 							}
 						},
 						err => {
@@ -796,28 +801,39 @@
 						}
 					);
 			},
-			// 跳转到首页 显示 引导关注
+			// 跳转到首页显示引导关注 8.7号修改成当前页面弹出引导弹窗不在跳转
 			showGguidanceFun() {
 				const redirectToUrl = '../index/index';
 				uni.setStorage({
 					key: 'businessCode',
 					data: 'isShowGguidance'
 				});
-				uni.switchTab({
-					url: redirectToUrl
-				});
-			}
+				// uni.switchTab({
+				// 	url: redirectToUrl
+				// });
+				const that = this;
+				that.customDialogIsShow = true;
+				that.customDialogType = '5';
+				// 	// 活动规则 启动动画
+				that.$refs.customDialogChild.isStartAnimationFun(true);
+
+			},
+			updateCustomDialog(res) {
+				console.log(res);
+				this.customDialogIsShow = false;
+				uni.removeStorageSync("businessCode");
+			},
+
 		}
 	};
-	
-	// 1 没有同意 活动规则 和位置授权 
+
+	// 1 没有同意 活动规则 和 位置授权 
 	// 2 同意 活动规则和位置授权 直接调用接口
 	// 2.1 同意活动规则 没有同意 位置授权 显示自定义位置授权（ 从自定义授权返回  ）
-	// 2.2 
-	// 3 从 输入串码过来
-	// 4 重新进入小程序
+	// 2.2  
+	// 3 从 输入串码过来 中出大奖
+	// 4 重新进入小程序 
 	// 5 重复 扫码 
-	
 </script>
 <!-- <view class="container" style="background-image:url({{imgBaseUrl}}/bg.jpg) no-repeat;background-size:cover;"></view> -->
 <style scoped lang="scss">
@@ -851,31 +867,50 @@
 			left: 0;
 		}
 	}
+
+	@mixin mixin-ani($aniName, $aniTime, $visited) {
+		animation: $aniName $aniTime;
+		-moz-animation: $aniName $aniTime;
+		/* Firefox */
+		-webkit-animation: $aniName $aniTime;
+		/* Safari and Chrome */
+		-o-animation: $aniName $aniTime;
+		/* Opera */
+	}
+
 	.activityEntrance-center-Animation {
 		margin: 352rpx 120rpx 16rpx 54rpx;
 		position: relative;
+
 		image {
 			width: 100%;
 		}
+
 		.aec-baifenbai {
 			position: absolute;
 			bottom: 20rpx;
 			left: 0;
 			transform: translateX(-110%);
 		}
+
 		.aec-crownCookiesImg {
 			// 饼干 初始 状态
-			opacity: 0;
+			opacity: 1;
 			position: absolute;
 			top: -156rpx;
 			left: 5%;
 			width: 82%;
 			height: 260rpx;
+			@include mixin-ani(keyframesOpacity, 1s, '');
 		}
-		.aec-chuanImg{
-			opacity: 0;
+
+		.aec-chuanImg {
+			opacity: 1;
+			@include mixin-ani(keyframesOpacity, 1s, '');
 		}
 	}
+
+
 
 	.focusGguidance {
 		position: fixed;
@@ -890,12 +925,15 @@
 			opacity: 0;
 		}
 	}
-
+	
+	// 文字提示
 	.idnex-imgMes {
 		text-align: center;
 		font-size: 24rpx;
 		color: #b2bce3;
-		// letter-spacing: 8rpx;
+		opacity: 1;
+		@include mixin-ani(keyframesOpacity, .3s, '');
+		// letter-spacing: 8rpx; // 文字 横向间距
 	}
 
 	button {
@@ -915,6 +953,7 @@
 		width: 306rpx;
 		height: 209rpx;
 		margin-top: 61rpx;
+
 		// transform: scale(0.8,0.8);
 		// opacity: .3;
 		image,
@@ -923,24 +962,61 @@
 			width: 100%;
 		}
 	}
-	
-	.devTest{
+
+	.devTest {
 		width: 100rpx;
 		height: 100rpx;
 		position: fixed;
 		top: 0;
 		left: 0;
-		animation:myfirst 5s;
-		-moz-animation:myfirst 5s; /* Firefox */
-		-webkit-animation:myfirst 5s; /* Safari and Chrome */
-		-o-animation:myfirst 5s; /* Opera */
+
+		animation: myfirst 5s;
+		-moz-animation: myfirst 5s;
+		/* Firefox */
+		-webkit-animation: myfirst 5s;
+		/* Safari and Chrome */
+		-o-animation: myfirst 5s;
+		/* Opera */
+
+		animation-delay: 2s;
+		-webkit-animation-delay: 2s;
+		/* Safari 和 Chrome */
+
 	}
-	@keyframes myfirst
-	{
-		0%   {background: red;}
-		25%  {background: yellow;}
-		50%  {background: blue;}
-		75%  {background: green;}
-		100% {background: red;}
+
+	@keyframes myfirst {
+		0% {
+			background: red;
+		}
+
+		25% {
+			background: yellow;
+		}
+
+		50% {
+			background: blue;
+		}
+
+		75% {
+			background: green;
+		}
+
+		100% {
+			background: red;
+		}
+	}
+
+	@keyframes keyframesOpacity {
+		0% {
+			opacity: 0;
+		}
+
+		50% {
+			opacity: 0.5;
+		}
+
+		100% {
+			opacity: 1;
+		}
 	}
 </style>
