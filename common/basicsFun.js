@@ -67,7 +67,7 @@ function judgeBusinessCode(data) {
 		const reply = data.reply;
 		const replyTime = data.replyTime;
 		const businessCode = data.result.businessCode;
-		// const businessCode = 0; 
+		// const businessCode = 0 ; 
 		if (businessCode == 0) { // 扫码成功 红包
 			resolve(businessCode);
 		} else if (businessCode == 11 || businessCode == 2 || businessCode == 15) { // 11：本人重复扫码  2||15：这个二维码已被扫

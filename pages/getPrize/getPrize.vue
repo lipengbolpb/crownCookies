@@ -24,11 +24,12 @@
 						 :src="staticUrl+'guan01.png'"></image>
 						<image :class="[isStartAnimation ? 'comon-initAni-qian' : '', 'gpc-qian']" mode="widthFix" :animation="qianAni"
 						 :src="staticUrl + 'heziqian.png'"></image>
-						 <!-- 领取按钮 去除动画 -->
-						<!-- <view :class="[isStartAnimation ? 'lijilingqu-initAni' : '', 'gpc-lijilingqu-box','flex-xc-yn']" :animation="lijilingquAni"> -->
-						<view class="gpc-lijilingqu-box flex-xc-yn" :animation="lijilingquAni">
-							<image @click="toGetPrize" class="gpc-lijilingqu vmdLijilingqu" :src="staticUrl + 'lijilingqu.png'"></image>
-						</view>
+						
+					</view>
+					<!-- 领取按钮 去除动画 -->
+					<!-- <view :class="[isStartAnimation ? 'lijilingqu-initAni' : '', 'gpc-lijilingqu-box','flex-xc-yn']" :animation="lijilingquAni"> -->
+					<view class="gpc-lijilingqu-box flex-xc-yn" :animation="lijilingquAni">
+						<image @click="toGetPrize" class="gpc-lijilingqu vmdLijilingqu" :src="staticUrl + 'lijilingqu.png'"></image>
 					</view>
 				</view>
 
@@ -250,7 +251,6 @@
 		left: 50%;
 		top: 44%;
 		transform: translate(-50%, -50%);
-
 		image {
 			width: 100%;
 			height: 200rpx;
@@ -259,10 +259,9 @@
 
 	.gpc-lijilingqu-box {
 		position: absolute;
-		bottom: -222rpx;
+		bottom: 60rpx;
 		left: 0;
 		width: 100%;
-
 		image {
 			width: 306rpx;
 			height: 209rpx;

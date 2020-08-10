@@ -7,6 +7,9 @@ import {
 
 // 扫码接口
 function sweepQrcode(sendParams) {
+	uni.showLoading({
+		title: '加载中'
+	});
 	return new Promise((resolve, reject) => {
 		if (sendParams.openid == '') {
 			sendParams.openid = uni.getStorageSync("userData").uinfo.openid;
@@ -43,6 +46,7 @@ function sweepQrcode(sendParams) {
 		console.log("backParams");
 		console.log(sendParams);
 		requestPost('/sweep/sweepQrcode', sendParams).then((backParams) => {
+			uni.hideLoading();
 			// const [e, r] = backParams;
 			console.log(backParams);
 			if (backParams) {

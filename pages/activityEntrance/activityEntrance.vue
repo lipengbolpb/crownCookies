@@ -2,6 +2,7 @@
 	<view class="page-template">
 		<view class="page-template-wrap page-template-wrap-bg">
 			<view class="page-template-wrap-center">
+				
 				<!-- 测试动画 -->
 				<!-- <view class="devTest" @animationend="transitionendDevTest">  </view> -->
 				<view class="activityEntrance">
@@ -11,9 +12,15 @@
 						<!-- <image :animation="chuanAni" @transitionend="transitionend" class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image> -->
 						<!-- <image :animation="crownCookiesAni" class="aec-crownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image> -->
 						<!-- <image @animationend="transitionend" class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image> -->
-						<image class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
-						<image class="aec-crownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
-						<image :animation="baifenbaiAni" @transitionend="transitionend" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image>
+						<image :class="aecChuanImg" @animationend="transitionend" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
+						<image :class="aecCrownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
+						<!-- <image :animation="baifenbaiAni" @transitionend="transitionend" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image> -->
+						
+						<view class="aec-baifenbai-box">
+							<!-- <image :class="aecBaifenbai" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image> -->
+							<image :class="aecBaifenbai" class="aec-baifenbai" :src="staticUrl + 'baifenbai.png'"></image>
+						</view>
+						
 					</view>
 					<view class="activityEntrance-center" v-else :style="{ 'margin-top': isOpenAdaptation ? '334rpx' : '226rpx' }">
 						<image class="aec-chuanquqi" mode="widthFix" :src="staticUrl+'chuanquqi.png'"></image>
@@ -35,6 +42,7 @@
 							</button>
 						</view>
 					</view>
+					
 				</view>
 				
 			</view>
@@ -109,6 +117,10 @@
 		},
 		data() {
 			return {
+				aecChuanImg:'aec-chuanImg',
+				aecCrownCookiesImg:'aec-crownCookiesImg',
+				// aecBaifenbai:'aec-baifenbai',
+				aecBaifenbai:'',
 				staticUrl: config.staticUrl,
 				isTransitionend: false, //动画是否执行完毕
 				activityRuleSource: '1', // 活动规则 页面来源
@@ -268,7 +280,7 @@
 				this.resetInitAnimation();
 				this.startInitAnimation();
 			}, 100)
-
+			this.aecBaifenbai = 'aec-baifenbai-end';
 		},
 		/**
 		 * 用户点击右上角分享
@@ -566,6 +578,16 @@
 						that.fromOpenSetting = true;
 						// that.getSweepQrcode('', '', that.sweepstr);
 
+						that.aecChuanImg = '';
+						that.aecCrownCookiesImg = '';
+						that.aecBaifenbai = '';
+						
+						setTimeout(()=>{
+							that.aecChuanImg = 'aec-chuanImg';
+							that.aecCrownCookiesImg = 'aec-crownCookiesImg';
+							that.aecBaifenbai = 'aec-baifenbai-end';
+						},10)
+
 					}
 				});
 			},
@@ -862,9 +884,9 @@
 		}
 
 		.aec-baifenbai {
-			position: absolute;
-			bottom: 0;
-			left: 0;
+			// position: absolute;
+			// bottom: 0;
+			// left: 0;
 		}
 	}
 
@@ -877,7 +899,20 @@
 		-o-animation: $aniName $aniTime;
 		/* Opera */
 	}
-
+	@mixin mixin-ani-end($aniName, $aniTime, $visited) {
+		animation: $aniName $aniTime;
+		-moz-animation: $aniName $aniTime;
+		/* Firefox */
+		-webkit-animation: $aniName $aniTime;
+		/* Safari and Chrome */
+		-o-animation: $aniName $aniTime;
+		/* Opera */
+		
+		animation-fill-mode:forwards;
+		-moz-animation-fill-mode:forwards;
+		-webkit-animation-fill-mode:forwards;
+		-o-animation-fill-mode:forwards;
+	}
 	.activityEntrance-center-Animation {
 		margin: 352rpx 120rpx 16rpx 54rpx;
 		position: relative;
@@ -885,12 +920,28 @@
 		image {
 			width: 100%;
 		}
-
-		.aec-baifenbai {
+		.aec-baifenbai-box{
+			width: 100%;
 			position: absolute;
 			bottom: 20rpx;
-			left: 0;
+		}
+		.aec-baifenbai {
+			// left: 0;
+			// transform: translateX(-100%);
+			// @include mixin-ani(keyframesTranslateX, 1s, '');
+			// @include mixin-ani-end(keyframesTranslateX, 1s, '');
+			// @include mixin-ani(keyframesOpacity, 1s, '');
+			
+			width: 100%;
+			height: 227rpx;
 			transform: translateX(-110%);
+			transition: 1s ease ; 
+		}
+		.aec-baifenbai-end {
+			width: 100%;
+			height: 227rpx;
+			transform: translateX(0);
+			transition: 1s ease ; 
 		}
 
 		.aec-crownCookiesImg {
@@ -909,9 +960,7 @@
 			@include mixin-ani(keyframesOpacity, 1s, '');
 		}
 	}
-
-
-
+	
 	.focusGguidance {
 		position: fixed;
 		width: 96%;
@@ -1006,6 +1055,7 @@
 		}
 	}
 
+	// 透明度变化
 	@keyframes keyframesOpacity {
 		0% {
 			opacity: 0;
@@ -1019,4 +1069,15 @@
 			opacity: 1;
 		}
 	}
+	
+	// 位置 从左到右 横移
+	@keyframes keyframesTranslateX {
+		0% {
+			transform: translate3d(-210%,0,0);
+		}
+		100% {
+			transform: translate3d(-100%,0,0);
+		}
+	}
+	
 </style>
