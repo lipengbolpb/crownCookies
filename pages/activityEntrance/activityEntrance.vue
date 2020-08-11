@@ -951,13 +951,13 @@
 			width: 576rpx;
 			height: 227rpx;
 			transform: translateX(-110%);
-			transition: .9s ease ; 
+			transition: .7s ease; 
 		}
 		.aec-baifenbai-end {
 			width: 100%;
 			height: 227rpx;
 			transform: translateX(0);
-			transition: .9s ease ; 
+			transition: .7s ease; 
 		}
 
 		.aec-crownCookiesImg {
