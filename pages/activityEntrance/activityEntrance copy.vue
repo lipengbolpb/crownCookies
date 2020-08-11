@@ -12,17 +12,13 @@
 						<!-- <image :animation="chuanAni" @transitionend="transitionend" class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image> -->
 						<!-- <image :animation="crownCookiesAni" class="aec-crownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image> -->
 						<!-- <image @animationend="transitionend" class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image> -->
-						
-						<!-- 先用 s -->
-						<image :class="aecChuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
-						<image :class="aecCrownCookiesImg" @animationend="transitionend" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
-						<!-- 先用 e -->
-						
+						<image :class="aecChuanImg" @animationend="transitionend" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
+						<image :class="aecCrownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
 						<!-- <image :animation="baifenbaiAni" @transitionend="transitionend" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image> -->
 						
 						<view class="aec-baifenbai-box">
 							<!-- <image :class="aecBaifenbai" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image> -->
-							<image :class="aecBaifenbai" @load='imageLoadEndBai' class="aec-baifenbai" :src="staticUrl + 'baifenbai.png'"></image>
+							<image :class="aecBaifenbai" class="aec-baifenbai" :src="staticUrl + 'baifenbai.png'"></image>
 						</view>
 						
 					</view>
@@ -36,7 +32,7 @@
 					
 					<!-- 抽奖按钮 获取手机号-->
 					<!-- <view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn"> -->
-					<view class="flex-xc-yn choujiangBox" v-if="isShowluckDrawBtn">
+					<view class="flex-xc-yn" v-if="isShowluckDrawBtn">
 						<view @click.once="luckDrawFun" class="choujiangBtn vmdChoujiang" v-if="isHasPhoneNumber">
 							<image :src="staticUrl + 'dianjichoujiang.png'"></image>
 						</view>
@@ -280,12 +276,12 @@
 			this.isTransitionend = false;
 			this.openid = await this.computedGetOpenid;
 			// this.init();
-			// this.aecBaifenbai = '';
-			// setTimeout(() => {
-			// 	this.resetInitAnimation();
-			// 	this.startInitAnimation();
-			// 	this.aecBaifenbai = 'aec-baifenbai-end';
-			// }, 2000)
+			this.aecBaifenbai = '';
+			setTimeout(() => {
+				this.resetInitAnimation();
+				this.startInitAnimation();
+				this.aecBaifenbai = 'aec-baifenbai-end';
+			}, 100)
 		},
 		/**
 		 * 用户点击右上角分享
@@ -315,17 +311,6 @@
 			this.resetInitAnimation();
 		},
 		methods: {
-			imageLoadEndBai(e){
-				console.log("我是图片加载完毕 添加动效");
-				console.log(e);
-				if(e.detail){
-					console.log('加载完毕');
-					setTimeout(()=>{
-						this.aecBaifenbai = 'aec-baifenbai-end';
-						// this.transitionend();
-					},500)
-				}
-			},
 			transitionend() {
 				this.isTransitionend = true;
 				console.log('动画 执行完毕');
@@ -339,6 +324,7 @@
 			// 测试 动画
 			transitionendDevTest() {
 				console.log('我是 测试动画 执行完成之后！');
+
 			},
 			transitionendOpenSetting() {
 				console.log(4444);
@@ -483,10 +469,10 @@
 				this.$refs.getCashChild.isStartAnimationFun(true);
 				this.isShowGguidance = true; // 显示 关注公众号引导
 				this.cusFooterBarIsShow = true; // 显示 自定义页面 页脚
-				// setTimeout(() => {
+				setTimeout(() => {
 					this.$refs.customFooterBarChild.isStartAnimationFun(true); //开启tab动效
 					this.startFocusGguidanceAnimation(); // 显示 关注公众号引导 dongxian
-				// }, 1000);
+				}, 1000);
 			},
 			// 验证缓存中 是否 存在用户位置
 			async checkUserLocation(status = false) {
@@ -947,8 +933,7 @@
 			// @include mixin-ani-end(keyframesTranslateX, 1s, '');
 			// @include mixin-ani(keyframesOpacity, 1s, '');
 			
-			// width: 100%;
-			width: 576rpx;
+			width: 100%;
 			height: 227rpx;
 			transform: translateX(-110%);
 			transition: .9s ease ; 
@@ -968,12 +953,12 @@
 			left: 5%;
 			width: 82%;
 			height: 260rpx;
-			@include mixin-ani(keyframesOpacity, 1.5s, '');
+			@include mixin-ani(keyframesOpacity, 1s, '');
 		}
 
 		.aec-chuanImg {
 			opacity: 1;
-			@include mixin-ani(keyframesOpacity, 1.5s, '');
+			@include mixin-ani(keyframesOpacity, 1s, '');
 		}
 	}
 	
@@ -1076,6 +1061,11 @@
 		0% {
 			opacity: 0;
 		}
+
+		50% {
+			opacity: 0.5;
+		}
+
 		100% {
 			opacity: 1;
 		}
@@ -1091,9 +1081,4 @@
 		}
 	}
 	
-	.choujiangBox{
-		position: absolute;
-		left: 50%;
-		transform: translateX(-50%);
-	}
 </style>

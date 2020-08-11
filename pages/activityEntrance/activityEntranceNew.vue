@@ -1,42 +1,25 @@
 <template>
-	<view class="page-template">
+<!-- 	<view class="page-template">
 		<view class="page-template-wrap page-template-wrap-bg">
-			<view class="page-template-wrap-center">
+			<view class="page-template-wrap-center"> -->
 				
-				<!-- 测试动画 -->
-				<!-- <view class="devTest" @animationend="transitionendDevTest">  </view> -->
+				
 				<view class="activityEntrance">
 					<image mode="widthFix" class="crownCookies-logo" :src="staticUrl+'crownCookiesImgLogo.png'"></image>
-					<!-- <view class="activityEntrance-center-Animation" v-if="isStartAnimation" :style="{ 'margin-top': isOpenAdaptation ? '512rpx' : '396rpx' }"> -->
 					<view class="activityEntrance-center-Animation" v-if="isStartAnimation">
-						<!-- <image :animation="chuanAni" @transitionend="transitionend" class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image> -->
-						<!-- <image :animation="crownCookiesAni" class="aec-crownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image> -->
-						<!-- <image @animationend="transitionend" class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image> -->
-						
-						<!-- 先用 s -->
-						<image :class="aecChuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
-						<image :class="aecCrownCookiesImg" @animationend="transitionend" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
-						<!-- 先用 e -->
-						
-						<!-- <image :animation="baifenbaiAni" @transitionend="transitionend" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image> -->
-						
+						<image :class="aecChuanImg" @animationend="transitionend" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
+						<image :class="aecCrownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
 						<view class="aec-baifenbai-box">
-							<!-- <image :class="aecBaifenbai" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image> -->
-							<image :class="aecBaifenbai" @load='imageLoadEndBai' class="aec-baifenbai" :src="staticUrl + 'baifenbai.png'"></image>
+							<image :class="aecBaifenbai" class="aec-baifenbai" :src="staticUrl + 'baifenbai.png'"></image>
 						</view>
-						
 					</view>
 					<view class="activityEntrance-center" v-else :style="{ 'margin-top': isOpenAdaptation ? '334rpx' : '226rpx' }">
 						<image class="aec-chuanquqi" mode="widthFix" :src="staticUrl+'chuanquqi.png'"></image>
 						<image class="aec-baifenbai" mode="widthFix" :src="staticUrl+'baifenbai.png'"></image>
 					</view>
-					<!-- <view :animation="fontMesAni"  @transitionend="transitionendOpenSetting" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准1</view> -->
-					<!-- <view :animation="fontMesAni" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view> -->
 					<view class="idnex-imgMes" >图片仅供参考，产品以实物为准</view>
-					
 					<!-- 抽奖按钮 获取手机号-->
-					<!-- <view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn"> -->
-					<view class="flex-xc-yn choujiangBox" v-if="isShowluckDrawBtn">
+					<view class="flex-xc-yn" v-if="isShowluckDrawBtn">
 						<view @click.once="luckDrawFun" class="choujiangBtn vmdChoujiang" v-if="isHasPhoneNumber">
 							<image :src="staticUrl + 'dianjichoujiang.png'"></image>
 						</view>
@@ -46,30 +29,12 @@
 							</button>
 						</view>
 					</view>
-					
 				</view>
 				
-			</view>
-			<!-- 引导关注 -->
-			<view class="focusGguidance" v-if="isShowGguidance" @click="showGguidanceFun" :style="{ bottom: isOpenAdaptation ? '170rpx' : '120rpx' }">
-				<image :animation="focusGguidanceAni" :src="staticUrl + 'focusGguidance.png'"></image>
-			</view>
-			<!-- 规则弹窗 -->
-			<activity-rule ref="activityRuleChild" @activityRuleColse="updateActivityRuleColse" :activityRuleSource="activityRuleSource"
-			 :activityRuleIsShow="activityRuleIsShow"></activity-rule>
-			<!-- 获取红包动效页面 -->
-			<get-cash ref="getCashChild" :getCashIsShow="getCashIsShow" :getCashIsShowMes="getCashIsShowMes" :isStartAnimation="getCashIsStartAnimation"
-			 :currentMoney="currentMoney"></get-cash>
-			<!-- 引导开启 位置授权 -->
-			<wx-open-setting :wxOpenSettingIsShow="wxOpenSettingIsShow" :isStartAnimation="wxOpenSettingIsStartAnimation"
-			 @WxOpenSettingColse="WxOpenSettingColse" @openSetting="wosOpenSetting"></wx-open-setting>
-			<!-- 自定义导航 -->
-			<custom-footer-bar ref="customFooterBarChild" :cusFooterBarIsShow="cusFooterBarIsShow" :isOpenAdaptation="isOpenAdaptation"></custom-footer-bar>
-			<!-- 自定义 -->
-			<custom-dialog ref="customDialogChild" @customDialogColse="updateCustomDialog" :customDialogIsShow="customDialogIsShow"
-			 :customDialogType="customDialogType"></custom-dialog>
+				
+		<!-- 	</view>
 		</view>
-	</view>
+	</view> -->
 </template>
 
 <script>
@@ -203,89 +168,20 @@
 					return false;
 				}
 			},
-			// 获取 接口需要的 openid session_key
-			async computedGetOpenid() {
-				const that = this;
-				const backUserData = await that.getUserDataFun();
-				return backUserData.openid || '';
-			},
+			
 		},
 		onLoad(options) {
-			console.log('页面参数 options 176');
-			console.log(options);
-			const sweepstrUrl = decodeURIComponent(options.q);
-			if (options.openScan != 1 && sweepstrUrl) {
-				getApp().globalData.isInitsweepstr = 'true';
-			}
-			const that = this;
-			// 串码类型 扫码串码1 输入串码2
-			that.codeType = options.codeType || '1';
-			if (that.codeType == 2) {
-				this.sweepstr = '';
-			} else { 
-				if (sweepstrUrl.indexOf('xt.vjifen.com') != -1) {
-					//测试二维码
-					if (sweepstrUrl.indexOf('/LN/') != -1) {
-						//测试的微信直接打开小程序
-						that.sweepstr = sweepstrUrl.split('LN/')[1];
-					} else {
-						that.sweepstr = sweepstrUrl.split('v=')[1];
-					}
-				} else if (sweepstrUrl.indexOf('VJ1.TV/') != -1) {
-					that.sweepstr = sweepstrUrl.split('QQ/')[1];
-				} else if (sweepstrUrl.indexOf('vj1.tv/') != -1) {
-					that.sweepstr = sweepstrUrl.split('QQ/')[1];
-				} else {
-					that.sweepstr = '';
-					return uni.showModal({
-						title: '温馨提示',
-						content: '请扫描正确的活动二维码~',
-						showCancel: false,
-						success(res) {
-							if (res.confirm) {
-								uni.reLaunch({
-									url: '../index/index'
-								});
-							}
-						}
-					});
-				}
-			}
+			 
 		},
 		onReady() {
-			console.log('woshi onReady');
-			console.log(this.isStartAnimation);
-			// 开启本页面 动效
-			// if (this.isStartAnimation) {
-			// 	this.resetInitAnimation();
-			// 	this.startInitAnimation();
-			// }
-			setTimeout(() => {
-				this.resetInitAnimation();
-				this.startInitAnimation();
-			}, 100)
-
+			 
 		},
 		async onShow() {
-			console.log("页面 onshow 21122333");
-			console.log(this.wxOpenSettingIsShow);
-			console.log(this.isStartAnimation);
-			// 清除 动画效果
-			this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
-			this.chuanAni = 'aec-chuanImg'; //船 动画
-			this.baifenbaiAni = 'aec-baifenbai'; //百分比 动画
-			this.fontMesAni = 'idnex-imgMes'; //饼干动画
-			this.choujiangAni = ''; //抽奖按钮 动画
-			this.focusGguidanceAni = ''; // 引导关注 公众号图片
-			this.isTransitionend = false;
-			this.openid = await this.computedGetOpenid;
-			// this.init();
-			// this.aecBaifenbai = '';
-			// setTimeout(() => {
-			// 	this.resetInitAnimation();
-			// 	this.startInitAnimation();
-			// 	this.aecBaifenbai = 'aec-baifenbai-end';
-			// }, 2000)
+			this.aecBaifenbai = '';
+			setTimeout(() => { 
+				this.aecBaifenbai = 'aec-baifenbai-end';
+			}, 100)
+			
 		},
 		/**
 		 * 用户点击右上角分享
@@ -301,31 +197,9 @@
 			};
 		},
 		onHide() {
-			// 清除 动画效果
-			const wxOpenSettingIsShow = this.wxOpenSettingIsShow;
-			this.crownCookiesAni = 'aec-crownCookiesImg'; //饼干 动画
-			this.chuanAni = 'aec-chuanImg'; //饼干 动画
-			this.baifenbaiAni = 'aec-baifenbai'; //百分比 动画
-			this.fontMesAni = 'idnex-imgMes'; //饼干动画
-			this.choujiangAni = ''; //抽奖按钮 动画
-			this.focusGguidanceAni = ''; // 引导关注 公众号图片
-			this.isTransitionend = false;
-			this.wxOpenSettingIsShow = false;
-			this.wxOpenSettingIsShow = false;
-			this.resetInitAnimation();
+			
 		},
 		methods: {
-			imageLoadEndBai(e){
-				console.log("我是图片加载完毕 添加动效");
-				console.log(e);
-				if(e.detail){
-					console.log('加载完毕');
-					setTimeout(()=>{
-						this.aecBaifenbai = 'aec-baifenbai-end';
-						// this.transitionend();
-					},500)
-				}
-			},
 			transitionend() {
 				this.isTransitionend = true;
 				console.log('动画 执行完毕');
@@ -339,6 +213,7 @@
 			// 测试 动画
 			transitionendDevTest() {
 				console.log('我是 测试动画 执行完成之后！');
+
 			},
 			transitionendOpenSetting() {
 				console.log(4444);
@@ -483,10 +358,10 @@
 				this.$refs.getCashChild.isStartAnimationFun(true);
 				this.isShowGguidance = true; // 显示 关注公众号引导
 				this.cusFooterBarIsShow = true; // 显示 自定义页面 页脚
-				// setTimeout(() => {
+				setTimeout(() => {
 					this.$refs.customFooterBarChild.isStartAnimationFun(true); //开启tab动效
 					this.startFocusGguidanceAnimation(); // 显示 关注公众号引导 dongxian
-				// }, 1000);
+				}, 1000);
 			},
 			// 验证缓存中 是否 存在用户位置
 			async checkUserLocation(status = false) {
@@ -947,8 +822,7 @@
 			// @include mixin-ani-end(keyframesTranslateX, 1s, '');
 			// @include mixin-ani(keyframesOpacity, 1s, '');
 			
-			// width: 100%;
-			width: 576rpx;
+			width: 100%;
 			height: 227rpx;
 			transform: translateX(-110%);
 			transition: .9s ease ; 
@@ -968,12 +842,12 @@
 			left: 5%;
 			width: 82%;
 			height: 260rpx;
-			@include mixin-ani(keyframesOpacity, 1.5s, '');
+			@include mixin-ani(keyframesOpacity, 1s, '');
 		}
 
 		.aec-chuanImg {
 			opacity: 1;
-			@include mixin-ani(keyframesOpacity, 1.5s, '');
+			@include mixin-ani(keyframesOpacity, 1s, '');
 		}
 	}
 	
@@ -1076,6 +950,11 @@
 		0% {
 			opacity: 0;
 		}
+
+		50% {
+			opacity: 0.5;
+		}
+
 		100% {
 			opacity: 1;
 		}
@@ -1091,9 +970,4 @@
 		}
 	}
 	
-	.choujiangBox{
-		position: absolute;
-		left: 50%;
-		transform: translateX(-50%);
-	}
 </style>

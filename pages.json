@@ -13,6 +13,12 @@
 			}
 		},
 		{
+			"path": "pages/activityEntrance/activityEntranceNew", //活动页面
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/getPrize/getPrize", // 获取大奖页面
 			"style": {
 				"navigationStyle": "custom"
