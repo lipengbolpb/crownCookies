@@ -2,40 +2,21 @@
 	<view class="page-template">
 		<view class="page-template-wrap page-template-wrap-bg">
 			<view class="page-template-wrap-center">
-				
-				<!-- 测试动画 -->
-				<!-- <view class="devTest" @animationend="transitionendDevTest">  </view> -->
 				<view class="activityEntrance">
 					<image mode="widthFix" class="crownCookies-logo" :src="staticUrl+'crownCookiesImgLogo.png'"></image>
-					<!-- <view class="activityEntrance-center-Animation" v-if="isStartAnimation" :style="{ 'margin-top': isOpenAdaptation ? '512rpx' : '396rpx' }"> -->
 					<view class="activityEntrance-center-Animation" v-if="isStartAnimation">
-						<!-- <image :animation="chuanAni" @transitionend="transitionend" class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image> -->
-						<!-- <image :animation="crownCookiesAni" class="aec-crownCookiesImg" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image> -->
-						<!-- <image @animationend="transitionend" class="aec-chuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image> -->
-						
-						<!-- 先用 s -->
 						<image :class="aecChuanImg" mode="widthFix" :src="staticUrl + 'chuan.png'"></image>
 						<image :class="aecCrownCookiesImg" @animationend="transitionend" mode="widthFix" :src="staticUrl + 'crownCookiesImg.png'"></image>
-						<!-- 先用 e -->
-						
-						<!-- <image :animation="baifenbaiAni" @transitionend="transitionend" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image> -->
-						
 						<view class="aec-baifenbai-box">
-							<!-- <image :class="aecBaifenbai" class="aec-baifenbai" mode="widthFix" :src="staticUrl + 'baifenbai.png'"></image> -->
 							<image :class="aecBaifenbai" @load='imageLoadEndBai' class="aec-baifenbai" :src="staticUrl + 'baifenbai.png'"></image>
 						</view>
-						
 					</view>
 					<view class="activityEntrance-center" v-else :style="{ 'margin-top': isOpenAdaptation ? '334rpx' : '226rpx' }">
 						<image class="aec-chuanquqi" mode="widthFix" :src="staticUrl+'chuanquqi.png'"></image>
 						<image class="aec-baifenbai" mode="widthFix" :src="staticUrl+'baifenbai.png'"></image>
 					</view>
-					<!-- <view :animation="fontMesAni"  @transitionend="transitionendOpenSetting" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准1</view> -->
-					<!-- <view :animation="fontMesAni" class="idnex-imgMes" :style="{ opacity: isStartAnimation ? '0' : '1' }">图片仅供参考，产品以实物为准</view> -->
-					<view class="idnex-imgMes" >图片仅供参考，产品以实物为准</view>
-					
+					<view class="idnex-imgMes">图片仅供参考，产品以实物为准</view>
 					<!-- 抽奖按钮 获取手机号-->
-					<!-- <view class="flex-xc-yn" :animation="choujiangAni" v-show="isShowluckDrawBtn"> -->
 					<view class="flex-xc-yn choujiangBox" v-if="isShowluckDrawBtn">
 						<view @click.once="luckDrawFun" class="choujiangBtn vmdChoujiang" v-if="isHasPhoneNumber">
 							<image :src="staticUrl + 'dianjichoujiang.png'"></image>
@@ -46,9 +27,7 @@
 							</button>
 						</view>
 					</view>
-					
 				</view>
-				
 			</view>
 			<!-- 引导关注 -->
 			<view class="focusGguidance" v-if="isShowGguidance" @click="showGguidanceFun" :style="{ bottom: isOpenAdaptation ? '170rpx' : '120rpx' }">
@@ -121,10 +100,10 @@
 		},
 		data() {
 			return {
-				aecChuanImg:'aec-chuanImg',
-				aecCrownCookiesImg:'aec-crownCookiesImg',
+				aecChuanImg: 'aec-chuanImg',
+				aecCrownCookiesImg: 'aec-crownCookiesImg',
 				// aecBaifenbai:'aec-baifenbai',
-				aecBaifenbai:'',
+				aecBaifenbai: '',
 				staticUrl: config.staticUrl,
 				isTransitionend: false, //动画是否执行完毕
 				activityRuleSource: '1', // 活动规则 页面来源
@@ -181,7 +160,7 @@
 						content: '系统升级中'
 					},
 					{
-						id: 5,
+						id: 6,
 						businessCode: '-2',
 						title: '提示',
 						content: '提现操作过于频繁'
@@ -222,7 +201,7 @@
 			that.codeType = options.codeType || '1';
 			if (that.codeType == 2) {
 				this.sweepstr = '';
-			} else { 
+			} else {
 				if (sweepstrUrl.indexOf('xt.vjifen.com') != -1) {
 					//测试二维码
 					if (sweepstrUrl.indexOf('/LN/') != -1) {
@@ -315,15 +294,15 @@
 			this.resetInitAnimation();
 		},
 		methods: {
-			imageLoadEndBai(e){
+			imageLoadEndBai(e) {
 				console.log("我是图片加载完毕 添加动效");
 				console.log(e);
-				if(e.detail){
+				if (e.detail) {
 					console.log('加载完毕');
-					setTimeout(()=>{
+					setTimeout(() => {
 						this.aecBaifenbai = 'aec-baifenbai-end';
 						// this.transitionend();
-					},500)
+					}, 500)
 				}
 			},
 			transitionend() {
@@ -484,8 +463,8 @@
 				this.isShowGguidance = true; // 显示 关注公众号引导
 				this.cusFooterBarIsShow = true; // 显示 自定义页面 页脚
 				// setTimeout(() => {
-					this.$refs.customFooterBarChild.isStartAnimationFun(true); //开启tab动效
-					this.startFocusGguidanceAnimation(); // 显示 关注公众号引导 dongxian
+				this.$refs.customFooterBarChild.isStartAnimationFun(true); //开启tab动效
+				this.startFocusGguidanceAnimation(); // 显示 关注公众号引导 dongxian
 				// }, 1000);
 			},
 			// 验证缓存中 是否 存在用户位置
@@ -596,12 +575,12 @@
 						that.aecChuanImg = '';
 						that.aecCrownCookiesImg = '';
 						that.aecBaifenbai = '';
-						
-						setTimeout(()=>{
+
+						setTimeout(() => {
 							that.aecChuanImg = 'aec-chuanImg';
 							that.aecCrownCookiesImg = 'aec-crownCookiesImg';
 							that.aecBaifenbai = 'aec-baifenbai-end';
-						},10)
+						}, 10)
 
 					}
 				});
@@ -870,7 +849,7 @@
 	// 2.2  
 	// 3 从 输入串码过来 中出大奖
 	// 4 重新进入小程序 
-	// 5 重复 扫码 
+	// 5 重复 扫码
 </script>
 <!-- <view class="container" style="background-image:url({{imgBaseUrl}}/bg.jpg) no-repeat;background-size:cover;"></view> -->
 <style scoped lang="scss">
@@ -914,6 +893,7 @@
 		-o-animation: $aniName $aniTime;
 		/* Opera */
 	}
+
 	@mixin mixin-ani-end($aniName, $aniTime, $visited) {
 		animation: $aniName $aniTime;
 		-moz-animation: $aniName $aniTime;
@@ -922,12 +902,13 @@
 		/* Safari and Chrome */
 		-o-animation: $aniName $aniTime;
 		/* Opera */
-		
-		animation-fill-mode:forwards;
-		-moz-animation-fill-mode:forwards;
-		-webkit-animation-fill-mode:forwards;
-		-o-animation-fill-mode:forwards;
+
+		animation-fill-mode: forwards;
+		-moz-animation-fill-mode: forwards;
+		-webkit-animation-fill-mode: forwards;
+		-o-animation-fill-mode: forwards;
 	}
+
 	.activityEntrance-center-Animation {
 		margin: 352rpx 120rpx 16rpx 54rpx;
 		position: relative;
@@ -935,29 +916,32 @@
 		image {
 			width: 100%;
 		}
-		.aec-baifenbai-box{
+
+		.aec-baifenbai-box {
 			width: 100%;
 			position: absolute;
 			bottom: 20rpx;
 		}
+
 		.aec-baifenbai {
 			// left: 0;
 			// transform: translateX(-100%);
 			// @include mixin-ani(keyframesTranslateX, 1s, '');
 			// @include mixin-ani-end(keyframesTranslateX, 1s, '');
 			// @include mixin-ani(keyframesOpacity, 1s, '');
-			
+
 			// width: 100%;
 			width: 576rpx;
 			height: 227rpx;
 			transform: translateX(-110%);
-			transition: .7s ease; 
+			transition: .7s ease;
 		}
+
 		.aec-baifenbai-end {
 			width: 100%;
 			height: 227rpx;
 			transform: translateX(0);
-			transition: .7s ease; 
+			transition: .7s ease;
 		}
 
 		.aec-crownCookiesImg {
@@ -976,7 +960,7 @@
 			@include mixin-ani(keyframesOpacity, 1.5s, '');
 		}
 	}
-	
+
 	.focusGguidance {
 		position: fixed;
 		width: 96%;
@@ -990,7 +974,7 @@
 			opacity: 0;
 		}
 	}
-	
+
 	// 文字提示
 	.idnex-imgMes {
 		text-align: center;
@@ -1076,22 +1060,24 @@
 		0% {
 			opacity: 0;
 		}
+
 		100% {
 			opacity: 1;
 		}
 	}
-	
+
 	// 位置 从左到右 横移
 	@keyframes keyframesTranslateX {
 		0% {
-			transform: translate3d(-210%,0,0);
+			transform: translate3d(-210%, 0, 0);
 		}
+
 		100% {
-			transform: translate3d(-100%,0,0);
+			transform: translate3d(-100%, 0, 0);
 		}
 	}
-	
-	.choujiangBox{
+
+	.choujiangBox {
 		position: absolute;
 		left: 50%;
 		transform: translateX(-50%);

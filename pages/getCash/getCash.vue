@@ -14,7 +14,7 @@
 				</view> 
 				<image mode="widthFix" class="gcc-center-topImg" :src="staticUrl + 'hongbao03.png'"></image>
 			</view>
-			<image  v-if="getCashIsShowMes"  mode="widthFix" :animation='hongbaoMesAni' class="gcc-hongbaoMes" :src="staticUrl + 'hongbaoMes.png'"></image>
+			<image v-if="getCashIsShowMes"  mode="widthFix" :animation='hongbaoMesAni' class="gcc-hongbaoMes" :src="staticUrl + 'hongbaoMes.png'"></image>
 		</view>
 	</view>
 </template>
@@ -88,11 +88,11 @@ export default {
 				.step();
 			that.cardAni = cardAnimation.export();
 			
-			// 盒子内 卡片动向 从下向上滑出hongbaoMesAni
+			// 红包提示 hongbaoMesAni
 			const hongbaoMesAnimation = wx.createAnimation({
 				duration: 500,
 				timingFunction: 'ease',
-				delay: 1000
+				delay: 500
 			});
 			hongbaoMesAnimation
 				.opacity(1)

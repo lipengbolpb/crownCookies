@@ -186,6 +186,8 @@ function queryUserHomePage() {
 	};
 	const promise = new Promise((reslove, reject) => {
 		requestPost('/turnaroundDraw/queryUserHomePage', params).then((jo) => {
+			console.log('queryUserHomePage');
+			console.log(jo);
 			if (jo.result.code == 0) {
 				if (jo.result.businessCode == 0) {
 					reslove(jo)
@@ -198,6 +200,9 @@ function queryUserHomePage() {
 				// 	content: jo.result.msg
 				// });
 			}
+		},(err)=>{
+			console.log('queryUserHomePage');
+			console.log(err);
 		})
 	})
 	return promise;
