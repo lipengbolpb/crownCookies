@@ -10,12 +10,28 @@
 				<p class="csc-title">奖项已过期</p>
 				<p class='csc-p'></p>
 			</block>
-			<block v-else>
+			<!-- <block v-else>  
 				<p class="csc-title">{{ mesFontTitle }}</p>
-				<!-- <p class="csc-title">这个二维码已被扫过</p> -->
 				<p :class="[showType==1?'csc-p1':'csc-p']">
 					<view class="csc-currentMoney">  {{ mesFontCurrentMoney }} </view>{{ mesFont }}
 				</p> 
+			</block> -->
+			
+			<block v-else>
+				<block v-if="bizcode == 12">
+					<!-- 可疑用户 -->
+					<p class="csc-title">扫码异常，请联系客服！</p>
+					<p class="csc-p">
+						<view class=""> 资讯热线：400-007-2959 (周一至周五9：00-17：00,法定节假日除外) </view>
+					</p> 
+				</block>
+				<block v-else>
+					<p class="csc-title">{{ mesFontTitle }}</p>
+					<p :class="[showType==1?'csc-p1':'csc-p']">
+						<view class="csc-currentMoney">  {{ mesFontCurrentMoney }} </view>{{ mesFont }}
+					</p> 
+				</block>
+				
 			</block>
 			<view class="flex-xc-yn"><image mode="widthFix" class="csc-crownCookies" :src="staticUrl + 'crownCookiesImg.png'"></image></view>
 
@@ -81,6 +97,7 @@ export default {
 			this.showType = '2';
 			this.isexpireTimeStatus = false;
 		}
+		this.bizcode = options.bizcode;
 	},
 	data() {
 		return {
@@ -89,7 +106,8 @@ export default {
 			staticUrl: config.staticUrl,
 			showType:'1',
 			isexpireTimeStatus:false,// 默认 没有过期 如果bizcode==7 说明从大奖过来并且大奖已过期
-			mesFontTitle:'这个二维码已被扫过'
+			mesFontTitle:'这个二维码已被扫过',
+			bizcode:'',
 		};
 	},
 	methods: {

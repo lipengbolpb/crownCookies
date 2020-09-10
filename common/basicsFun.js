@@ -70,7 +70,8 @@ function judgeBusinessCode(data) {
 		// const businessCode = 0 ; 
 		if (businessCode == 0) { // 扫码成功 红包
 			resolve(businessCode);
-		} else if (businessCode == 11 || businessCode == 2 || businessCode == 15) { // 11：本人重复扫码  2||15：这个二维码已被扫
+		// } else if (businessCode == 11 || businessCode == 2 || businessCode == 15 || businessCode == 15) { // 11：本人重复扫码  2||15：这个二维码已被扫
+		} else if (businessCode == 11 || businessCode == 2 || businessCode == 15 || businessCode == 12) { // 11：本人重复扫码  2||15：这个二维码已被扫
 			const redirectToUrl = `../codeScanned/codeScanned?bizcode=${businessCode}`
 			resolve(redirectToUrl);
 		// } else if (businessCode == 7 || businessCode == 21) { //大奖 
@@ -107,7 +108,8 @@ function judgeBusinessCode(data) {
 				}
 			}
 			resolve(redirectToUrl); 
-		} else if (businessCode == 12 || businessCode == 13) { //可疑 黑名单
+		// } else if (businessCode == 12 || businessCode == 13) { //可疑 黑名单 修改于 09.10 
+		} else if (businessCode == 13) { //可疑 黑名单
 			// 12 展示出入手机号 13 静态页面 提示
 			const redirectToUrl = `../blackList/blackList?bizcode=${businessCode}`
 			resolve(redirectToUrl);
